@@ -5,7 +5,7 @@ import hello from '@functions/hello';
 const serverlessConfiguration: AWS = {
   service: 'dummy-backend',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild'],
+  plugins: ['serverless-esbuild', 'serverless-better-credentials'],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
@@ -13,6 +13,7 @@ const serverlessConfiguration: AWS = {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
     },
+    memorySize: 128,
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
