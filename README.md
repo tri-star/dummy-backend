@@ -30,3 +30,15 @@ curl --location --request POST 'https://myApiEndpoint/dev/hello' \
 ```
 npx sls invoke local -f hello --path src/functions/hello/mock.json
 ```
+
+または
+
+```
+serverless offline
+
+curl --location --request POST 'https://localhost:3000/dev/hello' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Frederic"
+}'
+```

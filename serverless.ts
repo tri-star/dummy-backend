@@ -5,7 +5,7 @@ import hello from '@functions/hello';
 const serverlessConfiguration: AWS = {
   service: 'dummy-backend',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild', 'serverless-better-credentials'],
+  plugins: ['serverless-esbuild', 'serverless-better-credentials', 'serverless-offline'],
   provider: {
     name: 'aws',
     runtime: 'nodejs20.x',
