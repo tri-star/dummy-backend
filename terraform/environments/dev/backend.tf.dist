@@ -1,0 +1,25 @@
+terraform {
+  backend "s3" {
+    #     bucket = "your-bucket-name"
+    #     region = "us-west-1"
+  }
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.31"
+    }
+  }
+}
+
+
+provider "aws" {
+  #   profile = "profile-name"
+  #   region = "us-west-1"
+
+  #   ## デフォルトで付与するタグ
+  #   default_tags {
+  #     tags = {
+  #       infra = "handson"
+  #     }
+  #   }
+}
