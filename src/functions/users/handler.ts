@@ -1,15 +1,17 @@
 import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { formatJSONResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
+import { fetchUsers } from 'src/domain/users/api/user-api';
 
 // import schema from './schema';
 
 type Schema = {}
 
-const hello: ValidatedEventAPIGatewayProxyEvent<Schema> = async (event) => {
+const hello: ValidatedEventAPIGatewayProxyEvent<Schema> = async (_) => {
+  const users = await fetchUsers();
   return formatJSONResponse({
-    url: process.env.SUPABASE_URL,
-    event,
+    data: users.data,
+    count: users.count
   });
 };
 
