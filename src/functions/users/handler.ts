@@ -8,6 +8,7 @@ type Schema = {}
 
 const hello: ValidatedEventAPIGatewayProxyEvent<Schema> = async (event) => {
   return formatJSONResponse({
+    url: process.env.SUPABASE_URL,
     event,
   });
 };

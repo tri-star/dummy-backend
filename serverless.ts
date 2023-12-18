@@ -7,7 +7,7 @@ import users from '@functions/users';
 const serverlessConfiguration: AWS = {
   service: 'dummy-backend',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild', 'serverless-better-credentials', 'serverless-offline', 'serverless-offline-ssm'],
+  plugins: ['serverless-esbuild', 'serverless-better-credentials', 'serverless-offline'],
   useDotenv: true,
   provider: {
     name: 'aws',
@@ -43,20 +43,13 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
-      SUPABASE_URL: '${ssm:/aws/reference/secretsmanager//supabase/url}',
-      SUPABASE_ANON_KEY: '${ssm:/aws/reference/secretsmanager//supabase/anon_key}',
+      SUPABASE_URL: '${env:SUPABASE_URL, ssm:/aws/reference/secretsmanager//supabase/url}',
+      SUPABASE_ANON_KEY: '${env:SUPABASE_ANON_KEY, ssm:/aws/reference/secretsmanager//supabase/anon_key}',
     },
   },
   functions: { hello, users },
   package: { individually: true },
   custom: {
-    'serverless-offline-ssm': {
-      stages: ['local'],
-      ssm: {
-        '/supabase/url': '${env:SUPABASE_URL}',
-        '/supabase/anon_key': '${env:SUPABASE_ANON_KEY}',
-      },
-    },
     esbuild: {
       bundle: true,
       minify: false,
