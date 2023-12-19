@@ -1,8 +1,7 @@
-import type { AWS } from '@serverless/typescript';
+import type { AWS } from '@serverless/typescript'
 
-import hello from '@functions/hello';
-import users from '@functions/users';
-
+import hello from '@functions/hello'
+import users from '@functions/users'
 
 const serverlessConfiguration: AWS = {
   service: 'dummy-backend',
@@ -11,6 +10,7 @@ const serverlessConfiguration: AWS = {
   useDotenv: true,
   provider: {
     name: 'aws',
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
     region: '${env:AWS_REGION}' as any,
     runtime: 'nodejs20.x',
     apiGateway: {
@@ -22,18 +22,12 @@ const serverlessConfiguration: AWS = {
         statements: [
           {
             Effect: 'Allow',
-            Action: [
-              'secretsmanager:GetSecretValue',
-              'secretsmanager:DescribeSecret',
-            ],
+            Action: ['secretsmanager:GetSecretValue', 'secretsmanager:DescribeSecret'],
             Resource: 'arn:aws:secretsmanager:${env:AWS_REGION}:${env:AWS_ACCOUNT}:secret:/supabase/url',
           },
           {
             Effect: 'Allow',
-            Action: [
-              'secretsmanager:GetSecretValue',
-              'secretsmanager:DescribeSecret',
-            ],
+            Action: ['secretsmanager:GetSecretValue', 'secretsmanager:DescribeSecret'],
             Resource: 'arn:aws:secretsmanager:${env:AWS_REGION}:${env:AWS_ACCOUNT}:secret:/supabase/anon_key',
           },
         ],
@@ -61,6 +55,6 @@ const serverlessConfiguration: AWS = {
       concurrency: 10,
     },
   },
-};
+}
 
-module.exports = serverlessConfiguration;
+module.exports = serverlessConfiguration
