@@ -1,0 +1,39 @@
+name: Lint and Terraform Checks
+
+on: [push, pull_request]
+
+jobs:
+  lint-and-terraform-check:
+    runs-on: ubuntu-latest
+    steps:
+      # リポジトリをチェックアウト
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Node.jsをセットアップ
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # npm dependenciesをインストール
+      - name: Install npm dependencies
+        run: npm install
+
+      # npm run lintを実行
+      - name: Run npm lint
+        run: npm run lint
+
+      # Terraform CLIをセットアップ
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      # Terraformフォーマットチェック
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+        working-directory: ./terraform
+
+      # Terraform Lintチェック
+      - name: Terraform Lint Check
+        run: terraform validate
+        working-directory: ./terraform
