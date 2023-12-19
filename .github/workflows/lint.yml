@@ -8,17 +8,18 @@ jobs:
     steps:
       # リポジトリをチェックアウト
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Node.jsをセットアップ
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
       # npm dependenciesをインストール
       - name: Install npm dependencies
-        run: npm install
+        run: npm ci
 
       # npm run lintを実行
       - name: Run npm lint
@@ -26,7 +27,7 @@ jobs:
 
       # Terraform CLIをセットアップ
       - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v3
 
       # Terraformフォーマットチェック
       - name: Terraform Format Check
