@@ -12,6 +12,10 @@ const serverlessConfiguration: AWS = {
     name: 'aws',
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
     region: '${env:AWS_REGION}' as any,
+    tracing: {
+      apiGateway: true,
+      lambda: true,
+    },
     runtime: 'nodejs20.x',
     apiGateway: {
       minimumCompressionSize: 1024,
@@ -27,6 +31,11 @@ const serverlessConfiguration: AWS = {
         Effect: 'Allow',
         Action: ['secretsmanager:GetSecretValue', 'secretsmanager:DescribeSecret'],
         Resource: 'arn:aws:secretsmanager:${env:AWS_REGION}:${env:AWS_ACCOUNT}:secret:/supabase/anon_key',
+      },
+      {
+        Effect: 'Allow',
+        Action: ['xray:PutTraceSegments', 'xray:PutTelemetryRecords'],
+        Resource: '*',
       },
     ],
     memorySize: 128,
