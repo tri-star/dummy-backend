@@ -5,6 +5,7 @@ import users from '@functions/users'
 const serverlessConfiguration: AWS = {
   service: 'dummy-backend',
   frameworkVersion: '3',
+  configValidationMode: 'error',
   plugins: ['serverless-esbuild', 'serverless-better-credentials', 'serverless-offline'],
   useDotenv: true,
   provider: {
@@ -16,22 +17,18 @@ const serverlessConfiguration: AWS = {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
     },
-    iam: {
-      role: {
-        statements: [
-          {
-            Effect: 'Allow',
-            Action: ['secretsmanager:GetSecretValue', 'secretsmanager:DescribeSecret'],
-            Resource: 'arn:aws:secretsmanager:${env:AWS_REGION}:${env:AWS_ACCOUNT}:secret:/supabase/url',
-          },
-          {
-            Effect: 'Allow',
-            Action: ['secretsmanager:GetSecretValue', 'secretsmanager:DescribeSecret'],
-            Resource: 'arn:aws:secretsmanager:${env:AWS_REGION}:${env:AWS_ACCOUNT}:secret:/supabase/anon_key',
-          },
-        ],
+    iamRoleStatements: [
+      {
+        Effect: 'Allow',
+        Action: ['secretsmanager:GetSecretValue', 'secretsmanager:DescribeSecret'],
+        Resource: 'arn:aws:secretsmanager:${env:AWS_REGION}:${env:AWS_ACCOUNT}:secret:/supabase/url',
       },
-    },
+      {
+        Effect: 'Allow',
+        Action: ['secretsmanager:GetSecretValue', 'secretsmanager:DescribeSecret'],
+        Resource: 'arn:aws:secretsmanager:${env:AWS_REGION}:${env:AWS_ACCOUNT}:secret:/supabase/anon_key',
+      },
+    ],
     memorySize: 128,
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',

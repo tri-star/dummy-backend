@@ -5,11 +5,15 @@ import { createUser, fetchUsers } from 'src/domain/users/api/user-api'
 import { userSchema } from 'src/domain/users/user'
 
 export const listUsersHandler = middyfy(async () => {
-  const users = await fetchUsers()
-  return formatJSONResponse({
-    data: users.data,
-    count: users.count,
-  })
+  try {
+    const users = await fetchUsers()
+    return formatJSONResponse({
+      data: users.data,
+      count: users.count,
+    })
+  } catch (e) {
+    return formatJSONUserErrorResponse({ error: e })
+  }
 })
 
 export const createUserHandler = middyfy(async (event: APIGatewayProxyEvent) => {
