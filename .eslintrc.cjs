@@ -28,5 +28,7 @@ module.exports = {
     '@typescript-eslint/require-await': 'off', // インターフェースでawaitが必要だが実装では必要としないケースがあるためoff
     // '@typescript-eslint/explicit-function-return-type': 'off', // 戻り値の型が分からない場合があるためoff
     '@typescript-eslint/no-redundant-type-constituents': 'off', // 自動生成するsrc/libs/supabase/database.ts 内で引っかかるためoff
+    '@typescript-eslint/explicit-function-return-type': 'off', // handler周りなど戻り値の型を明示できないことがあるのでoff
+    '@typescript-eslint/consistent-type-assertions': 'off', // as で型を指定したいことがあるためoff
   },
 }

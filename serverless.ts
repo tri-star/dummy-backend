@@ -1,6 +1,5 @@
 import type { AWS } from '@serverless/typescript'
 
-import hello from '@functions/hello'
 import users from '@functions/users'
 
 const serverlessConfiguration: AWS = {
@@ -41,7 +40,7 @@ const serverlessConfiguration: AWS = {
       SUPABASE_ANON_KEY: '${env:SUPABASE_ANON_KEY, ssm:/aws/reference/secretsmanager//supabase/anon_key}',
     },
   },
-  functions: { hello, users },
+  functions: { ...users },
   package: { individually: true },
   custom: {
     esbuild: {
