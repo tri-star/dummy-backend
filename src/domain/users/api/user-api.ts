@@ -1,5 +1,5 @@
 import { supabase } from '@libs/supabase/api-client'
-import { type User, dbUserSchema } from '../user'
+import { type User, dbUserSchema, type UpdateUser } from '../user'
 import dayjs from 'dayjs'
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 
@@ -48,11 +48,14 @@ export async function fetchUsers(): Promise<UserListResponse> {
   }
 }
 
+/**
+ * ユーザーの登録
+ */
 export async function createUser(user: User): Promise<void> {
   const segment = createSegment('Supabase')
 
   await traceAsync(segment, 'insert', async () => {
-    const dbUser = dbUserSchema.parse({
+    const result = await supabase.from('users').insert({
       id: user.id,
       name: user.name,
       password: '',
@@ -60,7 +63,42 @@ export async function createUser(user: User): Promise<void> {
       created_at: user.createdAt?.toISOString(),
       updated_at: user.updatedAt?.toISOString(),
     })
-    const result = await supabase.from('users').insert(dbUser)
+    if (result.error != null) {
+      throw new Error(JSON.stringify(result.error))
+    }
+  })
+}
+
+/**
+ * ユーザーの更新
+ */
+export async function updateUser(userId: string, user: UpdateUser): Promise<void> {
+  const segment = createSegment('Supabase')
+
+  await traceAsync(segment, 'update', async () => {
+    const result = await supabase
+      .from('users')
+      .update({
+        name: user.name,
+        password: '',
+        email: user.email,
+        updated_at: new Date(),
+      })
+      .match({ id: userId })
+    if (result.error != null) {
+      throw new Error(JSON.stringify(result.error))
+    }
+  })
+}
+
+/**
+ * ユーザーの削除
+ */
+export async function deleteUser(userId: string): Promise<void> {
+  const segment = createSegment('Supabase')
+
+  await traceAsync(segment, 'delete', async () => {
+    const result = await supabase.from('users').delete().match({ id: userId })
     if (result.error != null) {
       throw new Error(JSON.stringify(result.error))
     }

@@ -1,7 +1,6 @@
 import type { AWS } from '@serverless/typescript'
-// import schema from './schema';
 import { handlerPath } from '@libs/handler-resolver'
-import { createUserSchema } from './schema'
+import { createUserSchema, updateUserSchema } from './schema'
 
 export const rules: AWS['functions'] = {
   listUsersHandler: {
@@ -26,6 +25,47 @@ export const rules: AWS['functions'] = {
             schemas: {
               'application/json': {
                 schema: createUserSchema,
+              },
+            },
+          },
+        },
+      },
+    ],
+  },
+  updateUserHandler: {
+    handler: `${handlerPath(__dirname)}/handler.updateUserHandler`,
+    events: [
+      {
+        http: {
+          method: 'patch',
+          path: 'user/{id}',
+          request: {
+            parameters: {
+              paths: {
+                id: true,
+              },
+            },
+            schemas: {
+              'application/json': {
+                schema: updateUserSchema,
+              },
+            },
+          },
+        },
+      },
+    ],
+  },
+  deleteUserHandler: {
+    handler: `${handlerPath(__dirname)}/handler.deleteUserHandler`,
+    events: [
+      {
+        http: {
+          method: 'delete',
+          path: 'user/{id}',
+          request: {
+            parameters: {
+              paths: {
+                id: true,
               },
             },
           },

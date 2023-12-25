@@ -13,6 +13,12 @@ export const userSchema = z.object({
 export type User = z.infer<typeof userSchema>
 
 /**
+ * データ更新用のスキーマ
+ */
+export const updateUserSchema = userSchema.omit({ id: true, createdAt: true, updatedAt: true })
+export type UpdateUser = z.infer<typeof updateUserSchema>
+
+/**
  * DBから取得するユーザー情報
  */
 export const dbUserSchema = z.object({
