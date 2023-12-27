@@ -33,6 +33,7 @@ export async function fetchUsers(): Promise<UserListResponse> {
             id: parseResult.data.id,
             name: parseResult.data.name,
             email: parseResult.data.email,
+            companyId: parseResult.data.company_id,
             createdAt: dayjs(parseResult.data.created_at).toDate(),
             updatedAt: dayjs(parseResult.data.updated_at).toDate(),
           } as User
@@ -61,6 +62,7 @@ export async function createUser(user: User): Promise<User> {
       name: user.name,
       password: '',
       email: user.email,
+      company_id: user.companyId,
       created_at: now,
       updated_at: now,
     })
@@ -90,6 +92,7 @@ export async function updateUser(userId: string, user: UpdateUser): Promise<void
         name: user.name,
         password: '',
         email: user.email,
+        company_id: user.companyId,
         updated_at: new Date(),
       })
       .match({ id: userId })
