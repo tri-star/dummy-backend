@@ -38,7 +38,7 @@ export const rules: AWS['functions'] = {
       {
         http: {
           method: 'patch',
-          path: 'companies',
+          path: 'companies/{id}',
           request: {
             parameters: {
               paths: {
@@ -61,7 +61,7 @@ export const rules: AWS['functions'] = {
       {
         http: {
           method: 'delete',
-          path: 'companies',
+          path: 'companies/{id}',
           request: {
             parameters: {
               paths: {

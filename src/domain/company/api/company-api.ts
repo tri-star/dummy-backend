@@ -32,17 +32,17 @@ export async function fetchCompanies(): Promise<CompanyListResponse> {
           return {
             id: parseResult.data.id,
             name: parseResult.data.name,
-            postalCode: parseResult.data.postalCode,
+            postalCode: parseResult.data.postal_code,
             prefecture: parseResult.data.prefecture,
             address1: parseResult.data.address1,
             address2: parseResult.data.address2,
             address3: parseResult.data.address3,
             phone: parseResult.data.phone,
-            canUseFeatureA: parseResult.data.canUseFeatureA,
-            canUseFeatureB: parseResult.data.canUseFeatureB,
-            canUseFeatureC: parseResult.data.canUseFeatureC,
-            createdAt: dayjs(parseResult.data.createdAt).toDate(),
-            updatedAt: dayjs(parseResult.data.updatedAt).toDate(),
+            canUseFeatureA: parseResult.data.can_use_feature_a,
+            canUseFeatureB: parseResult.data.can_use_feature_b,
+            canUseFeatureC: parseResult.data.can_use_feature_c,
+            createdAt: dayjs(parseResult.data.created_at).toDate(),
+            updatedAt: dayjs(parseResult.data.updated_at).toDate(),
           } as Company
         })
         .filter((company): company is Company => company !== undefined) ?? []
@@ -67,17 +67,17 @@ export async function createCompany(company: Company): Promise<Company> {
     const result = await supabase.from('companies').insert({
       id: company.id,
       name: company.name,
-      postalCode: company.postalCode,
+      postal_code: company.postalCode,
       prefecture: company.prefecture,
       address1: company.address1,
       address2: company.address2,
       address3: company.address3,
       phone: company.phone,
-      canUseFeatureA: company.canUseFeatureA,
-      canUseFeatureB: company.canUseFeatureB,
-      canUseFeatureC: company.canUseFeatureC,
-      createdAt: now,
-      updatedAt: now,
+      can_use_feature_a: company.canUseFeatureA,
+      can_use_feature_b: company.canUseFeatureB,
+      can_use_feature_c: company.canUseFeatureC,
+      created_at: now,
+      updated_at: now,
     })
     if (result.error != null) {
       throw new Error(JSON.stringify(result.error))
@@ -103,16 +103,16 @@ export async function updateCompany(companyId: string, company: UpdateCompany): 
       .from('companies')
       .update({
         name: company.name,
-        postalCode: company.postalCode,
+        postal_code: company.postalCode,
         prefecture: company.prefecture,
         address1: company.address1,
         address2: company.address2,
         address3: company.address3,
         phone: company.phone,
-        canUseFeatureA: company.canUseFeatureA,
-        canUseFeatureB: company.canUseFeatureB,
-        canUseFeatureC: company.canUseFeatureC,
-        updatedAt: new Date(),
+        can_use_feature_a: company.canUseFeatureA,
+        can_use_feature_b: company.canUseFeatureB,
+        can_use_feature_c: company.canUseFeatureC,
+        updated_at: new Date(),
       })
       .match({ id: companyId })
     if (result.error != null) {

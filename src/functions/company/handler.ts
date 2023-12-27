@@ -1,4 +1,4 @@
-import { createCompany, fetchCompanies, updateCompany } from '@/domain/company/apy/company-api'
+import { createCompany, fetchCompanies, updateCompany } from '@/domain/company/api/company-api'
 import { createCompanySchema, updateCompanySchema } from '@/domain/company/company'
 import { deleteUser } from '@/domain/users/api/user-api'
 import { formatJSONResponse, formatJSONUserErrorResponse } from '@libs/api-gateway'
