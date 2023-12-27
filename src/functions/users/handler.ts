@@ -2,7 +2,8 @@ import { formatJSONResponse, formatJSONUserErrorResponse } from '@libs/api-gatew
 import { middyfy } from '@libs/lambda'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
 import { createUser, deleteUser, fetchUsers, updateUser } from 'src/domain/users/api/user-api'
-import { updateUserSchema, userSchema } from 'src/domain/users/user'
+import { createUserSchema, updateUserSchema } from 'src/domain/users/user'
+import { ulid } from 'ulid'
 
 /**
  * 一覧
@@ -23,7 +24,7 @@ export const listUsersHandler = middyfy(async () => {
  * 登録
  */
 export const createUserHandler = middyfy(async (event: APIGatewayProxyEvent) => {
-  const parseResult = userSchema.safeParse(event.body)
+  const parseResult = createUserSchema.safeParse(event.body)
   if (!parseResult.success) {
     console.error('createUserHandler error', parseResult.error.errors)
     formatJSONUserErrorResponse({ errors: parseResult.error.errors })
@@ -32,15 +33,15 @@ export const createUserHandler = middyfy(async (event: APIGatewayProxyEvent) => 
 
   const user = parseResult.data
 
-  await createUser({
-    id: user.id,
+  const createdUser = await createUser({
+    id: ulid(),
     name: user.name,
     email: user.email,
     createdAt: new Date(),
     updatedAt: new Date(),
   })
 
-  return formatJSONResponse({})
+  return formatJSONResponse({ data: createdUser })
 })
 
 /**

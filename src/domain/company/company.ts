@@ -16,6 +16,9 @@ export const companySchema = z.object({
   updatedAt: z.date().optional(),
 })
 
+export const createCompanySchema = companySchema.omit({ id: true, createdAt: true, updatedAt: true })
+export type CreateCompany = z.infer<typeof createCompanySchema>
+
 export const updateCompanySchema = companySchema.omit({ id: true, createdAt: true, updatedAt: true })
 export type UpdateCompany = z.infer<typeof updateCompanySchema>
 

@@ -51,22 +51,30 @@ export async function fetchUsers(): Promise<UserListResponse> {
 /**
  * ユーザーの登録
  */
-export async function createUser(user: User): Promise<void> {
+export async function createUser(user: User): Promise<User> {
   const segment = createSegment('Supabase')
 
-  await traceAsync(segment, 'insert', async () => {
+  const createdUser = await traceAsync<User>(segment, 'insert', async () => {
+    const now = new Date()
     const result = await supabase.from('users').insert({
       id: user.id,
       name: user.name,
       password: '',
       email: user.email,
-      created_at: user.createdAt?.toISOString(),
-      updated_at: user.updatedAt?.toISOString(),
+      created_at: now,
+      updated_at: now,
     })
     if (result.error != null) {
       throw new Error(JSON.stringify(result.error))
     }
+    return {
+      ...user,
+      createdAt: now,
+      updatedAt: now,
+    }
   })
+
+  return createdUser
 }
 
 /**

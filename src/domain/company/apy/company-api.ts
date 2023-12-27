@@ -59,10 +59,11 @@ export async function fetchCompanies(): Promise<CompanyListResponse> {
 /**
  * 会社の登録
  */
-export async function createCompany(company: Company): Promise<void> {
+export async function createCompany(company: Company): Promise<Company> {
   const segment = createSegment('Supabase')
 
-  await traceAsync(segment, 'insert', async () => {
+  const createdCompany = await traceAsync<Company>(segment, 'insert', async () => {
+    const now = new Date()
     const result = await supabase.from('companies').insert({
       id: company.id,
       name: company.name,
@@ -75,13 +76,20 @@ export async function createCompany(company: Company): Promise<void> {
       canUseFeatureA: company.canUseFeatureA,
       canUseFeatureB: company.canUseFeatureB,
       canUseFeatureC: company.canUseFeatureC,
-      createdAt: company.createdAt?.toISOString(),
-      updatedAt: company.updatedAt?.toISOString(),
+      createdAt: now,
+      updatedAt: now,
     })
     if (result.error != null) {
       throw new Error(JSON.stringify(result.error))
     }
+    return {
+      ...company,
+      createdAt: now,
+      updatedAt: now,
+    }
   })
+
+  return createdCompany
 }
 
 /**

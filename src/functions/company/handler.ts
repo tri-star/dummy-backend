@@ -1,10 +1,10 @@
 import { createCompany, fetchCompanies, updateCompany } from '@/domain/company/apy/company-api'
-import { companySchema, updateCompanySchema } from '@/domain/company/company'
+import { createCompanySchema, updateCompanySchema } from '@/domain/company/company'
 import { deleteUser } from '@/domain/users/api/user-api'
 import { formatJSONResponse, formatJSONUserErrorResponse } from '@libs/api-gateway'
 import { middyfy } from '@libs/lambda'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
-// import { companySchema } from 'src/domain/company/company'
+import { ulid } from 'ulid'
 
 /**
  * 一覧
@@ -22,7 +22,7 @@ export const listCompaniesHandler = middyfy(async () => {
 })
 
 export const createCompanyHandler = middyfy(async (event: APIGatewayProxyEvent) => {
-  const parseResult = companySchema.safeParse(event.body)
+  const parseResult = createCompanySchema.safeParse(event.body)
   if (!parseResult.success) {
     console.error('createCompanyHandler error', parseResult.error.errors)
     formatJSONUserErrorResponse({ errors: parseResult.error.errors })
@@ -31,8 +31,8 @@ export const createCompanyHandler = middyfy(async (event: APIGatewayProxyEvent) 
 
   const company = parseResult.data
 
-  await createCompany({
-    id: company.id,
+  const createdCompany = await createCompany({
+    id: ulid(),
     name: company.name,
     postalCode: company.postalCode,
     prefecture: company.prefecture,
@@ -47,7 +47,7 @@ export const createCompanyHandler = middyfy(async (event: APIGatewayProxyEvent) 
     updatedAt: new Date(),
   })
 
-  return formatJSONResponse({})
+  return formatJSONResponse({ data: createdCompany })
 })
 
 export const updateCompanyHandler = middyfy(async (event: APIGatewayProxyEvent) => {
