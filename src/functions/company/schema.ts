@@ -20,9 +20,8 @@ export const createCompanySchema = {
       description: '番地',
     },
     address3: {
-      type: 'string',
+      type: ['string', 'null'],
       description: 'アパート',
-      nullable: true,
     },
     phone: {
       type: 'string',
@@ -66,9 +65,8 @@ export const updateCompanySchema = {
       description: '番地',
     },
     address3: {
-      type: 'string',
+      type: ['string', 'null'],
       description: 'アパート',
-      nullable: true,
     },
     phone: {
       type: 'string',
