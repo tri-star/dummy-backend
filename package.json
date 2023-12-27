@@ -21,6 +21,7 @@
     "@middy/http-json-body-parser": "^3.4.0",
     "@supabase/supabase-js": "^2.39.0",
     "aws-xray-sdk-core": "^3.5.3",
+    "ulid": "^2.3.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
