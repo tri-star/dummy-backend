@@ -1,6 +1,5 @@
-import { createCompany, fetchCompanies, updateCompany } from '@/domain/company/api/company-api'
+import { createCompany, deleteCompany, fetchCompanies, updateCompany } from '@/domain/company/api/company-api'
 import { createCompanySchema, updateCompanySchema } from '@/domain/company/company'
-import { deleteUser } from '@/domain/users/api/user-api'
 import { formatJSONResponse, formatJSONUserErrorResponse } from '@libs/api-gateway'
 import { middyfy } from '@libs/lambda'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
@@ -87,7 +86,7 @@ export const deleteCompanyHandler = middyfy(async (event: APIGatewayProxyEvent) 
     return formatJSONUserErrorResponse({ error: new Error('companyId is required') })
   }
 
-  await deleteUser(companyId)
+  await deleteCompany(companyId)
 
   return formatJSONResponse({})
 })

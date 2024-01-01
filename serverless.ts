@@ -2,6 +2,7 @@ import type { AWS } from '@serverless/typescript'
 
 import users from '@functions/users'
 import companies from '@functions/company'
+import tasks from '@/functions/tasks'
 
 const serverlessConfiguration: AWS = {
   service: 'dummy-backend',
@@ -47,7 +48,7 @@ const serverlessConfiguration: AWS = {
       SUPABASE_ANON_KEY: '${env:SUPABASE_ANON_KEY, ssm:/aws/reference/secretsmanager//supabase/anon_key}',
     },
   },
-  functions: { ...users, ...companies },
+  functions: { ...users, ...companies, ...tasks },
   package: { individually: true },
   custom: {
     esbuild: {
