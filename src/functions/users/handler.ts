@@ -37,6 +37,7 @@ export const createUserHandler = middyfy(async (event: APIGatewayProxyEvent) => 
     id: ulid(),
     name: user.name,
     email: user.email,
+    companyId: user.companyId,
     createdAt: new Date(),
     updatedAt: new Date(),
   })
@@ -63,6 +64,7 @@ export const updateUserHandler = middyfy(async (event: APIGatewayProxyEvent) => 
   const user = parseResult.data
 
   await updateUser(userId, {
+    companyId: user.companyId,
     name: user.name,
     email: user.email,
   })
