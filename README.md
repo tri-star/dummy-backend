@@ -3,8 +3,7 @@
 ## デプロイ
 
 ```bash
-export AWS_SDK_LOAD_CONFIG=1
-serverless deploy --aws-profile [PROFILE名]
+serverless deploy --aws-profile [PROFILE名] --verbose
 # または、npx sls deploy
 ```
 
