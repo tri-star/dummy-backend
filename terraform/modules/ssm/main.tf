@@ -18,3 +18,13 @@ resource "aws_secretsmanager_secret_version" "supabase_anon_key_version" {
   secret_string = var.supabase_anon_key
 }
 
+
+resource "aws_secretsmanager_secret" "app_key" {
+  name        = "/app/key"
+  description = "Application Key"
+}
+
+resource "aws_secretsmanager_secret_version" "app_key_version" {
+  secret_id     = aws_secretsmanager_secret.app_key.id
+  secret_string = var.app_key
+}

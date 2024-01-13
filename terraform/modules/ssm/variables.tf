@@ -9,3 +9,9 @@ variable "supabase_anon_key" {
   type        = string
   sensitive   = true
 }
+
+variable "app_key" {
+  description = "App Key"
+  type        = string
+  sensitive   = true
+}
