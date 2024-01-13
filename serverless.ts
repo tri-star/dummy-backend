@@ -36,6 +36,11 @@ const serverlessConfiguration: AWS = {
       },
       {
         Effect: 'Allow',
+        Action: ['secretsmanager:GetSecretValue', 'secretsmanager:DescribeSecret'],
+        Resource: 'arn:aws:secretsmanager:${env:AWS_REGION}:${env:AWS_ACCOUNT}:secret:/app/key',
+      },
+      {
+        Effect: 'Allow',
         Action: ['xray:PutTraceSegments', 'xray:PutTelemetryRecords'],
         Resource: '*',
       },
@@ -46,6 +51,7 @@ const serverlessConfiguration: AWS = {
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
       SUPABASE_URL: '${env:SUPABASE_URL, ssm:/aws/reference/secretsmanager//supabase/url}',
       SUPABASE_ANON_KEY: '${env:SUPABASE_ANON_KEY, ssm:/aws/reference/secretsmanager//supabase/anon_key}',
+      APP_KEY: '${env:APP_KEY, ssm:/aws/reference/secretsmanager//app/key}',
     },
   },
   functions: { ...users, ...companies, ...tasks },
