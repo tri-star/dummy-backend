@@ -1,4 +1,5 @@
 import * as z from 'zod'
+import crypto from 'crypto'
 
 /**
  * アプリケーション内部で利用するユーザー
@@ -16,7 +17,9 @@ export type User = z.infer<typeof userSchema>
 /**
  * データ登録用のスキーマ
  */
-export const createUserSchema = userSchema.omit({ id: true, createdAt: true, updatedAt: true })
+export const createUserSchema = userSchema.omit({ id: true, createdAt: true, updatedAt: true }).extend({
+  password: z.string().min(8).max(100),
+})
 export type CreateUser = z.infer<typeof createUserSchema>
 
 /**
@@ -38,3 +41,11 @@ export const dbUserSchema = z.object({
   updated_at: z.string(),
 })
 export type DbUser = z.infer<typeof dbUserSchema>
+
+export function createPasswordHash(password: string, userId: string) {
+  const appKey = process.env.APP_KEY
+  return crypto
+    .createHash('sha256')
+    .update(appKey + '#' + password + '#' + userId)
+    .digest('hex')
+}

@@ -2,7 +2,7 @@ import { formatJSONResponse, formatJSONUserErrorResponse } from '@libs/api-gatew
 import { middyfy } from '@libs/lambda'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
 import { createUser, deleteUser, fetchUsers, updateUser } from 'src/domain/users/api/user-api'
-import { createUserSchema, updateUserSchema } from 'src/domain/users/user'
+import { createPasswordHash, createUserSchema, updateUserSchema } from 'src/domain/users/user'
 import { ulid } from 'ulid'
 
 /**
@@ -33,13 +33,13 @@ export const createUserHandler = middyfy(async (event: APIGatewayProxyEvent) => 
 
   const user = parseResult.data
 
-  const createdUser = await createUser({
-    id: ulid(),
+  const userId = ulid()
+  const hashedPassword = createPasswordHash(user.password, userId)
+  const createdUser = await createUser(userId, {
     name: user.name,
     email: user.email,
     companyId: user.companyId,
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    password: hashedPassword,
   })
 
   return formatJSONResponse({ data: createdUser })

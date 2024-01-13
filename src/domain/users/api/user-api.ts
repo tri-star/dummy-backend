@@ -1,5 +1,5 @@
 import { supabase } from '@libs/supabase/api-client'
-import { type User, dbUserSchema, type UpdateUser } from '../user'
+import { type User, dbUserSchema, type UpdateUser, type CreateUser } from '../user'
 import dayjs from 'dayjs'
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 
@@ -52,15 +52,15 @@ export async function fetchUsers(): Promise<UserListResponse> {
 /**
  * ユーザーの登録
  */
-export async function createUser(user: User): Promise<User> {
+export async function createUser(userId: string, user: CreateUser): Promise<User> {
   const segment = createSegment('Supabase')
 
   const createdUser = await traceAsync<User>(segment, 'insert', async () => {
     const now = new Date()
     const result = await supabase.from('users').insert({
-      id: user.id,
+      id: userId,
       name: user.name,
-      password: '',
+      password: user.password,
       email: user.email,
       company_id: user.companyId,
       created_at: now,
@@ -70,7 +70,10 @@ export async function createUser(user: User): Promise<User> {
       throw new Error(JSON.stringify(result.error))
     }
     return {
-      ...user,
+      id: userId,
+      name: user.name,
+      companyId: user.companyId,
+      email: user.email,
       createdAt: now,
       updatedAt: now,
     }
@@ -90,7 +93,6 @@ export async function updateUser(userId: string, user: UpdateUser): Promise<void
       .from('users')
       .update({
         name: user.name,
-        password: '',
         email: user.email,
         company_id: user.companyId,
         updated_at: new Date(),
