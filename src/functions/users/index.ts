@@ -1,6 +1,7 @@
 import type { AWS } from '@serverless/typescript'
 import { handlerPath } from '@libs/handler-resolver'
 import { createUserSchema, updateUserSchema } from './schema'
+import { corsSettings } from '@functions/cors'
 
 export const rules: AWS['functions'] = {
   listUsersHandler: {
@@ -10,6 +11,7 @@ export const rules: AWS['functions'] = {
         http: {
           method: 'get',
           path: 'users',
+          cors: corsSettings,
         },
       },
     ],
@@ -28,6 +30,7 @@ export const rules: AWS['functions'] = {
               },
             },
           },
+          cors: corsSettings,
         },
       },
     ],
@@ -51,6 +54,7 @@ export const rules: AWS['functions'] = {
               },
             },
           },
+          cors: corsSettings,
         },
       },
     ],
@@ -69,6 +73,7 @@ export const rules: AWS['functions'] = {
               },
             },
           },
+          cors: corsSettings,
         },
       },
     ],

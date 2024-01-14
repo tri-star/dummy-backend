@@ -1,6 +1,7 @@
 import type { AWS } from '@serverless/typescript'
 import { handlerPath } from '@libs/handler-resolver'
 import { createCompanySchema, updateCompanySchema } from '@functions/company/schema'
+import { corsSettings } from '@functions/cors'
 
 export const rules: AWS['functions'] = {
   listCompaniesHandler: {
@@ -10,6 +11,7 @@ export const rules: AWS['functions'] = {
         http: {
           method: 'get',
           path: 'companies',
+          cors: corsSettings,
         },
       },
     ],
@@ -21,6 +23,7 @@ export const rules: AWS['functions'] = {
         http: {
           method: 'post',
           path: 'companies',
+          cors: corsSettings,
           request: {
             schemas: {
               'application/json': {
@@ -39,6 +42,7 @@ export const rules: AWS['functions'] = {
         http: {
           method: 'patch',
           path: 'companies/{id}',
+          cors: corsSettings,
           request: {
             parameters: {
               paths: {
@@ -62,6 +66,7 @@ export const rules: AWS['functions'] = {
         http: {
           method: 'delete',
           path: 'companies/{id}',
+          cors: corsSettings,
           request: {
             parameters: {
               paths: {
