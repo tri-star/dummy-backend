@@ -27,22 +27,25 @@ export const createUserHandler = middyfy(async (event: APIGatewayProxyEvent) => 
   const parseResult = createUserSchema.safeParse(event.body)
   if (!parseResult.success) {
     console.error('createUserHandler error', parseResult.error.errors)
-    formatJSONUserErrorResponse({ errors: parseResult.error.errors })
-    return
+    return formatJSONUserErrorResponse({ errors: parseResult.error.errors })
   }
 
   const user = parseResult.data
 
   const userId = ulid()
-  const hashedPassword = createPasswordHash(user.password, userId)
-  const createdUser = await createUser(userId, {
-    name: user.name,
-    email: user.email,
-    companyId: user.companyId,
-    password: hashedPassword,
-  })
-
-  return formatJSONResponse({ data: createdUser })
+  try {
+    const hashedPassword = createPasswordHash(user.password, userId)
+    const createdUser = await createUser(userId, {
+      name: user.name,
+      email: user.email,
+      companyId: user.companyId,
+      password: hashedPassword,
+    })
+    return formatJSONResponse({ data: createdUser })
+  } catch (e) {
+    console.error('createUserHandler error', e)
+    return formatJSONUserErrorResponse({ errors: ['ユーザー登録に失敗しました'] })
+  }
 })
 
 /**
