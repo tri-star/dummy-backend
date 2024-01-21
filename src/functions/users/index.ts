@@ -16,13 +16,32 @@ export const rules: AWS['functions'] = {
       },
     ],
   },
+  fetchUserHandler: {
+    handler: `${handlerPath(__dirname)}/handler.fetchUserHandler`,
+    events: [
+      {
+        http: {
+          method: 'get',
+          path: 'users/{id}',
+          cors: corsSettings,
+          request: {
+            parameters: {
+              paths: {
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    ],
+  },
   createUserHandler: {
     handler: `${handlerPath(__dirname)}/handler.createUserHandler`,
     events: [
       {
         http: {
           method: 'post',
-          path: 'user',
+          path: 'users',
           request: {
             schemas: {
               'application/json': {
@@ -41,7 +60,7 @@ export const rules: AWS['functions'] = {
       {
         http: {
           method: 'patch',
-          path: 'user/{id}',
+          path: 'users/{id}',
           request: {
             parameters: {
               paths: {

@@ -1,7 +1,7 @@
 import { formatJSONResponse, formatJSONUserErrorResponse } from '@libs/api-gateway'
 import { middyfy } from '@libs/lambda'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
-import { createUser, deleteUser, fetchUsers, updateUser } from 'src/domain/users/api/user-api'
+import { createUser, deleteUser, fetchUser, fetchUsers, updateUser } from 'src/domain/users/api/user-api'
 import { createPasswordHash, createUserSchema, updateUserSchema } from 'src/domain/users/user'
 import { ulid } from 'ulid'
 
@@ -16,7 +16,28 @@ export const listUsersHandler = middyfy(async () => {
       count: users.count,
     })
   } catch (e) {
+    console.error(e)
     return formatJSONUserErrorResponse({ error: e })
+  }
+})
+
+/**
+ * 1件取得
+ */
+export const fetchUserHandler = middyfy(async (event: APIGatewayProxyEvent) => {
+  try {
+    const userId = event.pathParameters?.id
+    if (userId == null) {
+      return formatJSONUserErrorResponse({ error: new Error('userId is required') })
+    }
+
+    const user = await fetchUser(userId)
+    return formatJSONResponse({
+      data: user,
+    })
+  } catch (e) {
+    console.error(e)
+    return formatJSONUserErrorResponse({ error: (e as Error).message })
   }
 })
 

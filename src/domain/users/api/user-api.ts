@@ -1,7 +1,8 @@
 import { supabase } from '@libs/supabase/api-client'
-import { type User, dbUserSchema, type UpdateUser, type CreateUser } from '../user'
+import { type User, dbUserSchema, type UpdateUser, type CreateUser, type UserDetail, dbUserDetailSchema } from '../user'
 import dayjs from 'dayjs'
 import { createSegment, traceAsync } from '@libs/xray-tracer'
+import { NotFoundError } from '@/errors/not-found'
 
 export type UserListResponse = {
   data: User[]
@@ -47,6 +48,49 @@ export async function fetchUsers(): Promise<UserListResponse> {
     data: users,
     count: users.length,
   }
+}
+
+/**
+ * ユーザーを取得する
+ */
+export async function fetchUser(userId: string): Promise<UserDetail> {
+  const segment = createSegment('Supabase')
+
+  const user = await traceAsync<UserDetail>(segment, 'query', async () => {
+    const dbUserList = await supabase.from('users').select('*, companies(id, name)').eq('id', userId)
+
+    if (dbUserList.error != null) {
+      throw new Error(JSON.stringify(dbUserList.error))
+    }
+
+    const dbUser = (dbUserList.data as unknown[])[0]
+    console.log('user', dbUser)
+    if (dbUser == null) {
+      throw new NotFoundError('ユーザーが見つかりません')
+    }
+
+    const parseResult = dbUserDetailSchema.safeParse(dbUser)
+    if (!parseResult.success) {
+      console.error(parseResult.error.errors)
+      throw new Error('無効なユーザーデータです')
+    }
+
+    const result: UserDetail = {
+      id: parseResult.data.id,
+      name: parseResult.data.name,
+      email: parseResult.data.email,
+      companyId: parseResult.data.company_id,
+      company: {
+        id: parseResult.data.companies.id,
+        name: parseResult.data.companies.name,
+      },
+      createdAt: dayjs(parseResult.data.created_at).toDate(),
+      updatedAt: dayjs(parseResult.data.updated_at).toDate(),
+    }
+    return result
+  })
+
+  return user
 }
 
 /**
@@ -99,7 +143,7 @@ export async function updateUser(userId: string, user: UpdateUser): Promise<void
       })
       .match({ id: userId })
     if (result.error != null) {
-      throw new Error(JSON.stringify(result.error))
+      throw new Error(result.error.message)
     }
   })
 }

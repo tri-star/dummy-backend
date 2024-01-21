@@ -15,6 +15,17 @@ export const userSchema = z.object({
 export type User = z.infer<typeof userSchema>
 
 /**
+ * ユーザー詳細情報用スキーマ
+ */
+export const userDetailSchema = userSchema.extend({
+  company: z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
+})
+export type UserDetail = z.infer<typeof userDetailSchema>
+
+/**
  * データ登録用のスキーマ
  */
 export const createUserSchema = userSchema.omit({ id: true, createdAt: true, updatedAt: true }).extend({
@@ -41,6 +52,14 @@ export const dbUserSchema = z.object({
   updated_at: z.string(),
 })
 export type DbUser = z.infer<typeof dbUserSchema>
+
+export const dbUserDetailSchema = dbUserSchema.extend({
+  companies: z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
+})
+export type DbUserDetail = z.infer<typeof dbUserDetailSchema>
 
 export function createPasswordHash(password: string, userId: string) {
   const appKey = process.env.APP_KEY
