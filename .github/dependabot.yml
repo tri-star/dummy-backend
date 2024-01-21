@@ -1,0 +1,23 @@
+version: 2
+updates:
+  - package-ecosystem: 'terraform'
+    directory: '/terraform/environments/dev'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 10
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    groups:
+      patchDependencies:
+        dependency-type: 'production'
+        update-types: ['patch']
+      minorDependencies:
+        dependency-type: 'production'
+        update-types: ['minor']
+      majorDependencies:
+        dependency-type: 'production'
+        update-types: ['major']
+      devDependencies:
+        dependency-type: 'development'
