@@ -17,9 +17,9 @@
     "node": ">=14.15.0"
   },
   "dependencies": {
-    "@middy/core": "^3.4.0",
+    "@middy/core": "^5.2.3",
     "@middy/http-cors": "^5.2.3",
-    "@middy/http-json-body-parser": "^3.4.0",
+    "@middy/http-json-body-parser": "^5.2.3",
     "@supabase/supabase-js": "^2.39.3",
     "aws-xray-sdk-core": "^3.5.3",
     "ulid": "^2.3.0",
