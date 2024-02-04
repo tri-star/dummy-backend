@@ -1,5 +1,5 @@
 resource "aws_secretsmanager_secret" "supabase_url" {
-  name        = "/supabase/url"
+  name        = "${var.stage}/supabase/url"
   description = "Supabase URL"
 }
 
@@ -9,7 +9,7 @@ resource "aws_secretsmanager_secret_version" "supabase_url_version" {
 }
 
 resource "aws_secretsmanager_secret" "supabase_anon_key" {
-  name        = "/supabase/anon_key"
+  name        = "${var.stage}/supabase/anon_key"
   description = "Supabase Anon Key"
 }
 
@@ -20,7 +20,7 @@ resource "aws_secretsmanager_secret_version" "supabase_anon_key_version" {
 
 
 resource "aws_secretsmanager_secret" "app_key" {
-  name        = "/app/key"
+  name        = "${var.stage}/app/key"
   description = "Application Key"
 }
 

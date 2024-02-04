@@ -1,3 +1,8 @@
+variable "stage" {
+  description = "Deployment stage (e.g. dev, staging, prod)"
+  type        = string
+}
+
 variable "supabase_url" {
   description = "Supabase URL"
   type        = string
