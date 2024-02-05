@@ -1,27 +1,17 @@
-name: Lint
+name: Terraform Lint
 
 on:
   pull_request:
     paths:
-      - 'src/**'
-      - 'serverless.ts'
-      - 'package-lock.json'
-      - '.eslintrc.cjs'
-      - '.prettierrc.cjs'
-      - 'tsconfig.json'
+      - 'terraform/**'
   push:
     branches:
       - main
     paths:
-      - 'src/**'
-      - 'serverless.ts'
-      - 'package-lock.json'
-      - '.eslintrc.cjs'
-      - '.prettierrc.cjs'
-      - 'tsconfig.json'
+      - 'terraform/**'
 
 jobs:
-  lint:
+  terraform-lint:
     runs-on: ubuntu-latest
     steps:
       # リポジトリをチェックアウト
