@@ -1,8 +1,6 @@
 import type { AWS } from '@serverless/typescript'
 
-import users from '@functions/users'
-import companies from '@functions/company'
-import tasks from '@/functions/tasks'
+import adminUserHandler from '@functions/admin/users'
 
 const serverlessConfiguration: AWS = {
   service: 'dummy-backend',
@@ -54,7 +52,9 @@ const serverlessConfiguration: AWS = {
       APP_KEY: '${env:APP_KEY, ssm:/aws/reference/secretsmanager/${sls:stage}/app/key}',
     },
   },
-  functions: { ...users, ...companies, ...tasks },
+  functions: {
+    ...adminUserHandler,
+  },
   package: { individually: true },
   custom: {
     esbuild: {
