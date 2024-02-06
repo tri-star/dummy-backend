@@ -1,7 +1,6 @@
 import { formatJSONResponse, formatJSONUserErrorResponse } from '@libs/api-gateway'
-import { middyfy } from '@libs/lambda'
-import { createAdminUser } from 'src/domain/admin-users/api/admin-user-api'
-import { type CreateAdminUser, createAdminPasswordHash, createAdminUserSchema } from 'src/domain/admin-users/admin-user'
+import { createAdminUser } from '@/domain/admin-users/api/admin-user-api'
+import { type CreateAdminUser, createAdminPasswordHash, createAdminUserSchema } from '@/domain/admin-users/admin-user'
 import { ulid } from 'ulid'
 
 type CreateAdminUserNoAuthPayload = CreateAdminUser
@@ -9,7 +8,7 @@ type CreateAdminUserNoAuthPayload = CreateAdminUser
 /**
  * 登録(管理者用で、登録にトークンが不要)
  */
-export const createAdminUserNoAuthHandler = middyfy(async (event: CreateAdminUserNoAuthPayload) => {
+export const createAdminUserNoAuthHandler = async (event: CreateAdminUserNoAuthPayload) => {
   const parseResult = createAdminUserSchema.safeParse(event)
   if (!parseResult.success) {
     console.error('createAdminUserNoAuthHandler error', parseResult.error.errors)
@@ -32,4 +31,4 @@ export const createAdminUserNoAuthHandler = middyfy(async (event: CreateAdminUse
     console.error('createAdminUserNoAuthHandler error', e)
     return formatJSONUserErrorResponse({ errors: ['ユーザー登録に失敗しました'] })
   }
-})
+}
