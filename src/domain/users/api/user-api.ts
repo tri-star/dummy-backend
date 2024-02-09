@@ -64,7 +64,6 @@ export async function fetchUser(userId: string): Promise<UserDetail> {
     }
 
     const dbUser = (dbUserList.data as unknown[])[0]
-    console.log('user', dbUser)
     if (dbUser == null) {
       throw new NotFoundError('ユーザーが見つかりません')
     }

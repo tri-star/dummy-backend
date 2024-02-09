@@ -15,6 +15,16 @@ export const adminUserSchema = z.object({
 export type AdminUser = z.infer<typeof adminUserSchema>
 
 /**
+ * ログイン認証用のスキーマ
+ */
+export const userAuthResponseSchema = z.object({
+  id: z.string(),
+  loginId: z.string(),
+  password: z.string(),
+})
+export type UserAuthResponse = z.infer<typeof userAuthResponseSchema>
+
+/**
  * 管理者ユーザー詳細情報用スキーマ
  */
 export const adminUserDetailSchema = adminUserSchema
@@ -40,6 +50,7 @@ export type UpdateAdminUser = z.infer<typeof updateAdminUserSchema>
 export const dbAdminUserSchema = z.object({
   id: z.string(),
   name: z.string(),
+  login_id: z.string(),
   password: z.string(),
   created_at: z.string(),
   updated_at: z.string(),
@@ -55,4 +66,15 @@ export function createAdminPasswordHash(password: string, userId: string) {
     .createHash('sha256')
     .update(appKey + '##' + password + '##' + userId)
     .digest('hex')
+}
+
+export function generateAdminTokenString(): string {
+  const tokenLength = 30
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let result = ''
+  const charactersLength = characters.length
+  for (let i = 0; i < tokenLength; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength))
+  }
+  return result
 }

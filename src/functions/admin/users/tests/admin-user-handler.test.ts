@@ -15,4 +15,14 @@ describe('admin-user-handler', () => {
     })
     expect(result.statusCode).toBe(200)
   })
+
+  test('トークン発行できること', async () => {
+    const result = await createAdminUserNoAuthHandler({
+      name: 'test',
+      email: '',
+      loginId: 'test',
+      password: 'testtest',
+    })
+    expect(result.statusCode).toBe(200)
+  })
 })
