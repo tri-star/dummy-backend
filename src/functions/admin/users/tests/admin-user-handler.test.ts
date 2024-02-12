@@ -3,7 +3,7 @@ import { createAdminUserNoAuthHandler } from '../handler'
 
 describe('admin-user-handler', () => {
   beforeEach(async () => {
-    await supabase.from('admin_users').delete()
+    await supabase.from('admin_users').delete().neq('id', '')
   })
 
   test('登録処理が成功すること', async () => {

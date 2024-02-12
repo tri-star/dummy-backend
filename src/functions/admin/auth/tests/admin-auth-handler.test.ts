@@ -8,8 +8,8 @@ import { parseHandlerJsonResponse } from '@/utils/jest'
 import { createAdminPasswordHash } from '@/domain/admin-users/admin-user'
 
 beforeEach(async () => {
-  await supabase.from('admin_tokens').delete()
-  await supabase.from('admin_users').delete()
+  await supabase.from('admin_tokens').delete().neq('id', '')
+  await supabase.from('admin_users').delete().neq('id', '')
 })
 
 describe('admin-auth-handler', () => {
