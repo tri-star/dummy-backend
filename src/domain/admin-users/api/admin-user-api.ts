@@ -26,7 +26,6 @@ export async function createAdminUser(userId: string, user: CreateAdminUser): Pr
     return {
       id: userId,
       name: user.name,
-      email: user.email,
       loginId: user.loginId,
       createdAt: now,
       updatedAt: now,

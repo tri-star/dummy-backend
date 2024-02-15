@@ -7,7 +7,6 @@ import crypto from 'crypto'
 export const adminUserSchema = z.object({
   id: z.string(),
   name: z.string(),
-  email: z.string(),
   loginId: z.string(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
@@ -57,7 +56,7 @@ export const dbAdminUserSchema = z.object({
 })
 export type DbAdminUser = z.infer<typeof dbAdminUserSchema>
 
-export const dbAdminUserDetailSchema = dbAdminUserSchema
+export const dbAdminUserDetailSchema = dbAdminUserSchema.omit({ password: true })
 export type DbAdminUserDetail = z.infer<typeof dbAdminUserDetailSchema>
 
 export function createAdminPasswordHash(password: string, userId: string) {

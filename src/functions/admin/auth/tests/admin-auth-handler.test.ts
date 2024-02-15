@@ -1,27 +1,21 @@
 import { supabase } from '@libs/supabase/api-client'
 import { adminLoginHandler } from '../handler'
-import { createAdminUser } from '@/domain/admin-users/api/admin-user-api'
 import { ulid } from 'ulid'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
 import { type Context } from 'aws-lambda'
 import { parseHandlerJsonResponse } from '@/utils/jest'
-import { createAdminPasswordHash } from '@/domain/admin-users/admin-user'
+import { prepareAdminUser } from '@libs/jest/user-utils'
 
 beforeEach(async () => {
   await supabase.from('admin_tokens').delete().neq('id', '')
   await supabase.from('admin_users').delete().neq('id', '')
 })
 
-describe('admin-auth-handler', () => {
+describe('adminLoginHandler', () => {
   test('トークン発行が成功すること', async () => {
     const adminUserId = ulid()
     const password = 'testtest'
-    const user = await createAdminUser(adminUserId, {
-      name: 'test',
-      email: '',
-      loginId: 'test',
-      password: createAdminPasswordHash(password, adminUserId),
-    })
+    const user = await prepareAdminUser({ adminUserId, password })
 
     const result = await adminLoginHandler(
       {
@@ -45,12 +39,7 @@ describe('admin-auth-handler', () => {
     const adminUserId = ulid()
     const password = 'testtest'
     const wrongPassword = 'wrongPassword'
-    const user = await createAdminUser(adminUserId, {
-      name: 'test',
-      email: '',
-      loginId: 'test',
-      password: createAdminPasswordHash(password, adminUserId),
-    })
+    const user = await prepareAdminUser({ adminUserId, password })
 
     const result = await adminLoginHandler(
       {
