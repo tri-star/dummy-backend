@@ -36,7 +36,6 @@ export async function fetchAdminUserList(loginId?: string): Promise<AdminUserLis
 
     const dbUserList = await dbUserListQuery
     const countRecord = await dbUserCountQuery
-    console.log(countRecord.count, countRecord)
     const count = countRecord.count ?? 0
     if (dbUserList.error != null) {
       throw new Error(JSON.stringify(dbUserList.error))

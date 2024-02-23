@@ -1,8 +1,10 @@
 import middy from '@middy/core'
 import middyJsonBodyParser from '@middy/http-json-body-parser'
 import cors from '@middy/http-cors'
+import { type Context as LambdaContext } from 'aws-lambda'
+import { type AdminUserDetail } from '@/domain/admin-users/admin-user'
+import { authenticateMIddleware } from '@/middlewares/authenticate-middleware'
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const middyfy = (handler: Parameters<typeof middy>[0]) => {
   return middy(handler)
     .use(
@@ -18,3 +20,11 @@ export const middyfy = (handler: Parameters<typeof middy>[0]) => {
       }),
     )
 }
+
+export const middyfyWithAdminAuth = (handler: Parameters<typeof middy>[0]) => {
+  return middyfy(handler).use(authenticateMIddleware)
+}
+
+export type AdminApiContext = {
+  adminUser?: AdminUserDetail
+} & LambdaContext
