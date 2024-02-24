@@ -4,6 +4,7 @@ import cors from '@middy/http-cors'
 import { type Context as LambdaContext } from 'aws-lambda'
 import { type AdminUserDetail } from '@/domain/admin-users/admin-user'
 import { authenticateMIddleware } from '@/middlewares/authenticate-middleware'
+import httpErrorHandler from '@middy/http-error-handler'
 
 export const middyfy = (handler: Parameters<typeof middy>[0]) => {
   return middy(handler)
@@ -22,7 +23,7 @@ export const middyfy = (handler: Parameters<typeof middy>[0]) => {
 }
 
 export const middyfyWithAdminAuth = (handler: Parameters<typeof middy>[0]) => {
-  return middyfy(handler).use(authenticateMIddleware)
+  return middyfy(handler).use(authenticateMIddleware).use(httpErrorHandler())
 }
 
 export type AdminApiContext = {
