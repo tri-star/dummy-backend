@@ -4,7 +4,7 @@ import { ulid } from 'ulid'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
 import { type Context } from 'aws-lambda'
 import { parseHandlerJsonResponse } from '@/utils/jest'
-import { prepareAdminUser } from '@libs/jest/user-utils'
+import { prepareAdminUser } from '@libs/jest/admin-user-utils'
 
 describe('admin-auth-handler.test', () => {
   beforeEach(async () => {
