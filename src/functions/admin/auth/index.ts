@@ -4,7 +4,7 @@ import { corsSettings } from '@functions/cors'
 import { adminLoginSchema } from './schema'
 
 export const rules: AWS['functions'] = {
-  createAdminUserNoAuthHandler: {
+  adminLoginHandler: {
     handler: `${handlerPath(__dirname)}/handler.adminLoginHandler`,
     events: [
       {
