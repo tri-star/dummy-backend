@@ -9,7 +9,7 @@ import { type APIGatewayProxyEvent } from 'aws-lambda'
  */
 export const adminLoginHandler = middyfy(async (event: APIGatewayProxyEvent) => {
   try {
-    const json = JSON.parse(event.body ?? '{}') as Record<string, unknown>
+    const json = event.body as unknown as Record<string, unknown>
     const loginId = String(json.loginId ?? '')
     const password = String(json.password ?? '')
 
