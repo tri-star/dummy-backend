@@ -3,7 +3,6 @@ import { type AdminApiContext } from '@libs/lambda'
 import type middy from '@middy/core'
 import { type APIGatewayProxyEvent, type APIGatewayProxyResult } from 'aws-lambda'
 import createHttpError from 'http-errors'
-// import httpErrorHandler from '@middy/http-error-handler'
 
 /**
  * 認証ミドルウェア
@@ -24,8 +23,7 @@ export const authenticateMIddleware = {
     if (adminUser == null) {
       throw new createHttpError.Unauthorized('Invalid token')
     }
-
-    handler.context.adminUser = adminUser
+    // handler.context.
   },
 }
 
