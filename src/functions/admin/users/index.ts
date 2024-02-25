@@ -4,7 +4,7 @@ import { corsSettings } from '@functions/cors'
 
 export const rules: AWS['functions'] = {
   createAdminUserNoAuthHandler: {
-    handler: `${handlerPath(__dirname)}/handler.createAdminUserNoAuthHandler`,
+    handler: `${handlerPath(__dirname)}/handlers/create-admin-user-no-auth-handler/createAdminUserNoAuthHandler`,
     events: [
       {
         sns: 'createAdminUser',
@@ -12,7 +12,7 @@ export const rules: AWS['functions'] = {
     ],
   },
   listAdminUsersHandler: {
-    handler: `${handlerPath(__dirname)}/handler.listAdminUsersHandler`,
+    handler: `${handlerPath(__dirname)}/handlers/list-admin-users-handler/listAdminUsersHandler`,
     events: [
       {
         http: {
