@@ -27,14 +27,14 @@ curl --location --request POST 'https://myApiEndpoint/dev/hello' \
 ローカルの場合：
 
 ```bash
-npx sls invoke local -f hello --path src/functions/hello/mock.json
+npx sls invoke local --stage=local -f hello --path src/functions/hello/mock.json
 ```
 
 または
 
 ```bash
 npx supabase start
-serverless offline
+serverless offline --stage=local
 
 curl --location --request POST 'https://localhost:3000/dev/hello' \
 --header 'Content-Type: application/json' \

@@ -1,4 +1,4 @@
-import * as AWSXRay from 'aws-xray-sdk-core'
+import AWSXRay from 'aws-xray-sdk-core'
 
 export function createSegment(name: string) {
   return new AWSXRay.Segment(name)
