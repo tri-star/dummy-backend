@@ -8,7 +8,7 @@ import { type AdminUser, type UpdateAdminUser } from '../admin-user'
 export async function updateAdminUser(adminUserId: string, user: UpdateAdminUser): Promise<void> {
   const segment = createSegment('Supabase')
 
-  await traceAsync<AdminUser>(segment, 'insert', async () => {
+  await traceAsync<AdminUser>(segment, 'update', async () => {
     const now = new Date()
     const result = await supabase
       .from('admin_users')
