@@ -74,6 +74,25 @@ export const rules: AWS['functions'] = {
       },
     ],
   },
+  deleteAdminUserHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/delete-admin-user-handler.deleteAdminUserHandler`,
+    events: [
+      {
+        http: {
+          method: 'delete',
+          path: 'admin/users/{id}',
+          request: {
+            parameters: {
+              paths: {
+                id: true,
+              },
+            },
+          },
+          cors: corsSettings,
+        },
+      },
+    ],
+  },
 }
 
 export default rules
