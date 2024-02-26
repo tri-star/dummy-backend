@@ -1,5 +1,5 @@
-import { createAdminPasswordHash } from '@/domain/admin-users/admin-user'
 import { createUser } from '@/domain/users/api/user-api'
+import { createPasswordHash } from '@/domain/users/user'
 import { ulid } from 'ulid'
 
 export async function prepareUser(attributes: {
@@ -16,7 +16,7 @@ export async function prepareUser(attributes: {
     name: attributes.loginId,
     loginId: attributes.loginId,
     email: attributes.email,
-    password: createAdminPasswordHash(attributes.password, attributes.userId),
+    password: createPasswordHash(attributes.password, attributes.userId),
   })
 }
 

@@ -41,6 +41,16 @@ export const updateUserSchema = userSchema.omit({ id: true, createdAt: true, upd
 export type UpdateUser = z.infer<typeof updateUserSchema>
 
 /**
+ * ログイン認証用のスキーマ
+ */
+export const userAuthResponseSchema = z.object({
+  id: z.string(),
+  loginId: z.string(),
+  password: z.string(),
+})
+export type UserAuthResponse = z.infer<typeof userAuthResponseSchema>
+
+/**
  * DBから取得するユーザー情報
  */
 export const dbUserSchema = z.object({
