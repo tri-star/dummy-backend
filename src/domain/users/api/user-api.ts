@@ -34,7 +34,7 @@ export async function fetchUsers(): Promise<UserListResponse> {
             id: parseResult.data.id,
             name: parseResult.data.name,
             email: parseResult.data.email,
-            companyId: parseResult.data.company_id,
+            // companyId: parseResult.data.company_id,
             createdAt: dayjs(parseResult.data.created_at).toDate(),
             updatedAt: dayjs(parseResult.data.updated_at).toDate(),
           } as User
@@ -77,12 +77,13 @@ export async function fetchUser(userId: string): Promise<UserDetail> {
     const result: UserDetail = {
       id: parseResult.data.id,
       name: parseResult.data.name,
+      loginId: parseResult.data.login_id,
       email: parseResult.data.email,
-      companyId: parseResult.data.company_id,
-      company: {
-        id: parseResult.data.companies.id,
-        name: parseResult.data.companies.name,
-      },
+      // companyId: parseResult.data.company_id,
+      // company: {
+      //   id: parseResult.data.companies.id,
+      //   name: parseResult.data.companies.name,
+      // },
       createdAt: dayjs(parseResult.data.created_at).toDate(),
       updatedAt: dayjs(parseResult.data.updated_at).toDate(),
     }
@@ -103,9 +104,10 @@ export async function createUser(userId: string, user: CreateUser): Promise<User
     const result = await supabase.from('users').insert({
       id: userId,
       name: user.name,
+      login_id: user.loginId,
       password: user.password,
       email: user.email,
-      company_id: user.companyId,
+      // company_id: user.companyId,
       created_at: now,
       updated_at: now,
     })
@@ -115,7 +117,8 @@ export async function createUser(userId: string, user: CreateUser): Promise<User
     return {
       id: userId,
       name: user.name,
-      companyId: user.companyId,
+      loginId: user.loginId,
+      // companyId: user.companyId,
       email: user.email,
       createdAt: now,
       updatedAt: now,
@@ -136,8 +139,9 @@ export async function updateUser(userId: string, user: UpdateUser): Promise<void
       .from('users')
       .update({
         name: user.name,
+        loginId: user.loginId,
         email: user.email,
-        company_id: user.companyId,
+        // company_id: user.companyId,
         updated_at: new Date(),
       })
       .match({ id: userId })
