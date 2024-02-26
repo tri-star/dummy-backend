@@ -7,8 +7,9 @@ import crypto from 'crypto'
 export const userSchema = z.object({
   id: z.string(),
   name: z.string(),
+  loginId: z.string(),
   email: z.string().email(),
-  companyId: z.string().nullable(),
+  // companyId: z.string().optional(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
 })
@@ -18,10 +19,10 @@ export type User = z.infer<typeof userSchema>
  * ユーザー詳細情報用スキーマ
  */
 export const userDetailSchema = userSchema.extend({
-  company: z.object({
-    id: z.string(),
-    name: z.string(),
-  }),
+  // company: z.object({
+  //   id: z.string(),
+  //   name: z.string(),
+  // }),
 })
 export type UserDetail = z.infer<typeof userDetailSchema>
 
@@ -46,7 +47,8 @@ export const dbUserSchema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string().email(),
-  company_id: z.string().nullable(),
+  login_id: z.string(),
+  // company_id: z.string(),
   password: z.string(),
   created_at: z.string(),
   updated_at: z.string(),
@@ -54,10 +56,10 @@ export const dbUserSchema = z.object({
 export type DbUser = z.infer<typeof dbUserSchema>
 
 export const dbUserDetailSchema = dbUserSchema.extend({
-  companies: z.object({
-    id: z.string(),
-    name: z.string(),
-  }),
+  // companies: z.object({
+  //   id: z.string(),
+  //   name: z.string(),
+  // }),
 })
 export type DbUserDetail = z.infer<typeof dbUserDetailSchema>
 
