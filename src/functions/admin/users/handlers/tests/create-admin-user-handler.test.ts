@@ -22,11 +22,11 @@ describe('createAdminUserhHandler', () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
+        body: {
           name: 'test',
           loginId: 'test',
           password: 'password',
-        }),
+        },
       } as unknown as APIGatewayProxyEvent & VersionedApiGatewayEvent,
       undefined as unknown as Context,
     )

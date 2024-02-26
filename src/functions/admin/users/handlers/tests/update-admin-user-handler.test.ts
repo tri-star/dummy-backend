@@ -28,10 +28,10 @@ describe('updateAdminUserhHandler', () => {
         pathParameters: {
           id: targetUser.id,
         },
-        body: JSON.stringify({
+        body: {
           name: 'test',
           loginId: 'updated_login_id',
-        }),
+        },
       } as unknown as APIGatewayProxyEvent & VersionedApiGatewayEvent,
       undefined as unknown as Context,
     )

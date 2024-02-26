@@ -9,8 +9,7 @@ import { type APIGatewayProxyEvent } from 'aws-lambda'
  * 登録
  */
 export const createAdminUserHandler = middyfyWithAdminAuth(async (event: APIGatewayProxyEvent) => {
-  const eventBodyJson = JSON.parse(event.body ?? '{}') as unknown
-  const parseResult = createAdminUserSchema.safeParse(eventBodyJson)
+  const parseResult = createAdminUserSchema.safeParse(event.body ?? '{}')
   if (!parseResult.success) {
     console.error('createAdminUserHandler error', parseResult.error.errors)
     return formatJSONUserErrorResponse({ errors: parseResult.error.errors })

@@ -9,8 +9,7 @@ import { updateAdminUser } from '@/domain/admin-users/api/update-admin-user'
  */
 export const updateAdminUserHandler = middyfyWithAdminAuth(async (event: APIGatewayProxyEvent) => {
   const adminUserId = event.pathParameters?.id
-  const eventBodyJson = JSON.parse(event.body ?? '{}') as unknown
-  const parseResult = updateAdminUserSchema.safeParse(eventBodyJson)
+  const parseResult = updateAdminUserSchema.safeParse(event.body ?? '{}')
   if (adminUserId == null) {
     console.error('updateAdminUserHandler error', 'adminUserId is null')
     return formatJSONUserErrorResponse({ errors: ['adminUserId is null'] })
