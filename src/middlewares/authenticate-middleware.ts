@@ -26,14 +26,3 @@ export const authenticateMIddleware = {
     // handler.context.
   },
 }
-
-// export const middlewareAuthenticate = async (_: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-//   // トークンが有効な場合の処理をここに書く
-//   return {
-//     statusCode: 200,
-//     body: JSON.stringify({ message: 'Authorized access' }),
-//   }
-// }
-
-// // Middyを使用してミドルウェアを適用
-// export const lambdaHandler = middy(handler).use(checkAuthMiddleware).use(httpErrorHandler()) // エラーハンドリングのためのミドルウェア
