@@ -7,7 +7,7 @@ import createHttpError from 'http-errors'
 /**
  * 認証ミドルウェア
  */
-export const authenticateMIddleware = {
+export const adminAuthenticateMiddleware = {
   before: async (handler: middy.Request<APIGatewayProxyEvent, APIGatewayProxyResult, Error, AdminApiContext>) => {
     const event = handler.event
 
