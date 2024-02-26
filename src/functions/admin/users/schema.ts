@@ -1,4 +1,4 @@
-export const createAdminUserSchema = {
+export const createAdminUserJsonSchema = {
   type: 'object',
   properties: {
     name: { type: 'string' },
@@ -8,7 +8,7 @@ export const createAdminUserSchema = {
   required: ['name', 'loginId', 'password'],
 } as const
 
-export const updateAdminUserSchema = {
+export const updateAdminUserJsonSchema = {
   type: 'object',
   properties: {
     name: { type: 'string' },

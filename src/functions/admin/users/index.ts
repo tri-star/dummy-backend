@@ -1,7 +1,7 @@
 import type { AWS } from '@serverless/typescript'
 import { handlerPath } from '@libs/handler-resolver'
 import { corsSettings } from '@functions/cors'
-import { createAdminUserSchema } from './schema'
+import { createAdminUserJsonSchema, updateAdminUserJsonSchema } from './schema'
 
 export const rules: AWS['functions'] = {
   createAdminUserNoAuthHandler: {
@@ -22,7 +22,7 @@ export const rules: AWS['functions'] = {
           request: {
             schemas: {
               'application/json': {
-                schema: createAdminUserSchema,
+                schema: createAdminUserJsonSchema,
               },
             },
           },
@@ -42,6 +42,30 @@ export const rules: AWS['functions'] = {
             parameters: {
               querystrings: {
                 loginId: true,
+              },
+            },
+          },
+          cors: corsSettings,
+        },
+      },
+    ],
+  },
+  updateAdminUserHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/update-admin-user-handler.updateAdminUserHandler`,
+    events: [
+      {
+        http: {
+          method: 'put',
+          path: 'admin/users/{id}',
+          request: {
+            parameters: {
+              paths: {
+                id: true,
+              },
+            },
+            schemas: {
+              'application/json': {
+                schema: updateAdminUserJsonSchema,
               },
             },
           },
