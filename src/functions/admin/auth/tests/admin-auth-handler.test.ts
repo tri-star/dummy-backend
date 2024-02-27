@@ -36,7 +36,7 @@ describe('admin-auth-handler.test', () => {
       expect(body.token).toHaveLength(30)
     })
 
-    test('認証に失敗した場合403レスポンスが返ること', async () => {
+    test('認証に失敗した場合401レスポンスが返ること', async () => {
       const adminUserId = ulid()
       const password = 'testtest'
       const wrongPassword = 'wrongPassword'
@@ -57,7 +57,7 @@ describe('admin-auth-handler.test', () => {
 
       const { statusCode, body } = parseHandlerJsonResponse<{ token: string }>(result)
       expect(body.token).toBeUndefined()
-      expect(statusCode).toBe(403)
+      expect(statusCode).toBe(401)
     })
   })
 })

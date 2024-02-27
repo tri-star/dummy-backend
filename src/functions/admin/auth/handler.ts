@@ -22,12 +22,12 @@ export const adminLoginHandler = middyfy(async (event: APIGatewayProxyEvent) => 
 
     const user = await fetchAdminUserForAuth(loginId)
     if (user === undefined) {
-      return formatJSONResponse({ error: 'ログインに失敗しました' }, 403)
+      return formatJSONResponse({ error: 'ログインに失敗しました' }, 401)
     }
 
     const hashedPassword = user.password
     if (hashedPassword !== createAdminPasswordHash(password, user.id)) {
-      return formatJSONResponse({ error: 'ログインに失敗しました' }, 403)
+      return formatJSONResponse({ error: 'ログインに失敗しました' }, 401)
     }
 
     const token = await generateAdminToken(user.id)

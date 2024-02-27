@@ -24,13 +24,13 @@ export const loginHandler = middyfy(async (event: APIGatewayProxyEvent) => {
     const user = await fetchUserForAuth(loginId)
     console.log(user)
     if (user === undefined) {
-      return formatJSONResponse({ error: 'ログインに失敗しました' }, 403)
+      return formatJSONResponse({ error: 'ログインに失敗しました' }, 401)
     }
 
     const hashedPassword = user.password
     console.log(hashedPassword, createPasswordHash(password, user.id))
     if (hashedPassword !== createPasswordHash(password, user.id)) {
-      return formatJSONResponse({ error: 'ログインに失敗しました' }, 403)
+      return formatJSONResponse({ error: 'ログインに失敗しました' }, 401)
     }
 
     const token = await generateToken(user.id)
