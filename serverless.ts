@@ -2,6 +2,8 @@ import type { AWS } from '@serverless/typescript'
 
 import adminUserHandler from '@functions/admin/users'
 import adminAuthHandler from '@functions/admin/auth'
+import authHandler from '@functions/auth'
+import userHandler from '@functions/users'
 
 const serverlessConfiguration: AWS = {
   service: 'dummy-backend',
@@ -56,6 +58,8 @@ const serverlessConfiguration: AWS = {
   functions: {
     ...adminAuthHandler,
     ...adminUserHandler,
+    ...authHandler,
+    ...userHandler,
   },
   package: { individually: true },
   custom: {
