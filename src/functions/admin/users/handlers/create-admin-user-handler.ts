@@ -1,5 +1,5 @@
 import { formatJSONResponse, formatJSONUserErrorResponse } from '@libs/api-gateway'
-import { createAdminUser } from '@/domain/admin-users/api/admin-user-api'
+import { createAdminUser } from '@/domain/admin-users/api/create-admin-user'
 import { createAdminPasswordHash, createAdminUserSchema } from '@/domain/admin-users/admin-user'
 import { ulid } from 'ulid'
 import { middyfyWithAdminAuth } from '@libs/lambda'

@@ -1,5 +1,6 @@
 import { createAdminPasswordHash } from '@/domain/admin-users/admin-user'
-import { fetchAdminUserForAuth, generateAdminToken } from '@/domain/admin-users/api/admin-user-api'
+import { fetchAdminUserForAuth } from '@/domain/admin-users/api/fetch-admin-user-for-auth'
+import { generateAdminToken } from '@/domain/admin-users/api/generate-admin-token'
 import { formatJSONResponse, formatJSONUserErrorResponse } from '@libs/api-gateway'
 import { middyfy } from '@libs/lambda'
 import { type APIGatewayProxyEvent } from 'aws-lambda'

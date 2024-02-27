@@ -1,5 +1,5 @@
 import { createAdminPasswordHash } from '@/domain/admin-users/admin-user'
-import { createAdminUser } from '@/domain/admin-users/api/admin-user-api'
+import { createAdminUser } from '@/domain/admin-users/api/create-admin-user'
 import { ulid } from 'ulid'
 
 export async function prepareAdminUser(attributes: { adminUserId?: string; loginId?: string; password?: string }) {
