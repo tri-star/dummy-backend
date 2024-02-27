@@ -4,18 +4,25 @@ import { createUserSchema } from './schema'
 import { corsSettings } from '@functions/cors'
 
 export const rules: AWS['functions'] = {
-  // listUsersHandler: {
-  //   handler: `${handlerPath(__dirname)}/handler.listUsersHandler`,
-  //   events: [
-  //     {
-  //       http: {
-  //         method: 'get',
-  //         path: 'users',
-  //         cors: corsSettings,
-  //       },
-  //     },
-  //   ],
-  // },
+  listUsersHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/list-users-handler.listUsersHandler`,
+    events: [
+      {
+        http: {
+          method: 'get',
+          path: 'users',
+          request: {
+            parameters: {
+              querystrings: {
+                loginId: true,
+              },
+            },
+          },
+          cors: corsSettings,
+        },
+      },
+    ],
+  },
   // fetchUserHandler: {
   //   handler: `${handlerPath(__dirname)}/handler.fetchUserHandler`,
   //   events: [

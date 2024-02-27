@@ -1,5 +1,5 @@
 import { supabase } from '@libs/supabase/api-client'
-import { type User, dbUserSchema, type UpdateUser, type CreateUser, type UserDetail, dbUserDetailSchema } from '../user'
+import { type User, type UpdateUser, type CreateUser, type UserDetail, dbUserDetailSchema } from '../user'
 import dayjs from 'dayjs'
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 import { NotFoundError } from '@/errors/not-found'
@@ -7,47 +7,6 @@ import { NotFoundError } from '@/errors/not-found'
 export type UserListResponse = {
   data: User[]
   count: number
-}
-
-/**
- * ユーザー一覧を取得する
- */
-export async function fetchUsers(): Promise<UserListResponse> {
-  const segment = createSegment('Supabase')
-
-  const users = await traceAsync<User[]>(segment, 'query', async () => {
-    const dbUserList = await supabase.from('users').select('*')
-
-    if (dbUserList.error != null) {
-      throw new Error(JSON.stringify(dbUserList.error))
-    }
-
-    const users: User[] =
-      dbUserList.data
-        ?.map((dbUserJson) => {
-          const parseResult = dbUserSchema.safeParse(dbUserJson)
-          if (!parseResult.success) {
-            console.error(parseResult.error.errors)
-            return undefined
-          }
-          return {
-            id: parseResult.data.id,
-            name: parseResult.data.name,
-            email: parseResult.data.email,
-            // companyId: parseResult.data.company_id,
-            createdAt: dayjs(parseResult.data.created_at).toDate(),
-            updatedAt: dayjs(parseResult.data.updated_at).toDate(),
-          } as User
-        })
-        .filter((user): user is User => user !== undefined) ?? []
-
-    return users
-  })
-
-  return {
-    data: users,
-    count: users.length,
-  }
 }
 
 /**
