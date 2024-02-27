@@ -1,14 +1,14 @@
 import { formatJSONResponse, formatJSONUserErrorResponse } from '@libs/api-gateway'
 import { ulid } from 'ulid'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
-import { middyfyWithAuth } from '@libs/lambda'
+import { middyfy } from '@libs/lambda'
 import { createPasswordHash, createUserSchema } from '@/domain/users/user'
 import { createUser } from '@/domain/users/api/user-api'
 
 /**
  * 登録
  */
-export const createUserHandler = middyfyWithAuth(async (event: APIGatewayProxyEvent) => {
+export const createUserHandler = middyfy(async (event: APIGatewayProxyEvent) => {
   const parseResult = createUserSchema.safeParse(event.body ?? '{}')
   if (!parseResult.success) {
     console.error('createUserHandler error', parseResult.error.errors)
