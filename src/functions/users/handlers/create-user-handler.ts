@@ -3,7 +3,7 @@ import { ulid } from 'ulid'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
 import { middyfy } from '@libs/lambda'
 import { createPasswordHash, createUserSchema } from '@/domain/users/user'
-import { createUser } from '@/domain/users/api/user-api'
+import { createUser } from '@/domain/users/api/create-user'
 
 /**
  * 登録
