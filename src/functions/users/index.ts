@@ -23,25 +23,25 @@ export const rules: AWS['functions'] = {
       },
     ],
   },
-  // fetchUserHandler: {
-  //   handler: `${handlerPath(__dirname)}/handler.fetchUserHandler`,
-  //   events: [
-  //     {
-  //       http: {
-  //         method: 'get',
-  //         path: 'users/{id}',
-  //         cors: corsSettings,
-  //         request: {
-  //           parameters: {
-  //             paths: {
-  //               id: true,
-  //             },
-  //           },
-  //         },
-  //       },
-  //     },
-  //   ],
-  // },
+  fetchUserHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/fetch-user-handler.fetchUserHandler`,
+    events: [
+      {
+        http: {
+          method: 'get',
+          path: 'users/{id}',
+          cors: corsSettings,
+          request: {
+            parameters: {
+              paths: {
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    ],
+  },
   createUserHandler: {
     handler: `${handlerPath(__dirname)}/handlers/create-user-handler.createUserHandler`,
     events: [
