@@ -66,7 +66,7 @@ export const rules: AWS['functions'] = {
     events: [
       {
         http: {
-          method: 'patch',
+          method: 'put',
           path: 'users/{id}',
           request: {
             parameters: {
@@ -85,25 +85,25 @@ export const rules: AWS['functions'] = {
       },
     ],
   },
-  // deleteUserHandler: {
-  //   handler: `${handlerPath(__dirname)}/handler.deleteUserHandler`,
-  //   events: [
-  //     {
-  //       http: {
-  //         method: 'delete',
-  //         path: 'user/{id}',
-  //         request: {
-  //           parameters: {
-  //             paths: {
-  //               id: true,
-  //             },
-  //           },
-  //         },
-  //         cors: corsSettings,
-  //       },
-  //     },
-  //   ],
-  // },
+  deleteUserHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/delete-user-handler.deleteUserHandler`,
+    events: [
+      {
+        http: {
+          method: 'delete',
+          path: 'users/{id}',
+          request: {
+            parameters: {
+              paths: {
+                id: true,
+              },
+            },
+          },
+          cors: corsSettings,
+        },
+      },
+    ],
+  },
 }
 
 export default rules
