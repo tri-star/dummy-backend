@@ -31,6 +31,25 @@ export const rules: AWS['functions'] = {
       },
     ],
   },
+  fetchAdminUserHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/fetch-admin-user-handler.fetchAdminUserHandler`,
+    events: [
+      {
+        http: {
+          method: 'get',
+          path: 'admin/users/{id}',
+          cors: corsSettings,
+          request: {
+            parameters: {
+              paths: {
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    ],
+  },
   listAdminUsersHandler: {
     handler: `${handlerPath(__dirname)}/handlers/list-admin-users-handler.listAdminUsersHandler`,
     events: [
