@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript'
 import { handlerPath } from '@libs/handler-resolver'
-import { createUserSchema } from './schema'
+import { createUserSchema, updateUserSchema } from './schema'
 import { corsSettings } from '@functions/cors'
 
 export const rules: AWS['functions'] = {
@@ -61,30 +61,30 @@ export const rules: AWS['functions'] = {
       },
     ],
   },
-  // updateUserHandler: {
-  //   handler: `${handlerPath(__dirname)}/handler.updateUserHandler`,
-  //   events: [
-  //     {
-  //       http: {
-  //         method: 'patch',
-  //         path: 'users/{id}',
-  //         request: {
-  //           parameters: {
-  //             paths: {
-  //               id: true,
-  //             },
-  //           },
-  //           schemas: {
-  //             'application/json': {
-  //               schema: updateUserSchema,
-  //             },
-  //           },
-  //         },
-  //         cors: corsSettings,
-  //       },
-  //     },
-  //   ],
-  // },
+  updateUserHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/update-user-handler.updateUserHandler`,
+    events: [
+      {
+        http: {
+          method: 'patch',
+          path: 'users/{id}',
+          request: {
+            parameters: {
+              paths: {
+                id: true,
+              },
+            },
+            schemas: {
+              'application/json': {
+                schema: updateUserSchema,
+              },
+            },
+          },
+          cors: corsSettings,
+        },
+      },
+    ],
+  },
   // deleteUserHandler: {
   //   handler: `${handlerPath(__dirname)}/handler.deleteUserHandler`,
   //   events: [

@@ -1,4 +1,4 @@
-import { createUser } from '@/domain/users/api/user-api'
+import { createUser } from '@/domain/users/api/create-user'
 import { createPasswordHash } from '@/domain/users/user'
 import { ulid } from 'ulid'
 
