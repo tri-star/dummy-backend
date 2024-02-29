@@ -1,10 +1,11 @@
 import { supabase } from '@libs/supabase/api-client'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
-import { type APIGatewayProxyEvent, type Context } from 'aws-lambda'
+import { type APIGatewayProxyEvent } from 'aws-lambda'
 import { parseHandlerJsonResponse } from '@/utils/jest'
 import { prepareUser, prepareUsers } from '@libs/jest/user-utils'
 import { prepareUserToken } from '@libs/jest/auth-utils'
 import { type ListUsersResponse, listUsersHandler } from '../list-users-handler'
+import { type AppApiContext } from '@libs/lambda'
 
 describe('listUsersHandler', () => {
   beforeEach(async () => {
@@ -24,12 +25,12 @@ describe('listUsersHandler', () => {
           Authorization: `Bearer ${token}`,
         },
       } as unknown as APIGatewayProxyEvent & VersionedApiGatewayEvent,
-      undefined as unknown as Context,
+      {} as unknown as AppApiContext,
     )
 
     const { statusCode, body } = parseHandlerJsonResponse<ListUsersResponse>(result)
 
     expect(statusCode).toBe(200)
-    expect(body.count).toBe(11)
+    expect(body?.count).toBe(11)
   })
 })

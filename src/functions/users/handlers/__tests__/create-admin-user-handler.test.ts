@@ -1,11 +1,12 @@
 import { supabase } from '@libs/supabase/api-client'
-import { type APIGatewayProxyEvent, type Context } from 'aws-lambda'
+import { type APIGatewayProxyEvent } from 'aws-lambda'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
 import { parseHandlerJsonResponse } from '@/utils/jest'
 import { prepareUser } from '@libs/jest/user-utils'
 import { prepareUserToken } from '@libs/jest/auth-utils'
 import { createUserHandler } from '../create-user-handler'
 import { type User } from '@/domain/users/user'
+import { type AppApiContext } from '@libs/lambda'
 
 describe('createUserhHandler', () => {
   beforeEach(async () => {
@@ -29,11 +30,11 @@ describe('createUserhHandler', () => {
           email: 'test@example.com',
         },
       } as unknown as APIGatewayProxyEvent & VersionedApiGatewayEvent,
-      undefined as unknown as Context,
+      undefined as unknown as AppApiContext,
     )
     const { statusCode, body } = parseHandlerJsonResponse<{ data: User }>(result)
 
     expect(statusCode).toBe(200)
-    expect(body.data.name).toBe('test')
+    expect(body?.data.name).toBe('test')
   })
 })

@@ -27,7 +27,7 @@ describe('FetcAdminUser', () => {
 
     const { statusCode, body } = parseHandlerJsonResponse<{ success: boolean; data: User }>(response)
     expect(statusCode).toBe(200)
-    expect(body.data.id).toBe(user.id)
-    expect(body.success).toBe(true)
+    expect(body?.data.id).toBe(user.id)
+    expect(body?.success).toBe(true)
   })
 })

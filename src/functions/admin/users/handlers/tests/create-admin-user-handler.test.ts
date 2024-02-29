@@ -33,6 +33,6 @@ describe('createAdminUserhHandler', () => {
     const { statusCode, body } = parseHandlerJsonResponse<{ data: AdminUser }>(result)
 
     expect(statusCode).toBe(200)
-    expect(body.data.name).toBe('test')
+    expect(body?.data.name).toBe('test')
   })
 })

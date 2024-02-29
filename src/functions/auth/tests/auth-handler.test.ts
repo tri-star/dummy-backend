@@ -33,7 +33,7 @@ describe('auth-handler', () => {
 
       const { statusCode, body } = parseHandlerJsonResponse<{ token: string }>(result)
       expect(statusCode).toBe(200)
-      expect(body.token).toHaveLength(30)
+      expect(body?.token).toHaveLength(30)
     })
 
     test('認証に失敗した場合401レスポンスが返ること', async () => {
@@ -56,7 +56,7 @@ describe('auth-handler', () => {
       )
 
       const { statusCode, body } = parseHandlerJsonResponse<{ token: string }>(result)
-      expect(body.token).toBeUndefined()
+      expect(body?.token).toBeUndefined()
       expect(statusCode).toBe(401)
     })
   })

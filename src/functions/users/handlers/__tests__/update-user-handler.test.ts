@@ -1,11 +1,12 @@
 import { supabase } from '@libs/supabase/api-client'
-import { type APIGatewayProxyEvent, type Context } from 'aws-lambda'
+import { type APIGatewayProxyEvent } from 'aws-lambda'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
 import { parseHandlerJsonResponse } from '@/utils/jest'
 import { type AdminUser } from '@/domain/admin-users/admin-user'
 import { prepareUser } from '@libs/jest/user-utils'
 import { prepareUserToken } from '@libs/jest/auth-utils'
 import { updateUserHandler } from '../update-user-handler'
+import { type AppApiContext } from '@libs/lambda'
 
 describe('updateUserhHandler', () => {
   beforeEach(async () => {
@@ -34,7 +35,7 @@ describe('updateUserhHandler', () => {
           email: 'test@example.com',
         },
       } as unknown as APIGatewayProxyEvent & VersionedApiGatewayEvent,
-      undefined as unknown as Context,
+      undefined as unknown as AppApiContext,
     )
     const { statusCode } = parseHandlerJsonResponse<{ data: AdminUser }>(result)
 
