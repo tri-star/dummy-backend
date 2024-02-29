@@ -1,7 +1,8 @@
-import { formatJSONResponse, formatJSONUserErrorResponse } from '@libs/api-gateway'
+import { formatJSONResponse } from '@libs/api-gateway'
 import { middyfyWithAdminAuth } from '@libs/lambda'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
 import { deleteAdminUser } from '@/domain/admin-users/api/delete-admin-user'
+import createHttpError from 'http-errors'
 
 /**
  * 削除
@@ -9,15 +10,9 @@ import { deleteAdminUser } from '@/domain/admin-users/api/delete-admin-user'
 export const deleteAdminUserHandler = middyfyWithAdminAuth(async (event: APIGatewayProxyEvent) => {
   const adminUserId = event.pathParameters?.id
   if (adminUserId == null) {
-    console.error('deleteAdminUserHandler error', 'adminUserId is null')
-    return formatJSONUserErrorResponse({ errors: ['adminUserId is null'] })
+    throw new createHttpError.BadRequest()
   }
 
-  try {
-    await deleteAdminUser(adminUserId)
-    return formatJSONResponse({})
-  } catch (e) {
-    console.error('deleteAdminUserHandler error', e)
-    return formatJSONUserErrorResponse({ errors: ['ユーザー削除に失敗しました'] })
-  }
+  await deleteAdminUser(adminUserId)
+  return formatJSONResponse({})
 })
