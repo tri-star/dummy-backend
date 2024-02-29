@@ -19,7 +19,7 @@ export type AdminApiContext = {
  * 一般ユーザーAPI内で利用するコンテキスト情報
  */
 export type AppApiContext = {
-  user?: UserDetail
+  user: UserDetail
 } & LambdaContext
 
 export const middyfy = (handler: Parameters<typeof middy>[0]) => {
