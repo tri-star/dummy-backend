@@ -31,4 +31,21 @@ describe('FetchUser', () => {
     expect(body?.data.id).toBe(user.id)
     expect(body?.success).toBe(true)
   })
+
+  test('自分以外のユーザーは取得できないこと', async () => {
+    const user = await prepareUser({})
+    const token = await prepareUserToken(user)
+    const targetUser = await prepareUser({})
+
+    const response = await fetchUserHandler(
+      {
+        pathParameters: { id: targetUser.id },
+        headers: { Authorization: `Bearer ${token}` },
+      } as unknown as APIGatewayProxyEvent & VersionedApiGatewayEvent,
+      {} as AppApiContext,
+    )
+
+    const { statusCode } = parseHandlerJsonResponse<{ success: boolean; data: User }>(response)
+    expect(statusCode).toBe(403)
+  })
 })

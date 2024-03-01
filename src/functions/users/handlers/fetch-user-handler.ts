@@ -1,26 +1,30 @@
 import { fetchUser } from '@/domain/users/api/fetch-user'
-import { BadRequestError } from '@/errors/bad-request'
-import { formatJSONResponse, formatJSONUserErrorResponse } from '@libs/api-gateway'
-import { middyfyWithAuth } from '@libs/lambda'
+import { canFetch } from '@/domain/users/user-policy'
+import { formatJSONResponse } from '@libs/api-gateway'
+import { type AppApiContext, middyfyWithAuth } from '@libs/lambda'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
+import createHttpError from 'http-errors'
 
 /**
  * ユーザー取得
  */
-export const fetchUserHandler = middyfyWithAuth(async (event: APIGatewayProxyEvent) => {
-  try {
-    const userId = event.pathParameters?.id
-    if (userId == null) {
-      throw new BadRequestError('userId is required')
-    }
-
-    const userResponse = await fetchUser(userId)
-    return formatJSONResponse({
-      success: true,
-      data: userResponse,
-    })
-  } catch (e) {
-    console.error(e)
-    return formatJSONUserErrorResponse({ error: e })
+export const fetchUserHandler = middyfyWithAuth(async (event: APIGatewayProxyEvent, context: AppApiContext) => {
+  const userId = event.pathParameters?.id
+  if (userId == null) {
+    throw createHttpError.BadRequest()
   }
+
+  const userResponse = await fetchUser(userId)
+  if (userResponse == null) {
+    throw createHttpError.NotFound()
+  }
+
+  if (!canFetch(context.user, userResponse)) {
+    throw createHttpError.Forbidden()
+  }
+
+  return formatJSONResponse({
+    success: true,
+    data: userResponse,
+  })
 })
