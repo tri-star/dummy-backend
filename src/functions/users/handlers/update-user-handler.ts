@@ -1,35 +1,41 @@
-import { formatJSONResponse, formatJSONUserErrorResponse } from '@libs/api-gateway'
-import { middyfyWithAuth } from '@libs/lambda'
+import { formatJSONResponse } from '@libs/api-gateway'
+import { type AppApiContext, middyfyWithAuth } from '@libs/lambda'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
 import { updateUserSchema } from '@/domain/users/user'
 import { updateUser } from '@/domain/users/api/update-user'
+import createHttpError from 'http-errors'
+import { fetchUser } from '@/domain/users/api/fetch-user'
+import { canUpdate } from '@/domain/users/user-policy'
 
 /**
  * 編集
  */
-export const updateUserHandler = middyfyWithAuth(async (event: APIGatewayProxyEvent) => {
+export const updateUserHandler = middyfyWithAuth(async (event: APIGatewayProxyEvent, context: AppApiContext) => {
   const userId = event.pathParameters?.id
   const parseResult = updateUserSchema.safeParse(event.body ?? '{}')
   if (userId == null) {
-    console.error('updateUserHandler error', 'userId is null')
-    return formatJSONUserErrorResponse({ errors: ['userId is null'] })
+    throw new createHttpError.BadRequest('userId is null')
   }
   if (!parseResult.success) {
-    console.error('updateUserHandler error', parseResult.error.errors)
-    return formatJSONUserErrorResponse({ errors: parseResult.error.errors })
+    console.error(parseResult.error.errors)
+    throw new createHttpError.BadRequest('')
+  }
+
+  const targetUser = await fetchUser(userId)
+  if (targetUser == null) {
+    throw new createHttpError.NotFound()
+  }
+
+  if (!canUpdate(context.user, targetUser)) {
+    throw new createHttpError.Forbidden()
   }
 
   const newData = parseResult.data
 
-  try {
-    await updateUser(userId, {
-      name: newData.name,
-      loginId: newData.loginId,
-      email: newData.email,
-    })
-    return formatJSONResponse({})
-  } catch (e) {
-    console.error('updateUserHandler error', e)
-    return formatJSONUserErrorResponse({ errors: ['ユーザー更新に失敗しました'] })
-  }
+  await updateUser(userId, {
+    name: newData.name,
+    loginId: newData.loginId,
+    email: newData.email,
+  })
+  return formatJSONResponse({})
 })
