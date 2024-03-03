@@ -36,6 +36,7 @@ export const middyfy = (handler: Parameters<typeof middy>[0]) => {
         credentials: false,
       }),
     )
+    .use(httpErrorHandler())
 }
 
 /**

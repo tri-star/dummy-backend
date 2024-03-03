@@ -1,7 +1,8 @@
-import { formatJSONResponse, formatJSONUserErrorResponse } from '@libs/api-gateway'
+import { formatJSONResponse } from '@libs/api-gateway'
 import { createAdminUser } from '@/domain/admin-users/api/create-admin-user'
 import { type CreateAdminUser, createAdminPasswordHash, createAdminUserSchema } from '@/domain/admin-users/admin-user'
 import { ulid } from 'ulid'
+import createHttpError from 'http-errors'
 
 type CreateAdminUserNoAuthPayload = CreateAdminUser
 
@@ -12,22 +13,17 @@ export const createAdminUserNoAuthHandler = async (event: CreateAdminUserNoAuthP
   const parseResult = createAdminUserSchema.safeParse(event)
   if (!parseResult.success) {
     console.error('createAdminUserNoAuthHandler error', parseResult.error.errors)
-    return formatJSONUserErrorResponse({ errors: parseResult.error.errors })
+    throw new createHttpError.BadRequest()
   }
 
   const user = parseResult.data
 
   const userId = ulid()
-  try {
-    const hashedPassword = createAdminPasswordHash(user.password, userId)
-    const createdUser = await createAdminUser(userId, {
-      name: user.name,
-      loginId: user.loginId,
-      password: hashedPassword,
-    })
-    return formatJSONResponse({ data: createdUser })
-  } catch (e) {
-    console.error('createAdminUserNoAuthHandler error', e)
-    return formatJSONUserErrorResponse({ errors: ['ユーザー登録に失敗しました'] })
-  }
+  const hashedPassword = createAdminPasswordHash(user.password, userId)
+  const createdUser = await createAdminUser(userId, {
+    name: user.name,
+    loginId: user.loginId,
+    password: hashedPassword,
+  })
+  return formatJSONResponse({ data: createdUser })
 }
