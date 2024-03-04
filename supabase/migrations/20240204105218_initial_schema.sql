@@ -33,9 +33,9 @@ CREATE TABLE companies (
   address2 TEXT NOT NULL, -- 番地
   address3 TEXT, -- アパート (オプショナル)
   phone TEXT NOT NULL,
-  canUseFeature_a BOOLEAN NOT NULL DEFAULT false,
-  canUseFeature_b BOOLEAN NOT NULL DEFAULT false,
-  canUseFeature_c BOOLEAN NOT NULL DEFAULT false,
+  can_use_feature_a BOOLEAN NOT NULL DEFAULT false,
+  can_use_feature_b BOOLEAN NOT NULL DEFAULT false,
+  can_use_feature_c BOOLEAN NOT NULL DEFAULT false,
   created_at TIMESTAMP WITH TIME ZONE NOT NULL,
   updated_at TIMESTAMP WITH TIME ZONE NOT NULL
 );
