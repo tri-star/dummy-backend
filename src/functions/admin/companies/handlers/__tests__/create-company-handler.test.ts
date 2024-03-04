@@ -11,6 +11,7 @@ describe('createCompanyHandler', () => {
   beforeEach(async () => {
     await supabase.from('admin_tokens').delete().neq('id', '')
     await supabase.from('admin_users').delete().neq('id', '')
+    await supabase.from('companies').delete().neq('id', '')
   })
 
   test('登録処理が成功すること', async () => {

@@ -1,60 +1,6 @@
-import { dbCompanySchema, type Company, type UpdateCompany } from '@/domain/company/company'
+import { type UpdateCompany } from '@/domain/company/company'
 import { supabase } from '@libs/supabase/api-client'
 import { createSegment, traceAsync } from '@libs/xray-tracer'
-import dayjs from 'dayjs'
-
-export type CompanyListResponse = {
-  data: Company[]
-  count: number
-}
-
-/**
- * 会社一覧を取得する
- */
-export async function fetchCompanies(): Promise<CompanyListResponse> {
-  const segment = createSegment('Supabase')
-
-  const companies = await traceAsync<Company[]>(segment, 'query', async () => {
-    const dbCompanyList = await supabase.from('companies').select('*')
-
-    if (dbCompanyList.error != null) {
-      throw new Error(JSON.stringify(dbCompanyList.error))
-    }
-
-    const companies: Company[] =
-      dbCompanyList.data
-        ?.map((dbCompanyJson) => {
-          const parseResult = dbCompanySchema.safeParse(dbCompanyJson)
-          if (!parseResult.success) {
-            console.error(parseResult.error.errors)
-            return undefined
-          }
-          return {
-            id: parseResult.data.id,
-            name: parseResult.data.name,
-            postalCode: parseResult.data.postal_code,
-            prefecture: parseResult.data.prefecture,
-            address1: parseResult.data.address1,
-            address2: parseResult.data.address2,
-            address3: parseResult.data.address3,
-            phone: parseResult.data.phone,
-            canUseFeatureA: parseResult.data.can_use_feature_a,
-            canUseFeatureB: parseResult.data.can_use_feature_b,
-            canUseFeatureC: parseResult.data.can_use_feature_c,
-            createdAt: dayjs(parseResult.data.created_at).toDate(),
-            updatedAt: dayjs(parseResult.data.updated_at).toDate(),
-          } as Company
-        })
-        .filter((company): company is Company => company !== undefined) ?? []
-
-    return companies
-  })
-
-  return {
-    data: companies,
-    count: companies.length,
-  }
-}
 
 /**
  * 会社の更新

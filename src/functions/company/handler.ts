@@ -1,23 +1,8 @@
-import { deleteCompany, fetchCompanies, updateCompany } from '@/domain/company/api/company-api'
+import { deleteCompany, updateCompany } from '@/domain/company/api/company-api'
 import { updateCompanySchema } from '@/domain/company/company'
 import { formatJSONResponse, formatJSONUserErrorResponse } from '@libs/api-gateway'
 import { middyfy } from '@libs/lambda'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
-
-/**
- * 一覧
- */
-export const listCompaniesHandler = middyfy(async () => {
-  try {
-    const companies = await fetchCompanies()
-    return formatJSONResponse({
-      data: companies.data,
-      count: companies.count,
-    })
-  } catch (e) {
-    return formatJSONUserErrorResponse({ error: e })
-  }
-})
 
 export const updateCompanyHandler = middyfy(async (event: APIGatewayProxyEvent) => {
   const companyId = event.pathParameters?.id
