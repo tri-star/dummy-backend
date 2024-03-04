@@ -1,18 +1,21 @@
+import { fetchAdminUser } from '@/domain/admin-users/api/fetch-admin-user'
 import { formatJSONResponse } from '@libs/api-gateway'
 import { middyfyWithAdminAuth } from '@libs/lambda'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
-import { deleteAdminUser } from '@/domain/admin-users/api/delete-admin-user'
 import createHttpError from 'http-errors'
 
 /**
- * 削除
+ * ユーザー取得
  */
-export const deleteAdminUserHandler = middyfyWithAdminAuth(async (event: APIGatewayProxyEvent) => {
+export const fetchAdminUserHandler = middyfyWithAdminAuth(async (event: APIGatewayProxyEvent) => {
   const adminUserId = event.pathParameters?.id
   if (adminUserId == null) {
     throw new createHttpError.BadRequest()
   }
 
-  await deleteAdminUser(adminUserId)
-  return formatJSONResponse({})
+  const userResponse = await fetchAdminUser(adminUserId)
+  return formatJSONResponse({
+    success: true,
+    data: userResponse,
+  })
 })

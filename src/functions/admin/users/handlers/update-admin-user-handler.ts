@@ -1,8 +1,9 @@
-import { formatJSONResponse, formatJSONUserErrorResponse } from '@libs/api-gateway'
+import { formatJSONResponse } from '@libs/api-gateway'
 import { updateAdminUserSchema } from '@/domain/admin-users/admin-user'
 import { middyfyWithAdminAuth } from '@libs/lambda'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
 import { updateAdminUser } from '@/domain/admin-users/api/update-admin-user'
+import createHttpError from 'http-errors'
 
 /**
  * 編集
@@ -11,24 +12,18 @@ export const updateAdminUserHandler = middyfyWithAdminAuth(async (event: APIGate
   const adminUserId = event.pathParameters?.id
   const parseResult = updateAdminUserSchema.safeParse(event.body ?? '{}')
   if (adminUserId == null) {
-    console.error('updateAdminUserHandler error', 'adminUserId is null')
-    return formatJSONUserErrorResponse({ errors: ['adminUserId is null'] })
+    throw new createHttpError.BadRequest('idが指定されていません')
   }
   if (!parseResult.success) {
     console.error('updateAdminUserHandler error', parseResult.error.errors)
-    return formatJSONUserErrorResponse({ errors: parseResult.error.errors })
+    throw new createHttpError.BadRequest()
   }
 
   const newData = parseResult.data
 
-  try {
-    await updateAdminUser(adminUserId, {
-      name: newData.name,
-      loginId: newData.loginId,
-    })
-    return formatJSONResponse({})
-  } catch (e) {
-    console.error('updateAdminUserHandler error', e)
-    return formatJSONUserErrorResponse({ errors: ['ユーザー更新に失敗しました'] })
-  }
+  await updateAdminUser(adminUserId, {
+    name: newData.name,
+    loginId: newData.loginId,
+  })
+  return formatJSONResponse({})
 })

@@ -5,19 +5,26 @@ import { corsSettings } from '@functions/cors'
 
 export const rules: AWS['functions'] = {
   listUsersHandler: {
-    handler: `${handlerPath(__dirname)}/handler.listUsersHandler`,
+    handler: `${handlerPath(__dirname)}/handlers/list-users-handler.listUsersHandler`,
     events: [
       {
         http: {
           method: 'get',
           path: 'users',
+          request: {
+            parameters: {
+              querystrings: {
+                loginId: true,
+              },
+            },
+          },
           cors: corsSettings,
         },
       },
     ],
   },
   fetchUserHandler: {
-    handler: `${handlerPath(__dirname)}/handler.fetchUserHandler`,
+    handler: `${handlerPath(__dirname)}/handlers/fetch-user-handler.fetchUserHandler`,
     events: [
       {
         http: {
@@ -36,7 +43,7 @@ export const rules: AWS['functions'] = {
     ],
   },
   createUserHandler: {
-    handler: `${handlerPath(__dirname)}/handler.createUserHandler`,
+    handler: `${handlerPath(__dirname)}/handlers/create-user-handler.createUserHandler`,
     events: [
       {
         http: {
@@ -55,11 +62,11 @@ export const rules: AWS['functions'] = {
     ],
   },
   updateUserHandler: {
-    handler: `${handlerPath(__dirname)}/handler.updateUserHandler`,
+    handler: `${handlerPath(__dirname)}/handlers/update-user-handler.updateUserHandler`,
     events: [
       {
         http: {
-          method: 'patch',
+          method: 'put',
           path: 'users/{id}',
           request: {
             parameters: {
@@ -79,12 +86,12 @@ export const rules: AWS['functions'] = {
     ],
   },
   deleteUserHandler: {
-    handler: `${handlerPath(__dirname)}/handler.deleteUserHandler`,
+    handler: `${handlerPath(__dirname)}/handlers/delete-user-handler.deleteUserHandler`,
     events: [
       {
         http: {
           method: 'delete',
-          path: 'user/{id}',
+          path: 'users/{id}',
           request: {
             parameters: {
               paths: {

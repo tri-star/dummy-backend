@@ -68,7 +68,7 @@ create table tokens (
   updated_at timestamp with time zone not null default now()
 );
 
-CREATE INDEX idx_tokens_admin_user_id ON tokens (user_id);
+CREATE INDEX idx_tokens_user_id ON tokens (user_id);
 CREATE INDEX idx_tokens_token ON tokens (token);
 CREATE INDEX idx_tokens_updated_at ON tokens (updated_at);
 
@@ -78,13 +78,13 @@ create table users (
   email text not null,
   login_id text not null,
   password text not null,
-  company_id varchar(26) not null,
+  -- company_id varchar(26) not null,
   created_at timestamp with time zone not null default now(),
   updated_at timestamp with time zone not null default now()
 );
 
 ALTER TABLE tokens ADD CONSTRAINT fk_tokens_user_id FOREIGN KEY (user_id) REFERENCES users (id);
-ALTER TABLE users ADD CONSTRAINT fk_users_company_id FOREIGN KEY (company_id) REFERENCES companies (id);
+-- ALTER TABLE users ADD CONSTRAINT fk_users_company_id FOREIGN KEY (company_id) REFERENCES companies (id);
 CREATE INDEX idx_users_login_id ON users (login_id);
 CREATE INDEX idx_users_name ON users (name);
 CREATE INDEX idx_users_email ON users (email);

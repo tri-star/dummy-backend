@@ -1,5 +1,5 @@
-import { fetchUserByToken } from '@/domain/users/api/fetch-user-by-token'
-import { type AppApiContext } from '@libs/lambda'
+import { fetchAdminUserByToken } from '@/domain/admin-users/api/fetch-admin-user-by-token'
+import { type AdminApiContext } from '@libs/lambda'
 import type middy from '@middy/core'
 import { type APIGatewayProxyEvent, type APIGatewayProxyResult } from 'aws-lambda'
 import createHttpError from 'http-errors'
@@ -7,8 +7,8 @@ import createHttpError from 'http-errors'
 /**
  * 認証ミドルウェア
  */
-export const authenticateMiddleware = {
-  before: async (handler: middy.Request<APIGatewayProxyEvent, APIGatewayProxyResult, Error, AppApiContext>) => {
+export const adminAuthenticateMiddleware = {
+  before: async (handler: middy.Request<APIGatewayProxyEvent, APIGatewayProxyResult, Error, AdminApiContext>) => {
     const event = handler.event
 
     const authHeader = event.headers.Authorization || event.headers.authorization
@@ -19,10 +19,10 @@ export const authenticateMiddleware = {
 
     const match = authHeader.match(/^Bearer (.*)$/)
     const token = match?.[1] ?? ''
-    const user = await fetchUserByToken(token)
-    if (user == null) {
+    const adminUser = await fetchAdminUserByToken(token)
+    if (adminUser == null) {
       throw new createHttpError.Unauthorized('Invalid token')
     }
-    handler.context.user = user
+    // handler.context.
   },
 }

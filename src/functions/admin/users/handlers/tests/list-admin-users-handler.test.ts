@@ -33,6 +33,6 @@ describe('listAdminUsersHandler', () => {
     const { statusCode, body } = parseHandlerJsonResponse<ListAdminUsersResponse>(result)
 
     expect(statusCode).toBe(200)
-    expect(body.count).toBe(11)
+    expect(body?.count).toBe(11)
   })
 })

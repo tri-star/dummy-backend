@@ -1,24 +1,24 @@
 import { supabase } from '@libs/supabase/api-client'
-import { adminLoginHandler } from '../handler'
 import { ulid } from 'ulid'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
 import { type Context } from 'aws-lambda'
 import { parseHandlerJsonResponse } from '@/utils/jest'
-import { prepareAdminUser } from '@libs/jest/admin-user-utils'
+import { prepareUser } from '@libs/jest/user-utils'
+import { loginHandler } from '../handler'
 
-describe('admin-auth-handler.test', () => {
+describe('auth-handler', () => {
   beforeEach(async () => {
-    await supabase.from('admin_tokens').delete().neq('id', '')
-    await supabase.from('admin_users').delete().neq('id', '')
+    await supabase.from('tokens').delete().neq('id', '')
+    await supabase.from('users').delete().neq('id', '')
   })
 
-  describe('adminLoginHandler', () => {
+  describe('LoginHandler', () => {
     test('トークン発行が成功すること', async () => {
-      const adminUserId = ulid()
+      const userId = ulid()
       const password = 'testtest'
-      const user = await prepareAdminUser({ adminUserId, password })
+      const user = await prepareUser({ userId, password })
 
-      const result = await adminLoginHandler(
+      const result = await loginHandler(
         {
           headers: {
             'Content-Type': 'application/json',
@@ -37,12 +37,12 @@ describe('admin-auth-handler.test', () => {
     })
 
     test('認証に失敗した場合401レスポンスが返ること', async () => {
-      const adminUserId = ulid()
+      const userId = ulid()
       const password = 'testtest'
       const wrongPassword = 'wrongPassword'
-      const user = await prepareAdminUser({ adminUserId, password })
+      const user = await prepareUser({ userId, password })
 
-      const result = await adminLoginHandler(
+      const result = await loginHandler(
         {
           headers: {
             'Content-Type': 'application/json',
