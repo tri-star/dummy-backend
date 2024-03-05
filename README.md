@@ -17,17 +17,18 @@ Postman などで以下のリクエストを実行
 - Body: {name: 'abc'}
 
 ```bash
-curl --location --request POST 'https://myApiEndpoint/dev/hello' \
+curl --location --request POST 'https://myApiEndpoint/dev/admin/login' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "name": "Frederic"
+    "loginId": "test",
+    "pawssword": "xxxx"
 }'
 ```
 
 ローカルの場合：
 
 ```bash
-npx sls invoke local --stage=local -f hello --path src/functions/hello/mock.json
+serverless invoke local --stage=local -f createAdminUserNoAuthHandler --path src/functions/admin/users/mock.json
 ```
 
 または
@@ -36,10 +37,11 @@ npx sls invoke local --stage=local -f hello --path src/functions/hello/mock.json
 npx supabase start
 serverless offline --stage=local
 
-curl --location --request POST 'https://localhost:3000/dev/hello' \
+curl --location --request POST 'https://localhost:3000/local/admin/login' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "name": "Frederic"
+    "loginId": "test",
+    "pawssword": "xxxx"
 }'
 ```
 

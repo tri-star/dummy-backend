@@ -1,28 +1,47 @@
 import type { AWS } from '@serverless/typescript'
 import { handlerPath } from '@libs/handler-resolver'
-import { createCompanySchema, updateCompanySchema } from '@functions/company/schema'
 import { corsSettings } from '@functions/cors'
+import { createCompanySchema, updateCompanySchema } from '@functions/admin/companies/schema'
 
 export const rules: AWS['functions'] = {
-  listCompaniesHandler: {
-    handler: `${handlerPath(__dirname)}/handler.listCompaniesHandler`,
+  listCompaniesAdminHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/fetch-company-list-admin-handler.fetchCompanyListAdminHandler`,
     events: [
       {
         http: {
           method: 'get',
-          path: 'companies',
+          path: 'admin/companies',
           cors: corsSettings,
         },
       },
     ],
   },
-  createCompanyHandler: {
-    handler: `${handlerPath(__dirname)}/handler.createCompanyHandler`,
+  fetchCompanyAdminHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/fetch-company-admin-handler.fetchCompanyAdminHandler`,
+    events: [
+      {
+        http: {
+          method: 'get',
+          path: 'admin/companies/{id}',
+          cors: corsSettings,
+          request: {
+            parameters: {
+              paths: {
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    ],
+  },
+  createCompanyAdminHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/create-company-admin-handler.createCompanyAdminHandler`,
     events: [
       {
         http: {
           method: 'post',
-          path: 'companies',
+          path: 'admin/companies',
           cors: corsSettings,
           request: {
             schemas: {
@@ -35,13 +54,13 @@ export const rules: AWS['functions'] = {
       },
     ],
   },
-  updateCompanyHandler: {
-    handler: `${handlerPath(__dirname)}/handler.updateCompanyHandler`,
+  updateCompanyAdminHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/update-company-admin-handler.updateCompanyAdminHandler`,
     events: [
       {
         http: {
-          method: 'patch',
-          path: 'companies/{id}',
+          method: 'put',
+          path: 'admin/companies/{id}',
           cors: corsSettings,
           request: {
             parameters: {
@@ -59,13 +78,13 @@ export const rules: AWS['functions'] = {
       },
     ],
   },
-  deleteCompanyHandler: {
-    handler: `${handlerPath(__dirname)}/handler.deleteCompanyHandler`,
+  deleteCompanyAdminHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/delete-company-admin-handler.deleteCompanyAdminHandler`,
     events: [
       {
         http: {
           method: 'delete',
-          path: 'companies/{id}',
+          path: 'admin/companies/{id}',
           cors: corsSettings,
           request: {
             parameters: {
