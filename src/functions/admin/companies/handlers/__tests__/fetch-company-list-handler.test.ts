@@ -7,7 +7,7 @@ import { prepareAdminUserToken } from '@libs/jest/admin-auth-utils'
 import { prepareCompanies } from '@libs/jest/company-utils'
 import {
   type FetchCompanyListResponse,
-  fetchCompanyListHandler,
+  fetchCompanyListAdminHandler,
 } from '@/functions/admin/companies/handlers/fetch-company-list-handler'
 
 describe('fetchCompanyListHandler', () => {
@@ -23,7 +23,7 @@ describe('fetchCompanyListHandler', () => {
 
     await prepareCompanies({ name: '株式会社' }, 10)
 
-    const result = await fetchCompanyListHandler(
+    const result = await fetchCompanyListAdminHandler(
       {
         headers: {
           Authorization: `Bearer ${token}`,

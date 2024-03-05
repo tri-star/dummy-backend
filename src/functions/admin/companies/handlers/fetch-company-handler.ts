@@ -7,7 +7,7 @@ import createHttpError from 'http-errors'
 /**
  * 会社取得
  */
-export const fetchCompanyHandler = middyfyWithAdminAuth(async (event: APIGatewayProxyEvent) => {
+export const fetchCompanyAdminHandler = middyfyWithAdminAuth(async (event: APIGatewayProxyEvent) => {
   const companyId = event.pathParameters?.id
   if (companyId == null) {
     throw new createHttpError.BadRequest()

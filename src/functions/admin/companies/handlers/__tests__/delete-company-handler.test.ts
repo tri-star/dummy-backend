@@ -3,10 +3,10 @@ import { type APIGatewayProxyEvent } from 'aws-lambda'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
 import { parseHandlerJsonResponse } from '@/utils/jest'
 import { type AppApiContext } from '@libs/lambda'
-import { deleteAdminUserHandler } from '@/functions/admin/users/handlers/delete-admin-user-handler'
 import { prepareAdminUserToken } from '@libs/jest/admin-auth-utils'
 import { prepareAdminUser } from '@libs/jest/admin-user-utils'
 import { prepareCompany } from '@libs/jest/company-utils'
+import { deleteCompanyAdminHandler } from '@/functions/admin/companies/handlers/delete-company-handler'
 
 describe('deleteCompanyHandler', () => {
   beforeEach(async () => {
@@ -20,7 +20,7 @@ describe('deleteCompanyHandler', () => {
     const token = await prepareAdminUserToken(adminUser)
     const company = await prepareCompany({})
 
-    const result = await deleteAdminUserHandler(
+    const result = await deleteCompanyAdminHandler(
       {
         headers: {
           Authorization: `Bearer ${token}`,

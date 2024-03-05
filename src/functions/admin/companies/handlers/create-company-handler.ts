@@ -9,7 +9,7 @@ import { createCompany } from '@/domain/company/api/create-company'
 /**
  * 登録
  */
-export const createCompanyHandler = middyfyWithAdminAuth(async (event: APIGatewayProxyEvent) => {
+export const createCompanyAdminHandler = middyfyWithAdminAuth(async (event: APIGatewayProxyEvent) => {
   const parseResult = createCompanySchema.safeParse(event.body ?? '{}')
   if (!parseResult.success) {
     throw new createHttpError.BadRequest()

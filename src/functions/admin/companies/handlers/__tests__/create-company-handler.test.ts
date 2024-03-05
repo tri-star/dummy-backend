@@ -4,7 +4,7 @@ import { prepareAdminUserToken } from '@libs/jest/admin-auth-utils'
 import { type APIGatewayProxyEvent, type Context } from 'aws-lambda'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
 import { parseHandlerJsonResponse } from '@/utils/jest'
-import { createCompanyHandler } from '@/functions/admin/companies/handlers/create-company-handler'
+import { createCompanyAdminHandler } from '@/functions/admin/companies/handlers/create-company-handler'
 import { type Company } from '@/domain/company/company'
 
 describe('createCompanyHandler', () => {
@@ -18,7 +18,7 @@ describe('createCompanyHandler', () => {
     const adminUser = await prepareAdminUser({})
     const token = await prepareAdminUserToken(adminUser)
 
-    const result = await createCompanyHandler(
+    const result = await createCompanyAdminHandler(
       {
         headers: {
           Authorization: `Bearer ${token}`,

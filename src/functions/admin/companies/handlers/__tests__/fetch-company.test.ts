@@ -4,7 +4,7 @@ import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
 import { parseHandlerJsonResponse } from '@/utils/jest'
 import { prepareAdminUser } from '@libs/jest/admin-user-utils'
 import { prepareAdminUserToken } from '@libs/jest/admin-auth-utils'
-import { fetchCompanyHandler } from '@/functions/admin/companies/handlers/fetch-company-handler'
+import { fetchCompanyAdminHandler } from '@/functions/admin/companies/handlers/fetch-company-handler'
 import { prepareCompany } from '@libs/jest/company-utils'
 import { type Company } from '@/domain/company/company'
 
@@ -21,7 +21,7 @@ describe('FetcCompanyHandler', () => {
 
     const company = await prepareCompany({})
 
-    const response = await fetchCompanyHandler(
+    const response = await fetchCompanyAdminHandler(
       {
         pathParameters: { id: company.id },
         headers: { Authorization: `Bearer ${token}` },

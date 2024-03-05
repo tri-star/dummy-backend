@@ -8,7 +8,7 @@ import { updateCompany } from '@/domain/company/api/company-api'
 /**
  * 編集
  */
-export const updateCompanyHandler = middyfyWithAdminAuth(async (event: APIGatewayProxyEvent) => {
+export const updateCompanyAdminHandler = middyfyWithAdminAuth(async (event: APIGatewayProxyEvent) => {
   const companyId = event.pathParameters?.id
   const parseResult = updateCompanySchema.safeParse(event.body ?? '{}')
   if (companyId == null) {

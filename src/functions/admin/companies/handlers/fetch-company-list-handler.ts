@@ -22,7 +22,7 @@ export type FetchCompanyListResponse = z.infer<typeof listCompaniesResponseSchem
 /**
  * 一覧
  */
-export const fetchCompanyListHandler = middyfyWithAdminAuth(async (event: APIGatewayProxyEvent) => {
+export const fetchCompanyListAdminHandler = middyfyWithAdminAuth(async (event: APIGatewayProxyEvent) => {
   const parsed = listCompaniesRequestSchema.safeParse(JSON.parse(event.body ?? '{}'))
   if (!parsed.success) {
     throw new createHttpError.BadRequest()
