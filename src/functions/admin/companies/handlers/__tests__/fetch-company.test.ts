@@ -4,7 +4,7 @@ import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
 import { parseHandlerJsonResponse } from '@/utils/jest'
 import { prepareAdminUser } from '@libs/jest/admin-user-utils'
 import { prepareAdminUserToken } from '@libs/jest/admin-auth-utils'
-import { fetchCompanyAdminHandler } from '@/functions/admin/companies/handlers/fetch-company-handler'
+import { fetchCompanyAdminHandler } from '@/functions/admin/companies/handlers/fetch-company-admin-handler'
 import { prepareCompany } from '@libs/jest/company-utils'
 import { type Company } from '@/domain/company/company'
 

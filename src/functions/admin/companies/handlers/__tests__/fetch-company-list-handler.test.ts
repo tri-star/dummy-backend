@@ -8,7 +8,7 @@ import { prepareCompanies } from '@libs/jest/company-utils'
 import {
   type FetchCompanyListResponse,
   fetchCompanyListAdminHandler,
-} from '@/functions/admin/companies/handlers/fetch-company-list-handler'
+} from '@/functions/admin/companies/handlers/fetch-company-list-admin-handler'
 
 describe('fetchCompanyListHandler', () => {
   beforeEach(async () => {

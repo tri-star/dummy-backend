@@ -5,7 +5,7 @@ import { createCompanySchema, updateCompanySchema } from '@functions/admin/compa
 
 export const rules: AWS['functions'] = {
   listCompaniesHandler: {
-    handler: `${handlerPath(__dirname)}/handlers/fetch-company-list-handler.fetchCompanyListHandler`,
+    handler: `${handlerPath(__dirname)}/handlers/fetch-company-list-admin-handler.fetchCompanyListAdminHandler`,
     events: [
       {
         http: {
@@ -17,7 +17,7 @@ export const rules: AWS['functions'] = {
     ],
   },
   fetchCompanyHandler: {
-    handler: `${handlerPath(__dirname)}/handlers/fetch-company-handler.fetchCompanyHandler`,
+    handler: `${handlerPath(__dirname)}/handlers/fetch-company-admin-handler.fetchCompanyAdminHandler`,
     events: [
       {
         http: {
@@ -36,7 +36,7 @@ export const rules: AWS['functions'] = {
     ],
   },
   createCompanyHandler: {
-    handler: `${handlerPath(__dirname)}/handlers/create-company-handler.createCompanyHandler`,
+    handler: `${handlerPath(__dirname)}/handlers/create-company-admin-handler.createCompanyAdminHandler`,
     events: [
       {
         http: {
@@ -55,7 +55,7 @@ export const rules: AWS['functions'] = {
     ],
   },
   updateCompanyHandler: {
-    handler: `${handlerPath(__dirname)}/handlers/update-company-handler.updateCompanyHandler`,
+    handler: `${handlerPath(__dirname)}/handlers/update-company-admin-handler.updateCompanyAdminHandler`,
     events: [
       {
         http: {
@@ -79,7 +79,7 @@ export const rules: AWS['functions'] = {
     ],
   },
   deleteCompanyHandler: {
-    handler: `${handlerPath(__dirname)}/handlers/delete-company-handler.deleteCompanyHandler`,
+    handler: `${handlerPath(__dirname)}/handlers/delete-company-admin-handler.deleteCompanyAdminHandler`,
     events: [
       {
         http: {

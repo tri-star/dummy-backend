@@ -5,7 +5,7 @@ import { type APIGatewayProxyEvent, type Context } from 'aws-lambda'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
 import { parseHandlerJsonResponse } from '@/utils/jest'
 import { prepareCompany } from '@libs/jest/company-utils'
-import { updateCompanyAdminHandler } from '@/functions/admin/companies/handlers/update-company-handler'
+import { updateCompanyAdminHandler } from '@/functions/admin/companies/handlers/update-company-admin-handler'
 
 describe('updateCompanyHandler', () => {
   beforeEach(async () => {

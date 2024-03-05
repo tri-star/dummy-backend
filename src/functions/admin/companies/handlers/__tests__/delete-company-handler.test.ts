@@ -6,7 +6,7 @@ import { type AppApiContext } from '@libs/lambda'
 import { prepareAdminUserToken } from '@libs/jest/admin-auth-utils'
 import { prepareAdminUser } from '@libs/jest/admin-user-utils'
 import { prepareCompany } from '@libs/jest/company-utils'
-import { deleteCompanyAdminHandler } from '@/functions/admin/companies/handlers/delete-company-handler'
+import { deleteCompanyAdminHandler } from '@/functions/admin/companies/handlers/delete-company-admin-handler'
 
 describe('deleteCompanyHandler', () => {
   beforeEach(async () => {
