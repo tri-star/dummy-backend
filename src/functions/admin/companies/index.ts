@@ -4,7 +4,7 @@ import { corsSettings } from '@functions/cors'
 import { createCompanySchema, updateCompanySchema } from '@functions/admin/companies/schema'
 
 export const rules: AWS['functions'] = {
-  listCompaniesHandler: {
+  listCompaniesAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/fetch-company-list-admin-handler.fetchCompanyListAdminHandler`,
     events: [
       {
@@ -16,7 +16,7 @@ export const rules: AWS['functions'] = {
       },
     ],
   },
-  fetchCompanyHandler: {
+  fetchCompanyAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/fetch-company-admin-handler.fetchCompanyAdminHandler`,
     events: [
       {
@@ -35,7 +35,7 @@ export const rules: AWS['functions'] = {
       },
     ],
   },
-  createCompanyHandler: {
+  createCompanyAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/create-company-admin-handler.createCompanyAdminHandler`,
     events: [
       {
@@ -54,7 +54,7 @@ export const rules: AWS['functions'] = {
       },
     ],
   },
-  updateCompanyHandler: {
+  updateCompanyAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/update-company-admin-handler.updateCompanyAdminHandler`,
     events: [
       {
@@ -78,7 +78,7 @@ export const rules: AWS['functions'] = {
       },
     ],
   },
-  deleteCompanyHandler: {
+  deleteCompanyAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/delete-company-admin-handler.deleteCompanyAdminHandler`,
     events: [
       {
