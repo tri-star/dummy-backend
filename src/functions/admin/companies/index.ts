@@ -16,6 +16,25 @@ export const rules: AWS['functions'] = {
       },
     ],
   },
+  fetchCompanyHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/fetch-company-handler.fetchCompanyHandler`,
+    events: [
+      {
+        http: {
+          method: 'get',
+          path: 'admin/companies/{id}',
+          cors: corsSettings,
+          request: {
+            parameters: {
+              paths: {
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    ],
+  },
   createCompanyHandler: {
     handler: `${handlerPath(__dirname)}/handlers/create-company-handler.createCompanyHandler`,
     events: [
