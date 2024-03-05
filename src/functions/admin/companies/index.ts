@@ -78,25 +78,25 @@ export const rules: AWS['functions'] = {
       },
     ],
   },
-  // deleteCompanyHandler: {
-  //   handler: `${handlerPath(__dirname)}/handler.deleteCompanyHandler`,
-  //   events: [
-  //     {
-  //       http: {
-  //         method: 'delete',
-  //         path: 'companies/{id}',
-  //         cors: corsSettings,
-  //         request: {
-  //           parameters: {
-  //             paths: {
-  //               id: true,
-  //             },
-  //           },
-  //         },
-  //       },
-  //     },
-  //   ],
-  // },
+  deleteCompanyHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/delete-company-handler.deleteCompanyHandler`,
+    events: [
+      {
+        http: {
+          method: 'delete',
+          path: 'admin/companies/{id}',
+          cors: corsSettings,
+          request: {
+            parameters: {
+              paths: {
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    ],
+  },
 }
 
 export default rules
