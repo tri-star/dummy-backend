@@ -4,25 +4,25 @@ import { corsSettings } from '@functions/cors'
 import { createCompanySchema } from '@functions/admin/companies/schema'
 
 export const rules: AWS['functions'] = {
-  // listCompaniesHandler: {
-  //   handler: `${handlerPath(__dirname)}/handler.listCompaniesHandler`,
-  //   events: [
-  //     {
-  //       http: {
-  //         method: 'get',
-  //         path: 'companies',
-  //         cors: corsSettings,
-  //       },
-  //     },
-  //   ],
-  // },
+  listCompaniesHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/fetch-company-list-handler.fetchCompanyListHandler`,
+    events: [
+      {
+        http: {
+          method: 'get',
+          path: 'admin/companies',
+          cors: corsSettings,
+        },
+      },
+    ],
+  },
   createCompanyHandler: {
     handler: `${handlerPath(__dirname)}/handlers/create-company-handler.createCompanyHandler`,
     events: [
       {
         http: {
           method: 'post',
-          path: 'companies',
+          path: 'admin/companies',
           cors: corsSettings,
           request: {
             schemas: {
