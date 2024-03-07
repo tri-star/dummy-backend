@@ -51,38 +51,6 @@ export async function fetchTasks(): Promise<TaskListResponse> {
 }
 
 /**
- * タスクの登録
- */
-export async function createTask(task: Task): Promise<Task> {
-  const segment = createSegment('Supabase')
-
-  const createdTask = await traceAsync<Task>(segment, 'insert', async () => {
-    const now = new Date()
-    const result = await supabase.from('tasks').insert({
-      id: task.id,
-      title: task.title,
-      company_id: task.companyId,
-      description: task.description,
-      status: task.status,
-      reason_code: task.reasonCode,
-      created_user: task.createdUser,
-      created_at: now,
-      updated_at: now,
-    })
-    if (result.error != null) {
-      throw new Error(JSON.stringify(result.error))
-    }
-    return {
-      ...task,
-      createdAt: now,
-      updatedAt: now,
-    }
-  })
-
-  return createdTask
-}
-
-/**
  * タスクの更新
  */
 export async function updateTask(taskId: string, task: UpdateTask): Promise<void> {

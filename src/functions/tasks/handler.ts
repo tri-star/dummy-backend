@@ -1,9 +1,8 @@
-import { createTask, deleteTask, fetchTasks, updateTask } from '@/domain/tasks/api/task-api'
-import { createTaskSchema, updateTaskSchema } from '@/domain/tasks/task'
+import { deleteTask, fetchTasks, updateTask } from '@/domain/tasks/api/task-api'
+import { updateTaskSchema } from '@/domain/tasks/task'
 import { formatJSONResponse, formatJSONUserErrorResponse } from '@libs/api-gateway'
 import { middyfy } from '@libs/lambda'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
-import { ulid } from 'ulid'
 
 /**
  * 一覧
@@ -15,33 +14,6 @@ export const listTasksHandler = middyfy(async () => {
       data: tasks.data,
       count: tasks.count,
     })
-  } catch (e) {
-    return formatJSONUserErrorResponse({ error: e })
-  }
-})
-
-export const createTaskHandler = middyfy(async (event: APIGatewayProxyEvent) => {
-  const parseResult = createTaskSchema.safeParse(event.body)
-  if (!parseResult.success) {
-    console.error('createCompanyHandler error', parseResult.error.errors)
-    formatJSONUserErrorResponse({ errors: parseResult.error.errors })
-    return
-  }
-
-  const task = parseResult.data
-  try {
-    const createdTask = await createTask({
-      id: ulid(),
-      companyId: task.companyId,
-      title: task.title,
-      description: task.description,
-      status: task.status,
-      reasonCode: task.reasonCode,
-      createdUser: task.createdUser,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    })
-    return formatJSONResponse({ data: createdTask })
   } catch (e) {
     return formatJSONUserErrorResponse({ error: e })
   }
