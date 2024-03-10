@@ -64,7 +64,7 @@ export const dbTaskSchema = z.object({
   status: taskStatusSchema,
   reason_code: taskReasonCodeSchema.nullable(),
   created_user: z.string(),
-  created_at: z.string().optional(),
-  updated_at: z.string().optional(),
+  created_at: z.string(),
+  updated_at: z.string(),
 })
 export type DbTask = z.infer<typeof dbTaskSchema>

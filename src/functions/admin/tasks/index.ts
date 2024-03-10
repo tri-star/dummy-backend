@@ -4,18 +4,37 @@ import { corsSettings } from '@functions/cors'
 import { createTaskSchema } from '@functions/admin/tasks/schema'
 
 export const rules: AWS['functions'] = {
-  // listTasksHandler: {
-  //   handler: `${handlerPath(__dirname)}/handler.listTasksHandler`,
-  //   events: [
-  //     {
-  //       http: {
-  //         method: 'get',
-  //         path: 'tasks',
-  //         cors: corsSettings,
-  //       },
-  //     },
-  //   ],
-  // },
+  listTasksHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/fetch-task-list-admin-handler.fetchTaskListAdminHandler`,
+    events: [
+      {
+        http: {
+          method: 'get',
+          path: 'admin/tasks',
+          cors: corsSettings,
+        },
+      },
+    ],
+  },
+  fetchTaskAdminHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/fetch-task-admin-handler.fetchTaskAdminHandler`,
+    events: [
+      {
+        http: {
+          method: 'get',
+          path: 'admin/tasks/{id}',
+          cors: corsSettings,
+          request: {
+            parameters: {
+              paths: {
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    ],
+  },
   createTaskAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/create-task-admin-handler.createTaskAdminHandler`,
     events: [
