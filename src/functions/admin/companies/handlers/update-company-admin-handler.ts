@@ -3,7 +3,7 @@ import { middyfyWithAdminAuth } from '@libs/lambda'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
 import createHttpError from 'http-errors'
 import { updateCompanySchema } from '@/domain/company/company'
-import { updateCompany } from '@/domain/company/api/company-api'
+import { updateCompany } from '@/domain/company/api/update-company'
 
 /**
  * 編集
