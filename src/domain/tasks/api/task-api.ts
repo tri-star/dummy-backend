@@ -1,54 +1,6 @@
-import { dbTaskSchema, type UpdateTask, type Task } from '@/domain/tasks/task'
+import { type UpdateTask } from '@/domain/tasks/task'
 import { supabase } from '@libs/supabase/api-client'
 import { createSegment, traceAsync } from '@libs/xray-tracer'
-import dayjs from 'dayjs'
-
-export type TaskListResponse = {
-  data: Task[]
-  count: number
-}
-
-/**
- * タスク一覧を取得する
- */
-export async function fetchTasks(): Promise<TaskListResponse> {
-  const segment = createSegment('Supabase')
-
-  const tasks = await traceAsync<Task[]>(segment, 'query', async () => {
-    const dbTasksList = await supabase.from('tasks').select('*')
-
-    if (dbTasksList.error != null) {
-      throw new Error(JSON.stringify(dbTasksList.error))
-    }
-
-    const tasks: Task[] =
-      dbTasksList.data
-        ?.map((dbTaskJson) => {
-          const parseResult = dbTaskSchema.safeParse(dbTaskJson)
-          if (!parseResult.success) {
-            console.error(parseResult.error.errors)
-            return undefined
-          }
-          return {
-            id: parseResult.data.id,
-            title: parseResult.data.title,
-            description: parseResult.data.description,
-            status: parseResult.data.status,
-            reasonCode: parseResult.data.reason_code ?? undefined,
-            createdAt: dayjs(parseResult.data.created_at).toDate(),
-            updatedAt: dayjs(parseResult.data.updated_at).toDate(),
-          } as Task
-        })
-        .filter((task): task is Task => task !== undefined) ?? []
-
-    return tasks
-  })
-
-  return {
-    data: tasks,
-    count: tasks.length,
-  }
-}
 
 /**
  * タスクの更新
