@@ -78,25 +78,25 @@ export const rules: AWS['functions'] = {
   //     },
   //   ],
   // },
-  // deleteTaskHandler: {
-  //   handler: `${handlerPath(__dirname)}/handler.deleteTaskHandler`,
-  //   events: [
-  //     {
-  //       http: {
-  //         method: 'delete',
-  //         path: 'tasks/{id}',
-  //         cors: corsSettings,
-  //         request: {
-  //           parameters: {
-  //             paths: {
-  //               id: true,
-  //             },
-  //           },
-  //         },
-  //       },
-  //     },
-  //   ],
-  // },
+  deleteTaskAdminHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/delete-task-admin-handler.deleteTaskAdminHandler`,
+    events: [
+      {
+        http: {
+          method: 'delete',
+          path: 'admin/tasks/{id}',
+          cors: corsSettings,
+          request: {
+            parameters: {
+              paths: {
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    ],
+  },
 }
 
 export default rules
