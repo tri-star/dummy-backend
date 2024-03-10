@@ -22,7 +22,7 @@ export type FetchTasksListResponse = z.infer<typeof listTasksResponseSchema>
 /**
  * 一覧
  */
-export const fetchTasksListAdminHandler = middyfyWithAdminAuth(async (event: APIGatewayProxyEvent) => {
+export const fetchTaskListAdminHandler = middyfyWithAdminAuth(async (event: APIGatewayProxyEvent) => {
   const parsed = listTasksRequestSchema.safeParse(JSON.parse(event.body ?? '{}'))
   if (!parsed.success) {
     throw new createHttpError.BadRequest()

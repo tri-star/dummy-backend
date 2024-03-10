@@ -53,7 +53,13 @@ export type CreateTask = z.infer<typeof createTaskSchema>
 export const createTaskAdminSchema = taskSchema.omit({ id: true, createdAt: true, updatedAt: true })
 export type CreateTaskAdmin = z.infer<typeof createTaskAdminSchema>
 
-export const updateTaskSchema = taskSchema.omit({ id: true, createdUserId: true, createdAt: true, updatedAt: true })
+export const updateTaskSchema = taskSchema.omit({
+  id: true,
+  companyId: true,
+  createdUserId: true,
+  createdAt: true,
+  updatedAt: true,
+})
 export type UpdateTask = z.infer<typeof updateTaskSchema>
 
 export const dbTaskSchema = z.object({

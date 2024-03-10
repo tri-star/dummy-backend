@@ -1,17 +1,14 @@
 import { supabase } from '@libs/supabase/api-client'
 import { prepareAdminUser } from '@libs/jest/admin-user-utils'
-import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
-import { type APIGatewayProxyEvent, type Context } from 'aws-lambda'
-import { parseHandlerJsonResponse } from '@/utils/jest'
 import { prepareAdminUserToken } from '@libs/jest/admin-auth-utils'
+import { type APIGatewayProxyEvent, type Context } from 'aws-lambda'
+import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
+import { parseHandlerJsonResponse } from '@/utils/jest'
+import { prepareTask } from '@libs/jest/task-utils'
+import { updateTaskAdminHandler } from '@/functions/admin/tasks/handlers/update-task-admin-handler'
 import { prepareCompany } from '@libs/jest/company-utils'
-import {
-  type FetchTasksListResponse,
-  fetchTaskListAdminHandler,
-} from '@/functions/admin/tasks/handlers/fetch-task-list-admin-handler'
-import { prepareTasks } from '@libs/jest/task-utils'
 
-describe('fetchTaskListHandler', () => {
+describe('updateTaskHandler', () => {
   beforeEach(async () => {
     await supabase.from('admin_tokens').delete().neq('id', '')
     await supabase.from('admin_users').delete().neq('id', '')
@@ -19,25 +16,32 @@ describe('fetchTaskListHandler', () => {
     await supabase.from('companies').delete().neq('id', '')
   })
 
-  test('一覧を取得できること', async () => {
+  test('更新処理が成功すること', async () => {
     const adminUser = await prepareAdminUser({})
     const token = await prepareAdminUserToken(adminUser)
     const company = await prepareCompany({})
+    const targetTask = await prepareTask({
+      companyId: company.id,
+      title: 'target_task',
+    })
 
-    await prepareTasks(company.id, {}, 10)
-
-    const result = await fetchTaskListAdminHandler(
+    const result = await updateTaskAdminHandler(
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        pathParameters: {
+          id: targetTask.id,
+        },
+        body: {
+          ...targetTask,
+          title: 'updated_task',
+        },
       } as unknown as APIGatewayProxyEvent & VersionedApiGatewayEvent,
       undefined as unknown as Context,
     )
-
-    const { statusCode, body } = parseHandlerJsonResponse<FetchTasksListResponse>(result)
+    const { statusCode } = parseHandlerJsonResponse<undefined>(result)
 
     expect(statusCode).toBe(200)
-    expect(body?.count).toBe(10)
   })
 })

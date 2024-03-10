@@ -1,10 +1,10 @@
 import type { AWS } from '@serverless/typescript'
 import { handlerPath } from '@libs/handler-resolver'
 import { corsSettings } from '@functions/cors'
-import { createTaskSchema } from '@functions/admin/tasks/schema'
+import { createTaskSchema, updateTaskSchema } from '@functions/admin/tasks/schema'
 
 export const rules: AWS['functions'] = {
-  listTasksHandler: {
+  fetchTaskListAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/fetch-task-list-admin-handler.fetchTaskListAdminHandler`,
     events: [
       {
@@ -54,30 +54,30 @@ export const rules: AWS['functions'] = {
       },
     ],
   },
-  // updateTaskHandler: {
-  //   handler: `${handlerPath(__dirname)}/handler.updateTaskHandler`,
-  //   events: [
-  //     {
-  //       http: {
-  //         method: 'patch',
-  //         path: 'tasks/{id}',
-  //         cors: corsSettings,
-  //         request: {
-  //           parameters: {
-  //             paths: {
-  //               id: true,
-  //             },
-  //           },
-  //           schemas: {
-  //             'application/json': {
-  //               schema: updateTaskSchema,
-  //             },
-  //           },
-  //         },
-  //       },
-  //     },
-  //   ],
-  // },
+  updateTaskHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/update-task-admin-handler.updateTaskAdminHandler`,
+    events: [
+      {
+        http: {
+          method: 'put',
+          path: 'admin/tasks/{id}',
+          cors: corsSettings,
+          request: {
+            parameters: {
+              paths: {
+                id: true,
+              },
+            },
+            schemas: {
+              'application/json': {
+                schema: updateTaskSchema,
+              },
+            },
+          },
+        },
+      },
+    ],
+  },
   deleteTaskAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/delete-task-admin-handler.deleteTaskAdminHandler`,
     events: [
