@@ -2,16 +2,16 @@ import { formatJSONResponse } from '@libs/api-gateway'
 import { middyfyWithAdminAuth } from '@libs/lambda'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
 import createHttpError from 'http-errors'
-import { updateCompanySchema } from '@/domain/company/company'
-import { updateCompany } from '@/domain/company/api/update-company'
+import { updateTaskSchema } from '@/domain/tasks/task'
+import { updateTask } from '@/domain/tasks/api/update-task'
 
 /**
  * 編集
  */
-export const updateCompanyAdminHandler = middyfyWithAdminAuth(async (event: APIGatewayProxyEvent) => {
-  const companyId = event.pathParameters?.id
-  const parseResult = updateCompanySchema.safeParse(event.body ?? '{}')
-  if (companyId == null) {
+export const updateTaskAdminHandler = middyfyWithAdminAuth(async (event: APIGatewayProxyEvent) => {
+  const taskId = event.pathParameters?.id
+  const parseResult = updateTaskSchema.safeParse(event.body ?? '{}')
+  if (taskId == null) {
     throw new createHttpError.BadRequest('idが指定されていません')
   }
   if (!parseResult.success) {
@@ -21,6 +21,6 @@ export const updateCompanyAdminHandler = middyfyWithAdminAuth(async (event: APIG
 
   const newData = parseResult.data
 
-  await updateCompany(companyId, newData)
+  await updateTask(taskId, newData)
   return formatJSONResponse({})
 })

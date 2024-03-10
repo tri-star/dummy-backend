@@ -19,11 +19,11 @@ export const createTaskSchema = {
       type: ['string', 'null'],
       enum: ['POSTPONED', 'INVALID', 'DUPLICATED', 'DONE'],
     },
-    createdUser: {
+    createdUserId: {
       type: 'string',
     },
   },
-  required: ['companyId', 'title', 'description', 'status', 'createdUser'],
+  required: ['companyId', 'title', 'description', 'status', 'createdUserId'],
   additionalProperties: false,
 }
 
@@ -31,9 +31,6 @@ export const updateTaskSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   type: 'object',
   properties: {
-    companyId: {
-      type: 'string',
-    },
     title: {
       type: 'string',
     },

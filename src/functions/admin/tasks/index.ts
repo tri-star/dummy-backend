@@ -1,28 +1,47 @@
 import type { AWS } from '@serverless/typescript'
 import { handlerPath } from '@libs/handler-resolver'
-import { createTaskSchema, updateTaskSchema } from '@functions/tasks/schema'
 import { corsSettings } from '@functions/cors'
+import { createTaskSchema, updateTaskSchema } from '@functions/admin/tasks/schema'
 
 export const rules: AWS['functions'] = {
-  listTasksHandler: {
-    handler: `${handlerPath(__dirname)}/handler.listTasksHandler`,
+  fetchTaskListAdminHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/fetch-task-list-admin-handler.fetchTaskListAdminHandler`,
     events: [
       {
         http: {
           method: 'get',
-          path: 'tasks',
+          path: 'admin/tasks',
           cors: corsSettings,
         },
       },
     ],
   },
-  createTaskHandler: {
-    handler: `${handlerPath(__dirname)}/handler.createTaskHandler`,
+  fetchTaskAdminHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/fetch-task-admin-handler.fetchTaskAdminHandler`,
+    events: [
+      {
+        http: {
+          method: 'get',
+          path: 'admin/tasks/{id}',
+          cors: corsSettings,
+          request: {
+            parameters: {
+              paths: {
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    ],
+  },
+  createTaskAdminHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/create-task-admin-handler.createTaskAdminHandler`,
     events: [
       {
         http: {
           method: 'post',
-          path: 'tasks',
+          path: 'admin/tasks',
           cors: corsSettings,
           request: {
             schemas: {
@@ -36,12 +55,12 @@ export const rules: AWS['functions'] = {
     ],
   },
   updateTaskHandler: {
-    handler: `${handlerPath(__dirname)}/handler.updateTaskHandler`,
+    handler: `${handlerPath(__dirname)}/handlers/update-task-admin-handler.updateTaskAdminHandler`,
     events: [
       {
         http: {
-          method: 'patch',
-          path: 'tasks/{id}',
+          method: 'put',
+          path: 'admin/tasks/{id}',
           cors: corsSettings,
           request: {
             parameters: {
@@ -59,13 +78,13 @@ export const rules: AWS['functions'] = {
       },
     ],
   },
-  deleteTaskHandler: {
-    handler: `${handlerPath(__dirname)}/handler.deleteTaskHandler`,
+  deleteTaskAdminHandler: {
+    handler: `${handlerPath(__dirname)}/handlers/delete-task-admin-handler.deleteTaskAdminHandler`,
     events: [
       {
         http: {
           method: 'delete',
-          path: 'tasks/{id}',
+          path: 'admin/tasks/{id}',
           cors: corsSettings,
           request: {
             parameters: {

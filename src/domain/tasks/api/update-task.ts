@@ -24,17 +24,3 @@ export async function updateTask(taskId: string, task: UpdateTask): Promise<void
     }
   })
 }
-
-/**
- * タスクの削除
- */
-export async function deleteTask(taskId: string): Promise<void> {
-  const segment = createSegment('Supabase')
-
-  await traceAsync(segment, 'delete', async () => {
-    const result = await supabase.from('tasks').delete().match({ id: taskId })
-    if (result.error != null) {
-      throw new Error(JSON.stringify(result.error))
-    }
-  })
-}

@@ -6,7 +6,14 @@ export const TASK_STATUS = {
   IN_PROGRESS: '作業中',
   HOLD: '保留',
   DONE: '完了',
-}
+} as const
+
+type TaskStatus = typeof TASK_STATUS
+
+export const TASK_STATUS_CODES: { [K in keyof TaskStatus]: K } = Object.fromEntries(
+  Object.entries(TASK_STATUS).map(([key]) => [key, key]),
+) as { [K in keyof TaskStatus]: K }
+
 const [firstTaskStatus, ...restTaskStatus] = Object.keys(TASK_STATUS)
 export const taskStatusSchema = z.enum([firstTaskStatus, ...restTaskStatus])
 
@@ -28,15 +35,31 @@ export const taskSchema = z.object({
   description: z.string(),
   status: taskStatusSchema,
   reasonCode: taskReasonCodeSchema.optional(),
-  createdUser: z.string(),
+  createdUserId: z.string(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
 })
 export type Task = z.infer<typeof taskSchema>
 
-export const createTaskSchema = taskSchema.omit({ id: true, createdAt: true, updatedAt: true })
+export const createTaskSchema = taskSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  createdUserId: true,
+  companyId: true,
+})
+export type CreateTask = z.infer<typeof createTaskSchema>
 
-export const updateTaskSchema = taskSchema.omit({ id: true, createdUser: true, createdAt: true, updatedAt: true })
+export const createTaskAdminSchema = taskSchema.omit({ id: true, createdAt: true, updatedAt: true })
+export type CreateTaskAdmin = z.infer<typeof createTaskAdminSchema>
+
+export const updateTaskSchema = taskSchema.omit({
+  id: true,
+  companyId: true,
+  createdUserId: true,
+  createdAt: true,
+  updatedAt: true,
+})
 export type UpdateTask = z.infer<typeof updateTaskSchema>
 
 export const dbTaskSchema = z.object({
@@ -47,7 +70,7 @@ export const dbTaskSchema = z.object({
   status: taskStatusSchema,
   reason_code: taskReasonCodeSchema.nullable(),
   created_user: z.string(),
-  created_at: z.string().optional(),
-  updated_at: z.string().optional(),
+  created_at: z.string(),
+  updated_at: z.string(),
 })
 export type DbTask = z.infer<typeof dbTaskSchema>
