@@ -35,7 +35,8 @@ const serverlessConfiguration: AWS = {
       {
         Effect: 'Allow',
         Action: ['secretsmanager:GetSecretValue', 'secretsmanager:DescribeSecret'],
-        Resource: 'arn:aws:secretsmanager:${env:AWS_REGION}:${env:AWS_ACCOUNT}:secret:${sls:stage}/supabase/anon_key',
+        Resource:
+          'arn:aws:secretsmanager:${env:AWS_REGION}:${env:AWS_ACCOUNT}:secret:${sls:stage}/supabase/service_role_key',
       },
       {
         Effect: 'Allow',
@@ -53,7 +54,8 @@ const serverlessConfiguration: AWS = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
       SUPABASE_URL: '${env:SUPABASE_URL, ssm:/aws/reference/secretsmanager/${sls:stage}/supabase/url}',
-      SUPABASE_ANON_KEY: '${env:SUPABASE_ANON_KEY, ssm:/aws/reference/secretsmanager/${sls:stage}/supabase/anon_key}',
+      SUPABASE_SERVICE_ROLE_KEY:
+        '${env:SUPABASE_SERVICE_ROLE_KEY, ssm:/aws/reference/secretsmanager/${sls:stage}/supabase/service_role_key}',
       APP_KEY: '${env:APP_KEY, ssm:/aws/reference/secretsmanager/${sls:stage}/app/key}',
     },
   },
