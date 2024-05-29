@@ -18,6 +18,16 @@ resource "aws_secretsmanager_secret_version" "supabase_anon_key_version" {
   secret_string = var.supabase_anon_key
 }
 
+resource "aws_secretsmanager_secret" "supabase_service_role_key" {
+  name        = "${var.stage}/supabase/service_role_key"
+  description = "Supabase Service Role Key"
+}
+
+resource "aws_secretsmanager_secret_version" "supabase_service_role_key_version" {
+  secret_id     = aws_secretsmanager_secret.supabase_service_role_key.id
+  secret_string = var.supabase_service_role_key
+}
+
 
 resource "aws_secretsmanager_secret" "app_key" {
   name        = "${var.stage}/app/key"

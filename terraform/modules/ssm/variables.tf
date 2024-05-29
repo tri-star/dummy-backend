@@ -15,6 +15,13 @@ variable "supabase_anon_key" {
   sensitive   = true
 }
 
+variable "supabase_service_role_key" {
+  description = "Supabase Service Role Key"
+  type        = string
+  sensitive   = true
+}
+
+
 variable "app_key" {
   description = "App Key"
   type        = string
