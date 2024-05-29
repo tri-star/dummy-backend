@@ -1,23 +1,24 @@
 import type { AWS } from '@serverless/typescript'
 import { handlerPath } from '@libs/handler-resolver'
-import { createUserSchema, updateUserSchema } from './schema'
+// import { updateUserSchema } from './schema'
 import { corsSettings } from '@functions/cors'
 
 export const rules: AWS['functions'] = {
   listUsersHandler: {
     handler: `${handlerPath(__dirname)}/handlers/list-users-handler.listUsersHandler`,
+    timeout: 15,
     events: [
       {
         http: {
           method: 'get',
           path: 'users',
-          request: {
-            parameters: {
-              querystrings: {
-                loginId: true,
-              },
-            },
-          },
+          // request: {
+          //   parameters: {
+          //     querystrings: {
+          //       loginId: true,
+          //     },
+          //   },
+          // },
           cors: corsSettings,
         },
       },
@@ -25,6 +26,7 @@ export const rules: AWS['functions'] = {
   },
   fetchUserHandler: {
     handler: `${handlerPath(__dirname)}/handlers/fetch-user-handler.fetchUserHandler`,
+    timeout: 15,
     events: [
       {
         http: {
@@ -44,18 +46,19 @@ export const rules: AWS['functions'] = {
   },
   createUserHandler: {
     handler: `${handlerPath(__dirname)}/handlers/create-user-handler.createUserHandler`,
+    timeout: 15,
     events: [
       {
         http: {
           method: 'post',
           path: 'users',
-          request: {
-            schemas: {
-              'application/json': {
-                schema: createUserSchema,
-              },
-            },
-          },
+          // request: {
+          //   // schemas: {
+          //   //   'application/json': {
+          //   //     schema: createUserSchema,
+          //   //   },
+          //   // },
+          // },
           cors: corsSettings,
         },
       },
@@ -63,6 +66,7 @@ export const rules: AWS['functions'] = {
   },
   updateUserHandler: {
     handler: `${handlerPath(__dirname)}/handlers/update-user-handler.updateUserHandler`,
+    timeout: 15,
     events: [
       {
         http: {
@@ -74,11 +78,11 @@ export const rules: AWS['functions'] = {
                 id: true,
               },
             },
-            schemas: {
-              'application/json': {
-                schema: updateUserSchema,
-              },
-            },
+            // schemas: {
+            //   'application/json': {
+            //     schema: updateUserSchema,
+            //   },
+            // },
           },
           cors: corsSettings,
         },
@@ -87,6 +91,7 @@ export const rules: AWS['functions'] = {
   },
   deleteUserHandler: {
     handler: `${handlerPath(__dirname)}/handlers/delete-user-handler.deleteUserHandler`,
+    timeout: 15,
     events: [
       {
         http: {

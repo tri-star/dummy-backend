@@ -6,6 +6,7 @@ import { createTaskSchema, updateTaskSchema } from '@functions/admin/tasks/schem
 export const rules: AWS['functions'] = {
   fetchTaskListAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/fetch-task-list-admin-handler.fetchTaskListAdminHandler`,
+    timeout: 15,
     events: [
       {
         http: {
@@ -18,6 +19,7 @@ export const rules: AWS['functions'] = {
   },
   fetchTaskAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/fetch-task-admin-handler.fetchTaskAdminHandler`,
+    timeout: 15,
     events: [
       {
         http: {
@@ -37,6 +39,7 @@ export const rules: AWS['functions'] = {
   },
   createTaskAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/create-task-admin-handler.createTaskAdminHandler`,
+    timeout: 15,
     events: [
       {
         http: {
@@ -56,6 +59,7 @@ export const rules: AWS['functions'] = {
   },
   updateTaskHandler: {
     handler: `${handlerPath(__dirname)}/handlers/update-task-admin-handler.updateTaskAdminHandler`,
+    timeout: 15,
     events: [
       {
         http: {
@@ -80,6 +84,7 @@ export const rules: AWS['functions'] = {
   },
   deleteTaskAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/delete-task-admin-handler.deleteTaskAdminHandler`,
+    timeout: 15,
     events: [
       {
         http: {

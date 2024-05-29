@@ -6,6 +6,7 @@ import { createCompanySchema, updateCompanySchema } from '@functions/admin/compa
 export const rules: AWS['functions'] = {
   listCompaniesAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/fetch-company-list-admin-handler.fetchCompanyListAdminHandler`,
+    timeout: 15,
     events: [
       {
         http: {
@@ -18,6 +19,7 @@ export const rules: AWS['functions'] = {
   },
   fetchCompanyAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/fetch-company-admin-handler.fetchCompanyAdminHandler`,
+    timeout: 15,
     events: [
       {
         http: {
@@ -37,6 +39,7 @@ export const rules: AWS['functions'] = {
   },
   createCompanyAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/create-company-admin-handler.createCompanyAdminHandler`,
+    timeout: 15,
     events: [
       {
         http: {
@@ -56,6 +59,7 @@ export const rules: AWS['functions'] = {
   },
   updateCompanyAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/update-company-admin-handler.updateCompanyAdminHandler`,
+    timeout: 15,
     events: [
       {
         http: {
@@ -80,6 +84,7 @@ export const rules: AWS['functions'] = {
   },
   deleteCompanyAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/delete-company-admin-handler.deleteCompanyAdminHandler`,
+    timeout: 15,
     events: [
       {
         http: {

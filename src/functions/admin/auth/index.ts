@@ -6,6 +6,7 @@ import { adminLoginSchema } from './schema'
 export const rules: AWS['functions'] = {
   adminLoginHandler: {
     handler: `${handlerPath(__dirname)}/handler.adminLoginHandler`,
+    timeout: 15,
     events: [
       {
         http: {
