@@ -17,6 +17,7 @@
     "node": ">=14.15.0"
   },
   "dependencies": {
+    "@hono/zod-openapi": "^0.14.0",
     "@middy/core": "^5.2.6",
     "@middy/http-cors": "^5.2.6",
     "@middy/http-error-handler": "^5.2.6",
@@ -24,9 +25,10 @@
     "@middy/util": "^5.2.4",
     "@supabase/supabase-js": "^2.39.8",
     "aws-xray-sdk-core": "^3.5.4",
+    "hono": "^4.4.2",
     "http-errors": "^2.0.0",
     "ulid": "^2.3.0",
-    "zod": "^3.22.4"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@serverless/typescript": "^3.0.0",
