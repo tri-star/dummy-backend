@@ -15,8 +15,7 @@ const serverlessConfiguration: AWS = {
   useDotenv: true,
   provider: {
     name: 'aws',
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
-    region: '${env:AWS_REGION}' as any,
+    region: '${env:AWS_REGION}' as AWS['provider']['region'],
     tracing: {
       apiGateway: true,
       lambda: true,
