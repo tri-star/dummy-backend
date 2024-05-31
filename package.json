@@ -16,6 +16,13 @@
   "engines": {
     "node": ">=14.15.0"
   },
+  "overrides": {
+    "@hono/zod-openapi": {
+      "@asteasolutions/zod-to-openapi": {
+        "openapi3-ts": "4.3.1"
+      }
+    }
+  },
   "dependencies": {
     "@hono/zod-openapi": "^0.14.0",
     "@middy/core": "^5.2.6",
