@@ -1,6 +1,6 @@
 import { type AWS } from '@serverless/typescript'
 import { handlerPath } from '@libs/handler-resolver'
-import { corsSettings } from '@functions/cors'
+import { corsSettings } from '@/functions/cors'
 
 import { adminLoginAction } from './actions/login'
 import { handle } from 'hono/aws-lambda'

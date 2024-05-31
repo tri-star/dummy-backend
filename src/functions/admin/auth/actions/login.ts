@@ -2,7 +2,7 @@ import { createAdminPasswordHash } from '@/domain/admin-users/admin-user'
 import { fetchAdminUserForAuth } from '@/domain/admin-users/api/fetch-admin-user-for-auth'
 import { generateAdminToken } from '@/domain/admin-users/api/generate-admin-token'
 import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
-import createHttpError from 'http-errors'
+import { HTTPException } from 'hono/http-exception'
 
 const adminLoginSchema = z.object({
   loginId: z.string(),
@@ -46,20 +46,20 @@ adminLoginAction.openapi(route, async (c) => {
   const password = String(json.password)
 
   if (loginId === '') {
-    throw createHttpError.BadRequest('loginIdが入力されていません')
+    throw new HTTPException(400, { message: 'loginIdが入力されていません' })
   }
   if (password === '') {
-    throw createHttpError.BadRequest('passwordが入力されていません')
+    throw new HTTPException(400, { message: 'passwordが入力されていません' })
   }
 
   const user = await fetchAdminUserForAuth(loginId)
   if (user === undefined) {
-    throw createHttpError.Unauthorized('ログインに失敗しました')
+    throw new HTTPException(401, { message: 'ログインに失敗しました' })
   }
 
   const hashedPassword = user.password
   if (hashedPassword !== createAdminPasswordHash(password, user.id)) {
-    throw createHttpError.Unauthorized('ログインに失敗しました')
+    throw new HTTPException(401, { message: 'ログインに失敗しました' })
   }
 
   const token = await generateAdminToken(user.id)
