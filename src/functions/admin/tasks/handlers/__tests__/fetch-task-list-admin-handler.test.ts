@@ -1,4 +1,4 @@
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { prepareAdminUser } from '@libs/jest/admin-user-utils'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
 import { type APIGatewayProxyEvent, type Context } from 'aws-lambda'
@@ -13,10 +13,10 @@ import { prepareTasks } from '@libs/jest/task-utils'
 
 describe('fetchTaskListHandler', () => {
   beforeEach(async () => {
-    await supabase.from('admin_tokens').delete().neq('id', '')
-    await supabase.from('admin_users').delete().neq('id', '')
-    await supabase.from('tasks').delete().neq('id', '')
-    await supabase.from('companies').delete().neq('id', '')
+    await supabaseClient().from('admin_tokens').delete().neq('id', '')
+    await supabaseClient().from('admin_users').delete().neq('id', '')
+    await supabaseClient().from('tasks').delete().neq('id', '')
+    await supabaseClient().from('companies').delete().neq('id', '')
   })
 
   test('一覧を取得できること', async () => {

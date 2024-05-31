@@ -1,6 +1,6 @@
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 import { dbUserSchema, type UserAuthResponse } from '../user'
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 
 /**
  * ユーザーをloginIdで取得する
@@ -9,7 +9,7 @@ export async function fetchUserForAuth(loginId: string): Promise<UserAuthRespons
   const segment = createSegment('Supabase')
 
   const user = await traceAsync<UserAuthResponse | undefined>(segment, 'query', async () => {
-    const dbUserList = await supabase.from('users').select('*').eq('login_id', loginId)
+    const dbUserList = await supabaseClient().from('users').select('*').eq('login_id', loginId)
 
     if (dbUserList.error != null) {
       throw new Error(JSON.stringify(dbUserList.error))

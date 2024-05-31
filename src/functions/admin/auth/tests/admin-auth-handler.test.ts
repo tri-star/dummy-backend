@@ -1,4 +1,4 @@
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { adminLoginHandler } from '../handler'
 import { ulid } from 'ulid'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
@@ -8,8 +8,8 @@ import { prepareAdminUser } from '@libs/jest/admin-user-utils'
 
 describe('admin-auth-handler.test', () => {
   beforeEach(async () => {
-    await supabase.from('admin_tokens').delete().neq('id', '')
-    await supabase.from('admin_users').delete().neq('id', '')
+    await supabaseClient().from('admin_tokens').delete().neq('id', '')
+    await supabaseClient().from('admin_users').delete().neq('id', '')
   })
 
   describe('adminLoginHandler', () => {

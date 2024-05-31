@@ -1,6 +1,6 @@
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 import { dbUserDetailSchema, type UserDetail } from '../user'
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 
 /**
  * トークンに合致するユーザーを取得する
@@ -9,7 +9,7 @@ export async function fetchUserByToken(token: string): Promise<UserDetail | unde
   const segment = createSegment('Supabase')
 
   const result = await traceAsync<UserDetail | undefined>(segment, 'query', async () => {
-    const dbResult = await supabase.from('tokens').select('*, users(*)').eq('token', token)
+    const dbResult = await supabaseClient().from('tokens').select('*, users(*)').eq('token', token)
 
     if (dbResult.error != null) {
       throw new Error(JSON.stringify(dbResult.error))

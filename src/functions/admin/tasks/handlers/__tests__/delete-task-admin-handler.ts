@@ -1,4 +1,4 @@
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
 import { parseHandlerJsonResponse } from '@/utils/jest'
@@ -11,10 +11,10 @@ import { type AdminApiContext } from '@libs/lambda'
 
 describe('taskDeleteAdminHandler', () => {
   beforeEach(async () => {
-    await supabase.from('admin_tokens').delete().neq('id', '')
-    await supabase.from('admin_users').delete().neq('id', '')
-    await supabase.from('tasks').delete().neq('id', '')
-    await supabase.from('companies').delete().neq('id', '')
+    await supabaseClient().from('admin_tokens').delete().neq('id', '')
+    await supabaseClient().from('admin_users').delete().neq('id', '')
+    await supabaseClient().from('tasks').delete().neq('id', '')
+    await supabaseClient().from('companies').delete().neq('id', '')
   })
 
   test('削除できること', async () => {

@@ -1,4 +1,4 @@
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { type APIGatewayProxyEvent, type Context } from 'aws-lambda'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
 import { type User } from '@/domain/users/user'
@@ -9,8 +9,8 @@ import { fetchAdminUserHandler } from '../fetch-admin-user-handler'
 
 describe('FetcAdminUser', () => {
   beforeEach(async () => {
-    await supabase.from('admin_tokens').delete().neq('id', '')
-    await supabase.from('admin_users').delete().neq('id', '')
+    await supabaseClient().from('admin_tokens').delete().neq('id', '')
+    await supabaseClient().from('admin_users').delete().neq('id', '')
   })
 
   test('ユーザーを取得できること', async () => {

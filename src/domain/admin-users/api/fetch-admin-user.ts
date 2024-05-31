@@ -1,6 +1,6 @@
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 import { dbAdminUserDetailSchema, type AdminUserDetail } from '../admin-user'
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 
 /**
  * 管理者ユーザーを取得する
@@ -9,7 +9,7 @@ export async function fetchAdminUser(adminUserId: string): Promise<AdminUserDeta
   const segment = createSegment('Supabase')
 
   const result = await traceAsync<AdminUserDetail | undefined>(segment, 'query', async () => {
-    const dbResult = await supabase.from('admin_users').select('*').eq('id', adminUserId)
+    const dbResult = await supabaseClient().from('admin_users').select('*').eq('id', adminUserId)
 
     if (dbResult.error != null) {
       throw new Error(JSON.stringify(dbResult.error))

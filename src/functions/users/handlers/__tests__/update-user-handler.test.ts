@@ -1,4 +1,4 @@
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
 import { parseHandlerJsonResponse } from '@/utils/jest'
@@ -10,8 +10,8 @@ import { type User } from '@/domain/users/user'
 
 describe('updateUserhHandler', () => {
   beforeEach(async () => {
-    await supabase.from('tokens').delete().neq('id', '')
-    await supabase.from('users').delete().neq('id', '')
+    await supabaseClient().from('tokens').delete().neq('id', '')
+    await supabaseClient().from('users').delete().neq('id', '')
   })
 
   test('更新処理が成功すること', async () => {

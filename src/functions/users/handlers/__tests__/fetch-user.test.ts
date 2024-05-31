@@ -1,6 +1,6 @@
 import { prepareUserToken } from '@libs/jest/auth-utils'
 import { prepareUser } from '@libs/jest/user-utils'
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { fetchUserHandler } from '../fetch-user-handler'
 import { type APIGatewayProxyEvent } from 'aws-lambda'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
@@ -10,8 +10,8 @@ import { type AppApiContext } from '@libs/lambda'
 
 describe('FetchUser', () => {
   beforeEach(async () => {
-    await supabase.from('tokens').delete().neq('id', '')
-    await supabase.from('users').delete().neq('id', '')
+    await supabaseClient().from('tokens').delete().neq('id', '')
+    await supabaseClient().from('users').delete().neq('id', '')
   })
 
   test('ユーザーを取得できること', async () => {

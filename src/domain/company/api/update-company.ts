@@ -1,5 +1,5 @@
 import { type UpdateCompany } from '@/domain/company/company'
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 
 /**
@@ -9,7 +9,7 @@ export async function updateCompany(companyId: string, company: UpdateCompany): 
   const segment = createSegment('Supabase')
 
   await traceAsync(segment, 'update', async () => {
-    const result = await supabase
+    const result = await supabaseClient()
       .from('companies')
       .update({
         name: company.name,

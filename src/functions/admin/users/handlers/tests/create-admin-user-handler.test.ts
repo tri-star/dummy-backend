@@ -1,4 +1,4 @@
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { prepareAdminUser } from '@libs/jest/admin-user-utils'
 import { prepareAdminUserToken } from '@libs/jest/admin-auth-utils'
 import { createAdminUserHandler } from '../create-admin-user-handler'
@@ -9,8 +9,8 @@ import { type AdminUser } from '@/domain/admin-users/admin-user'
 
 describe('createAdminUserhHandler', () => {
   beforeEach(async () => {
-    await supabase.from('admin_tokens').delete().neq('id', '')
-    await supabase.from('admin_users').delete().neq('id', '')
+    await supabaseClient().from('admin_tokens').delete().neq('id', '')
+    await supabaseClient().from('admin_users').delete().neq('id', '')
   })
 
   test('登録処理が成功すること', async () => {

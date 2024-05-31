@@ -1,5 +1,5 @@
 import { createSegment, traceAsync } from '@libs/xray-tracer'
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { dbCompanySchema, type Company } from '@/domain/company/company'
 
 /**
@@ -9,7 +9,7 @@ export async function fetchCompany(companyId: string): Promise<Company | undefin
   const segment = createSegment('Supabase')
 
   const result = await traceAsync<Company | undefined>(segment, 'query', async () => {
-    const dbResult = await supabase.from('companies').select('*').eq('id', companyId)
+    const dbResult = await supabaseClient().from('companies').select('*').eq('id', companyId)
 
     if (dbResult.error != null) {
       throw new Error(JSON.stringify(dbResult.error))

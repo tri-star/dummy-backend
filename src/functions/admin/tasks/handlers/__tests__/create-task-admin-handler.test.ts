@@ -1,4 +1,4 @@
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { prepareAdminUser } from '@libs/jest/admin-user-utils'
 import { prepareAdminUserToken } from '@libs/jest/admin-auth-utils'
 import { type APIGatewayProxyEvent, type Context } from 'aws-lambda'
@@ -11,10 +11,10 @@ import { type CreateTaskAdmin, TASK_STATUS_CODES, type Task } from '@/domain/tas
 
 describe('createTaskAdminHandler', () => {
   beforeEach(async () => {
-    await supabase.from('admin_tokens').delete().neq('id', '')
-    await supabase.from('admin_users').delete().neq('id', '')
-    await supabase.from('tasks').delete().neq('id', '')
-    await supabase.from('companies').delete().neq('id', '')
+    await supabaseClient().from('admin_tokens').delete().neq('id', '')
+    await supabaseClient().from('admin_users').delete().neq('id', '')
+    await supabaseClient().from('tasks').delete().neq('id', '')
+    await supabaseClient().from('companies').delete().neq('id', '')
   })
 
   test('登録処理が成功すること', async () => {

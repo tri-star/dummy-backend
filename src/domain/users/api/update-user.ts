@@ -1,6 +1,6 @@
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 import { type UpdateUser } from '../user'
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 
 /**
  * ユーザーの更新
@@ -9,7 +9,7 @@ export async function updateUser(userId: string, user: UpdateUser): Promise<void
   const segment = createSegment('Supabase')
 
   await traceAsync(segment, 'update', async () => {
-    const result = await supabase
+    const result = await supabaseClient()
       .from('users')
       .update({
         name: user.name,

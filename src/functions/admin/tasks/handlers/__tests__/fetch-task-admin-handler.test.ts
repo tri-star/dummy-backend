@@ -1,4 +1,4 @@
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { type APIGatewayProxyEvent, type Context } from 'aws-lambda'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
 import { parseHandlerJsonResponse } from '@/utils/jest'
@@ -11,9 +11,9 @@ import { prepareCompany } from '@libs/jest/company-utils'
 
 describe('FetchTaskHandler', () => {
   beforeEach(async () => {
-    await supabase.from('admin_tokens').delete().neq('id', '')
-    await supabase.from('admin_users').delete().neq('id', '')
-    await supabase.from('tasks').delete().neq('id', '')
+    await supabaseClient().from('admin_tokens').delete().neq('id', '')
+    await supabaseClient().from('admin_users').delete().neq('id', '')
+    await supabaseClient().from('tasks').delete().neq('id', '')
   })
 
   test('タスクを取得できること', async () => {

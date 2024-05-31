@@ -1,4 +1,4 @@
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { type APIGatewayProxyEvent, type Context } from 'aws-lambda'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
 import { parseHandlerJsonResponse } from '@/utils/jest'
@@ -10,9 +10,9 @@ import { type Company } from '@/domain/company/company'
 
 describe('FetcCompanyHandler', () => {
   beforeEach(async () => {
-    await supabase.from('admin_tokens').delete().neq('id', '')
-    await supabase.from('admin_users').delete().neq('id', '')
-    await supabase.from('companies').delete().neq('id', '')
+    await supabaseClient().from('admin_tokens').delete().neq('id', '')
+    await supabaseClient().from('admin_users').delete().neq('id', '')
+    await supabaseClient().from('companies').delete().neq('id', '')
   })
 
   test('会社を取得できること', async () => {

@@ -1,4 +1,4 @@
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import {
   type ListAdminUsersResponse,
   listAdminUsersHandler,
@@ -11,8 +11,8 @@ import { prepareAdminUserToken } from '@libs/jest/admin-auth-utils'
 
 describe('listAdminUsersHandler', () => {
   beforeEach(async () => {
-    await supabase.from('admin_tokens').delete().neq('id', '')
-    await supabase.from('admin_users').delete().neq('id', '')
+    await supabaseClient().from('admin_tokens').delete().neq('id', '')
+    await supabaseClient().from('admin_users').delete().neq('id', '')
   })
 
   test('一覧を取得できること', async () => {

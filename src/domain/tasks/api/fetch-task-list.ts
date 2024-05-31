@@ -1,5 +1,5 @@
 import { dbTaskSchema, type Task } from '@/domain/tasks/task'
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 import dayjs from 'dayjs'
 import { type PostgrestFilterBuilder } from '@supabase/postgrest-js'
@@ -27,8 +27,11 @@ export async function fetchTaskList(name?: string): Promise<TaskListResponse> {
   const segment = createSegment('Supabase')
 
   const result = await traceAsync<TaskListResponse>(segment, 'query', async () => {
-    const dbTaskListQuery = buildSearchQuery(supabase.from('tasks').select('*'), name)
-    const dbTaskCountQuery = buildSearchQuery(supabase.from('tasks').select('*', { count: 'exact', head: true }), name)
+    const dbTaskListQuery = buildSearchQuery(supabaseClient().from('tasks').select('*'), name)
+    const dbTaskCountQuery = buildSearchQuery(
+      supabaseClient().from('tasks').select('*', { count: 'exact', head: true }),
+      name,
+    )
 
     const dbTaskList = await dbTaskListQuery
     const countRecord = await dbTaskCountQuery

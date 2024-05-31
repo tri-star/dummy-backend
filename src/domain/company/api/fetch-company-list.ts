@@ -1,5 +1,5 @@
 import { type Company, dbCompanySchema } from '@/domain/company/company'
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 import dayjs from 'dayjs'
 import { type PostgrestFilterBuilder } from '@supabase/postgrest-js'
@@ -27,9 +27,9 @@ export async function fetchCompanyList(name?: string): Promise<CompanyListRespon
   const segment = createSegment('Supabase')
 
   const result = await traceAsync<CompanyListResponse>(segment, 'query', async () => {
-    const dbCompanyListQuery = buildSearchQuery(supabase.from('companies').select('*'), name)
+    const dbCompanyListQuery = buildSearchQuery(supabaseClient().from('companies').select('*'), name)
     const dbCompanyCountQuery = buildSearchQuery(
-      supabase.from('companies').select('*', { count: 'exact', head: true }),
+      supabaseClient().from('companies').select('*', { count: 'exact', head: true }),
       name,
     )
 

@@ -1,4 +1,4 @@
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { ulid } from 'ulid'
 import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
 import { type Context } from 'aws-lambda'
@@ -8,8 +8,8 @@ import { loginHandler } from '../handler'
 
 describe('auth-handler', () => {
   beforeEach(async () => {
-    await supabase.from('tokens').delete().neq('id', '')
-    await supabase.from('users').delete().neq('id', '')
+    await supabaseClient().from('tokens').delete().neq('id', '')
+    await supabaseClient().from('users').delete().neq('id', '')
   })
 
   describe('LoginHandler', () => {

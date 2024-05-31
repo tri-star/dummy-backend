@@ -1,6 +1,6 @@
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 import { generateTokenString } from '../user'
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { ulid } from 'ulid'
 
 /**
@@ -12,7 +12,7 @@ export async function generateToken(userId: string) {
   const token = await traceAsync<string>(segment, 'insert', async () => {
     const now = new Date()
     const token = generateTokenString()
-    const result = await supabase.from('tokens').insert({
+    const result = await supabaseClient().from('tokens').insert({
       id: ulid(),
       user_id: userId,
       token,

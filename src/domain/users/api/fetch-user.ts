@@ -1,6 +1,6 @@
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 import { type UserDetail, dbUserDetailSchema } from '../user'
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { NotFoundError } from '@/errors/not-found'
 import dayjs from 'dayjs'
 
@@ -11,7 +11,7 @@ export async function fetchUser(userId: string): Promise<UserDetail> {
   const segment = createSegment('Supabase')
 
   const user = await traceAsync<UserDetail>(segment, 'query', async () => {
-    const dbUserList = await supabase.from('users').select('*').eq('id', userId)
+    const dbUserList = await supabaseClient().from('users').select('*').eq('id', userId)
 
     if (dbUserList.error != null) {
       throw new Error(JSON.stringify(dbUserList.error))

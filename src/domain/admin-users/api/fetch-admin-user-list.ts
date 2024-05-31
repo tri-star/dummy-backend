@@ -1,7 +1,7 @@
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 import z from 'zod'
 import { dbAdminUserDetailSchema, adminUserDetailSchema, type AdminUserDetail } from '../admin-user'
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { type PostgrestFilterBuilder } from '@supabase/postgrest-js'
 
 const adminUserListResponseSchema = z.object({
@@ -28,9 +28,9 @@ export async function fetchAdminUserList(loginId?: string): Promise<AdminUserLis
   const segment = createSegment('Supabase')
 
   const result = await traceAsync<AdminUserListResponse>(segment, 'query', async () => {
-    const dbUserListQuery = buildSearchQuery(supabase.from('admin_users').select('*'), loginId)
+    const dbUserListQuery = buildSearchQuery(supabaseClient().from('admin_users').select('*'), loginId)
     const dbUserCountQuery = buildSearchQuery(
-      supabase.from('admin_users').select('*', { count: 'exact', head: true }),
+      supabaseClient().from('admin_users').select('*', { count: 'exact', head: true }),
       loginId,
     )
 
