@@ -1,11 +1,11 @@
 import type { AWS } from '@serverless/typescript'
 
 import adminUserHandler from '@functions/admin/users'
-import adminAuthHandler from '@functions/admin/auth'
 import adminCompanyHandler from '@functions/admin/companies'
 import adminTaskHandler from '@functions/admin/tasks'
 import authHandler from '@functions/auth'
 import userHandler from '@functions/users'
+import { openApiFunctionRules } from '@functions/open-api-routes'
 
 const serverlessConfiguration: AWS = {
   service: 'dummy-backend',
@@ -59,7 +59,7 @@ const serverlessConfiguration: AWS = {
     },
   },
   functions: {
-    ...adminAuthHandler,
+    ...openApiFunctionRules,
     ...adminUserHandler,
     ...adminCompanyHandler,
     ...adminTaskHandler,

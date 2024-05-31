@@ -1,40 +1,26 @@
-import { createAdminPasswordHash } from '@/domain/admin-users/admin-user'
-import { fetchAdminUserForAuth } from '@/domain/admin-users/api/fetch-admin-user-for-auth'
-import { generateAdminToken } from '@/domain/admin-users/api/generate-admin-token'
-import { formatJSONResponse } from '@libs/api-gateway'
-import { middyfy } from '@libs/lambda'
-import { type APIGatewayProxyEvent } from 'aws-lambda'
-import createHttpError from 'http-errors'
+import { type AWS } from '@serverless/typescript'
+import { handlerPath } from '@libs/handler-resolver'
+import { corsSettings } from '@functions/cors'
 
-/**
- * 管理者用ログイン
- */
-export const adminLoginHandler = middyfy(async (event: APIGatewayProxyEvent) => {
-  const json = event.body as unknown as Record<string, unknown>
-  const loginId = String(json.loginId ?? '')
-  const password = String(json.password ?? '')
+import { adminLoginAction } from './actions/login'
+import { handle } from 'hono/aws-lambda'
 
-  if (loginId === '') {
-    throw createHttpError.BadRequest('loginIdが入力されていません')
-  }
-  if (password === '') {
-    throw createHttpError.BadRequest('passwordが入力されていません')
-  }
+export default {
+  adminLoginHandler: {
+    handler: `${handlerPath(__dirname)}/handler.adminLoginHandler`,
+    timeout: 15,
+    events: [
+      {
+        http: {
+          method: 'post',
+          path: 'admin/auth/{proxy+}',
+          cors: corsSettings,
+        },
+      },
+    ],
+  },
+} satisfies AWS['functions']
 
-  const user = await fetchAdminUserForAuth(loginId)
-  if (user === undefined) {
-    throw createHttpError.Unauthorized('ログインに失敗しました')
-  }
+export { adminLoginAction }
 
-  const hashedPassword = user.password
-  if (hashedPassword !== createAdminPasswordHash(password, user.id)) {
-    throw createHttpError.Unauthorized('ログインに失敗しました')
-  }
-
-  const token = await generateAdminToken(user.id)
-
-  const response = formatJSONResponse({
-    token,
-  })
-  return response
-})
+export const adminLoginHandler = handle(adminLoginAction)
