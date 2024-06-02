@@ -1,7 +1,7 @@
 import { supabaseClient } from '@libs/supabase/api-client'
 import { prepareAdminUser, prepareAdminUsers } from '@libs/jest/admin-user-utils'
 import { prepareAdminUserToken } from '@libs/jest/admin-auth-utils'
-import { AdminAppDefinition } from '@functions/admin-app'
+import { createAdminApp } from '@functions/admin-app'
 import { AdminAdminUserLambdaHandlerDefinition } from '@functions/admin/admin-user/lambda-handler'
 import { ROUTES } from '@functions/route-consts'
 
@@ -17,10 +17,11 @@ describe('listAdminUsersHandler', () => {
 
     await prepareAdminUsers({}, 10)
 
-    const adminApp = new AdminAppDefinition()
-    adminApp.addDefinition(new AdminAdminUserLambdaHandlerDefinition())
+    const adminApp = createAdminApp()
+    const lambdaDefinition = new AdminAdminUserLambdaHandlerDefinition()
+    adminApp.route('/', lambdaDefinition.buildOpenApiRoute(adminApp))
 
-    const result = await adminApp.openApiApp().request(ROUTES.ADMIN.ADMIN_USERS.LIST.DEFINITION, {
+    const result = await adminApp.request(ROUTES.ADMIN.ADMIN_USERS.LIST.DEFINITION, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',

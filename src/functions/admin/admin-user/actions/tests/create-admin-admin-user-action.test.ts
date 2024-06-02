@@ -4,7 +4,7 @@ import { prepareAdminUserToken } from '@libs/jest/admin-auth-utils'
 import { ROUTES } from '@/functions/route-consts'
 import { type CreateAdminUser } from '@/domain/admin-users/admin-user'
 import { AdminAdminUserLambdaHandlerDefinition } from '@/functions/admin/admin-user/lambda-handler'
-import { AdminAppDefinition } from '@/functions/admin-app'
+import { createAdminApp } from '@/functions/admin-app'
 
 describe('createAdminAdminUserAction', () => {
   beforeEach(async () => {
@@ -16,11 +16,9 @@ describe('createAdminAdminUserAction', () => {
     const adminUser = await prepareAdminUser({})
     const token = await prepareAdminUserToken(adminUser)
 
-    const adminApp = new AdminAppDefinition()
+    const adminApp = createAdminApp()
     const lambdaDefinition = new AdminAdminUserLambdaHandlerDefinition()
-
-    adminApp.addDefinition(lambdaDefinition)
-    const openApiApp = adminApp.openApiApp()
+    adminApp.route('/', lambdaDefinition.buildOpenApiRoute(adminApp))
 
     const userData: CreateAdminUser = {
       name: 'test',
@@ -28,7 +26,7 @@ describe('createAdminAdminUserAction', () => {
       password: 'password',
     }
 
-    const result = await openApiApp.request(ROUTES.ADMIN.ADMIN_USERS.CREATE.DEFINITION, {
+    const result = await adminApp.request(ROUTES.ADMIN.ADMIN_USERS.CREATE.DEFINITION, {
       method: 'post',
       headers: {
         Authorization: `Bearer ${token}`,
