@@ -3,8 +3,6 @@ import { createMiddleware } from 'hono/factory'
 import { HTTPException } from 'hono/http-exception'
 
 export const adminAuthenticateMiddleware = createMiddleware(async (c, next) => {
-  console.log('auth middleware')
-
   const noAuthRoutes = [
     '/admin/auth/login', //
     '/admin/auth/logout',
