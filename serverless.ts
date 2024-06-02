@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript'
 
-import adminUserHandler from '@functions/admin/users'
+// import adminUserHandler from '@functions/admin/users'
 import adminCompanyHandler from '@functions/admin/companies'
 import adminTaskHandler from '@functions/admin/tasks'
 import authHandler from '@functions/auth'
@@ -60,7 +60,7 @@ const serverlessConfiguration: AWS = {
   },
   functions: {
     ...openApiFunctionRules,
-    ...adminUserHandler,
+    // ...adminUserHandler,
     ...adminCompanyHandler,
     ...adminTaskHandler,
     ...authHandler,
