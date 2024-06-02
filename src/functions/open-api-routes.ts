@@ -1,6 +1,7 @@
 import { AdminAdminUserLambdaHandlerDefinition } from '@functions/admin/admin-user/handler'
 import adminLoginRule, { adminLoginAction } from '@functions/admin/auth/handler'
 import { corsSettings } from '@functions/cors'
+import { swaggerUI } from '@hono/swagger-ui'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { handlerPath } from '@libs/handler-resolver'
 import { type AWS } from '@serverless/typescript'
@@ -13,14 +14,27 @@ export const openApiFunctionRules: AWS['functions'] = {
   ...adminAdminUserLambdaHandlerDefinition.definition(),
 
   // 一番最後にOpenAPIDocumentのルールを定義
-  openApiDoc: {
-    handler: `${handlerPath(__dirname)}/open-api-routes.docHandler`,
+  swaggerSpec: {
+    handler: `${handlerPath(__dirname)}/open-api-routes.swaggerSpecHandler`,
     timeout: 15,
     events: [
       {
         http: {
           method: 'get',
-          path: 'doc',
+          path: 'swagger-docs',
+          cors: corsSettings,
+        },
+      },
+    ],
+  },
+  swaggerUi: {
+    handler: `${handlerPath(__dirname)}/open-api-routes.swaggerUiHandler`,
+    timeout: 15,
+    events: [
+      {
+        http: {
+          method: 'get',
+          path: 'docs',
           cors: corsSettings,
         },
       },
@@ -33,12 +47,21 @@ const app = new OpenAPIHono()
 app.route('/', adminLoginAction)
 app.route('/', adminAdminUserLambdaHandlerDefinition.buildOpenApiRoute())
 
-app.doc('/doc', {
+app.doc('/swagger-docs', {
   openapi: '3.0.0',
+  servers: [
+    {
+      url: '/local',
+      description: 'Local server',
+    },
+  ],
   info: {
     version: '1.0.0',
     title: 'Dummy Backend API',
   },
 })
 
-export const docHandler = handle(app)
+app.get('/docs', swaggerUI({ url: '/local/swagger-docs' }))
+
+export const swaggerSpecHandler = handle(app)
+export const swaggerUiHandler = handle(app)
