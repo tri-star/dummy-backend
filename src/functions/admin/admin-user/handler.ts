@@ -1,4 +1,5 @@
 import { CreateAdminAdminUserAction } from '@functions/admin/admin-user/actions/create-admin-admin-user-action'
+import { ListAdminAdminUserAction } from '@functions/admin/admin-user/actions/list-admin-admin-user-action'
 import { corsSettings } from '@functions/cors'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { handlerPath } from '@libs/handler-resolver'
@@ -35,6 +36,7 @@ export class AdminAdminUserLambdaHandlerDefinition extends LambdaHandlerDefiniti
   buildOpenApiRoute(): OpenAPIHono {
     const app = new OpenAPIHono()
     app.route('/', new CreateAdminAdminUserAction().actionDefinition())
+    app.route('/', new ListAdminAdminUserAction().actionDefinition())
 
     return app
   }
