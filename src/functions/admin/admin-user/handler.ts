@@ -8,6 +8,14 @@ import { type AWS } from '@serverless/typescript'
 export class AdminAdminUserLambdaHandlerDefinition extends LambdaHandlerDefinition {
   definition(): AWS['functions'] {
     return {
+      createAdminUserNoAuthHandler: {
+        handler: `${handlerPath(__dirname)}/functions/create-admin-user-no-auth-handler.createAdminUserNoAuthHandler`,
+        events: [
+          {
+            sns: 'createAdminUser',
+          },
+        ],
+      },
       AdminAdminUsersHandler: {
         handler: `${handlerPath(__dirname)}/index.handler`,
         timeout: 15,

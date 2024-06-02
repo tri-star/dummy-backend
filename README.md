@@ -28,7 +28,7 @@ curl --location --request POST 'https://myApiEndpoint/dev/admin/login' \
 ローカルの場合：
 
 ```bash
-serverless invoke local --stage=local -f createAdminUserNoAuthHandler --path src/functions/admin/users/mock.json
+serverless invoke local --stage=local -f createAdminUserNoAuthHandler --path src/functions/admin/admin-user/mock.json
 ```
 
 または
