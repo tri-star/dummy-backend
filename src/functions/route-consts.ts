@@ -13,8 +13,8 @@ export const ROUTES = {
         DEFINITION: '/admin/admin-users',
       },
       DETAIL: {
-        DEFINITION: '/admin/admin-users/:id',
-        url: (id: string) => `/admin/admin-users/${id}`,
+        DEFINITION: '/admin/admin-users/{id}',
+        URL: (id: string) => `/admin/admin-users/${id}`,
       },
     },
   },
