@@ -10,6 +10,11 @@ export class CreateAdminAdminUserAction extends ActionDefinition {
     const route = createRoute({
       method: 'post',
       path: ROUTES.ADMIN.ADMIN_USERS.CREATE.DEFINITION,
+      security: [
+        {
+          AdminBearer: [],
+        },
+      ],
       request: {
         body: {
           content: {
