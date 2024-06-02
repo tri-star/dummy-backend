@@ -6,7 +6,7 @@ import { ActionDefinition } from '@libs/open-api/action-definition'
 import { ulid } from 'ulid'
 
 export class CreateAdminAdminUserAction extends ActionDefinition {
-  defineAction(): OpenAPIHono {
+  actionDefinition(): OpenAPIHono {
     const route = createRoute({
       method: 'post',
       path: ROUTES.ADMIN.ADMIN_USERS.CREATE.DEFINITION,

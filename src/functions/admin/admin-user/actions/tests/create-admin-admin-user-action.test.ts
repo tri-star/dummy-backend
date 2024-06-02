@@ -16,7 +16,7 @@ describe('createAdminAdminUserAction', () => {
     const token = await prepareAdminUserToken(adminUser)
 
     const definition = new CreateAdminAdminUserAction()
-    const action = definition.defineAction()
+    const action = definition.actionDefinition()
 
     const userData: CreateAdminUser = {
       name: 'test',

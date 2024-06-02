@@ -34,7 +34,7 @@ export class AdminAdminUserLambdaHandlerDefinition extends LambdaHandlerDefiniti
 
   buildOpenApiRoute(): OpenAPIHono {
     const app = new OpenAPIHono()
-    app.route('/', new CreateAdminAdminUserAction().defineAction())
+    app.route('/', new CreateAdminAdminUserAction().actionDefinition())
 
     return app
   }
