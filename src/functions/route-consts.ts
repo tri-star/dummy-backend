@@ -16,6 +16,10 @@ export const ROUTES = {
         DEFINITION: '/admin/admin-users/{id}',
         URL: (id: string) => `/admin/admin-users/${id}`,
       },
+      UPDATE: {
+        DEFINITION: '/admin/admin-users/{id}',
+        URL: (id: string) => `/admin/admin-users/${id}`,
+      },
     },
   },
 } as const

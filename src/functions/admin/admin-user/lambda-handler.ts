@@ -2,6 +2,7 @@ import { CreateAdminAdminUserAction } from '@/functions/admin/admin-user/actions
 import { ListAdminAdminUserAction } from '@/functions/admin/admin-user/actions/list-admin-admin-user-action'
 import { corsSettings } from '@/functions/cors'
 import { FetchAdminAdminUserAction } from '@functions/admin/admin-user/actions/fetch-admin-admin-user-action'
+import { UpdateAdminAdminUserAction } from '@functions/admin/admin-user/actions/update-admin-admin-user-action'
 import { type OpenAPIHono } from '@hono/zod-openapi'
 import { handlerPath } from '@libs/handler-resolver'
 import { LambdaHandlerDefinition } from '@libs/open-api/lambda-handler-definition'
@@ -38,6 +39,7 @@ export class AdminAdminUserLambdaHandlerDefinition extends LambdaHandlerDefiniti
     new CreateAdminAdminUserAction().buildOpenApiAppRoute(parentApp)
     new ListAdminAdminUserAction().buildOpenApiAppRoute(parentApp)
     new FetchAdminAdminUserAction().buildOpenApiAppRoute(parentApp)
+    new UpdateAdminAdminUserAction().buildOpenApiAppRoute(parentApp)
 
     return parentApp
   }
