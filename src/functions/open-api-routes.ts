@@ -44,6 +44,11 @@ export const openApiFunctionRules: AWS['functions'] = {
 
 const app = new OpenAPIHono()
 
+app.openAPIRegistry.registerComponent('securitySchemes', 'AdminBearer', {
+  type: 'http',
+  scheme: 'bearer',
+})
+
 app.route('/', adminLoginAction)
 app.route('/', adminAdminUserLambdaHandlerDefinition.buildOpenApiRoute())
 
