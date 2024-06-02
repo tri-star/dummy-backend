@@ -26,7 +26,7 @@ export class AdminAuthLambdaHandlerDefinition extends LambdaHandlerDefinition {
   }
 
   buildOpenApiRoute(parentApp: OpenAPIHono): OpenAPIHono {
-    new AdminLoginAction().actionDefinition(parentApp)
+    new AdminLoginAction().buildOpenApiAppRoute(parentApp)
     return parentApp
   }
 }

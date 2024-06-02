@@ -22,7 +22,7 @@ const listAdminUsersResponseSchema = z.object({
 })
 
 export class ListAdminAdminUserAction extends ActionDefinition {
-  actionDefinition(app: OpenAPIHono): void {
+  buildOpenApiAppRoute(app: OpenAPIHono): void {
     const route = createRoute({
       method: 'get',
       path: ROUTES.ADMIN.ADMIN_USERS.LIST.DEFINITION,

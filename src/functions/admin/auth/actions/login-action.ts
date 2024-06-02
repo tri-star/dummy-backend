@@ -12,7 +12,7 @@ const adminLoginSchema = z.object({
 })
 
 export class AdminLoginAction extends ActionDefinition {
-  actionDefinition(app: OpenAPIHono): void {
+  buildOpenApiAppRoute(app: OpenAPIHono): void {
     const route = createRoute({
       method: 'post',
       path: ROUTES.ADMIN.AUTH.LOGIN.DEFINITION,

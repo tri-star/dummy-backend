@@ -35,9 +35,9 @@ export class AdminAdminUserLambdaHandlerDefinition extends LambdaHandlerDefiniti
   }
 
   buildOpenApiRoute(parentApp: OpenAPIHono): OpenAPIHono {
-    new CreateAdminAdminUserAction().actionDefinition(parentApp)
-    new ListAdminAdminUserAction().actionDefinition(parentApp)
-    new FetchAdminAdminUserAction().actionDefinition(parentApp)
+    new CreateAdminAdminUserAction().buildOpenApiAppRoute(parentApp)
+    new ListAdminAdminUserAction().buildOpenApiAppRoute(parentApp)
+    new FetchAdminAdminUserAction().buildOpenApiAppRoute(parentApp)
 
     return parentApp
   }

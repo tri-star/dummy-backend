@@ -6,7 +6,7 @@ import { ActionDefinition } from '@libs/open-api/action-definition'
 import { HTTPException } from 'hono/http-exception'
 
 export class FetchAdminAdminUserAction extends ActionDefinition {
-  actionDefinition(app: OpenAPIHono): void {
+  buildOpenApiAppRoute(app: OpenAPIHono): void {
     const route = createRoute({
       method: 'get',
       path: ROUTES.ADMIN.ADMIN_USERS.DETAIL.DEFINITION,
