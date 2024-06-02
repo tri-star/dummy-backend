@@ -4,7 +4,17 @@ import { HTTPException } from 'hono/http-exception'
 
 export const adminAuthenticateMiddleware = createMiddleware(async (c, next) => {
   console.log('auth middleware')
-  if (c.req.path.startsWith('/admin/auth')) {
+
+  const noAuthRoutes = [
+    '/admin/auth/login', //
+    '/admin/auth/logout',
+    '/admin/swagger-docs',
+    '/admin/docs',
+  ]
+
+  const isNoAuth = noAuthRoutes.some((pattern) => c.req.path.startsWith(pattern))
+
+  if (isNoAuth) {
     await next()
     return
   }

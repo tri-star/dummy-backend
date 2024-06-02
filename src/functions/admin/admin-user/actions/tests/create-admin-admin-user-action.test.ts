@@ -1,9 +1,10 @@
 import { supabaseClient } from '@libs/supabase/api-client'
 import { prepareAdminUser } from '@libs/jest/admin-user-utils'
 import { prepareAdminUserToken } from '@libs/jest/admin-auth-utils'
-import { CreateAdminAdminUserAction } from '@/functions/admin/admin-user/actions/create-admin-admin-user-action'
 import { ROUTES } from '@/functions/route-consts'
 import { type CreateAdminUser } from '@/domain/admin-users/admin-user'
+import { AdminAdminUserLambdaHandlerDefinition } from '@/functions/admin/admin-user/lambda-handler'
+import { AdminAppDefinition } from '@/functions/admin-app'
 
 describe('createAdminAdminUserAction', () => {
   beforeEach(async () => {
@@ -15,8 +16,11 @@ describe('createAdminAdminUserAction', () => {
     const adminUser = await prepareAdminUser({})
     const token = await prepareAdminUserToken(adminUser)
 
-    const definition = new CreateAdminAdminUserAction()
-    const action = definition.actionDefinition()
+    const adminApp = new AdminAppDefinition()
+    const lambdaDefinition = new AdminAdminUserLambdaHandlerDefinition()
+
+    adminApp.addDefinition(lambdaDefinition)
+    const openApiApp = adminApp.openApiApp()
 
     const userData: CreateAdminUser = {
       name: 'test',
@@ -24,7 +28,7 @@ describe('createAdminAdminUserAction', () => {
       password: 'password',
     }
 
-    const result = await action.request(ROUTES.ADMIN.ADMIN_USERS.CREATE.DEFINITION, {
+    const result = await openApiApp.request(ROUTES.ADMIN.ADMIN_USERS.CREATE.DEFINITION, {
       method: 'post',
       headers: {
         Authorization: `Bearer ${token}`,

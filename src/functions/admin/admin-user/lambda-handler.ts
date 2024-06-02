@@ -1,7 +1,7 @@
-import { CreateAdminAdminUserAction } from '@functions/admin/admin-user/actions/create-admin-admin-user-action'
-import { ListAdminAdminUserAction } from '@functions/admin/admin-user/actions/list-admin-admin-user-action'
-import { corsSettings } from '@functions/cors'
-import { OpenAPIHono } from '@hono/zod-openapi'
+import { CreateAdminAdminUserAction } from '@/functions/admin/admin-user/actions/create-admin-admin-user-action'
+import { ListAdminAdminUserAction } from '@/functions/admin/admin-user/actions/list-admin-admin-user-action'
+import { corsSettings } from '@/functions/cors'
+import { type OpenAPIHono } from '@hono/zod-openapi'
 import { handlerPath } from '@libs/handler-resolver'
 import { LambdaHandlerDefinition } from '@libs/open-api/lambda-handler-definition'
 import { type AWS } from '@serverless/typescript'
@@ -33,11 +33,10 @@ export class AdminAdminUserLambdaHandlerDefinition extends LambdaHandlerDefiniti
     }
   }
 
-  buildOpenApiRoute(): OpenAPIHono {
-    const app = new OpenAPIHono()
-    app.route('/', new CreateAdminAdminUserAction().actionDefinition())
-    app.route('/', new ListAdminAdminUserAction().actionDefinition())
+  buildOpenApiRoute(parentApp: OpenAPIHono): OpenAPIHono {
+    new CreateAdminAdminUserAction().actionDefinition(parentApp)
+    new ListAdminAdminUserAction().actionDefinition(parentApp)
 
-    return app
+    return parentApp
   }
 }

@@ -1,10 +1,18 @@
 import { supabaseClient } from '@libs/supabase/api-client'
-import { adminLoginAction } from '../../handler'
 import { ulid } from 'ulid'
 import { prepareAdminUser } from '@libs/jest/admin-user-utils'
+import { AdminAppDefinition } from '@/functions/admin-app'
+import { AdminAuthLambdaHandlerDefinition } from '@/functions/admin/auth/lambda-handler'
 
 describe('admin-auth-handler.test', () => {
+  let adminApp: AdminAppDefinition
+  let lambdaDefinition: AdminAuthLambdaHandlerDefinition
+
   beforeEach(async () => {
+    adminApp = new AdminAppDefinition()
+    lambdaDefinition = new AdminAuthLambdaHandlerDefinition()
+    adminApp.addDefinition(lambdaDefinition)
+
     await supabaseClient().from('admin_tokens').delete().neq('id', '')
     await supabaseClient().from('admin_users').delete().neq('id', '')
   })
@@ -15,7 +23,7 @@ describe('admin-auth-handler.test', () => {
       const password = 'testtest'
       const user = await prepareAdminUser({ adminUserId, password })
 
-      const result = await adminLoginAction.request('admin/auth/login', {
+      const result = await adminApp.openApiApp().request('admin/auth/login', {
         method: 'post',
         body: JSON.stringify({
           loginId: user.loginId,
@@ -36,7 +44,7 @@ describe('admin-auth-handler.test', () => {
       const wrongPassword = 'wrongPassword'
       const user = await prepareAdminUser({ adminUserId, password })
 
-      const result = await adminLoginAction.request('admin/auth/login', {
+      const result = await adminApp.openApiApp().request('admin/auth/login', {
         method: 'post',
         body: JSON.stringify({
           loginId: user.loginId,

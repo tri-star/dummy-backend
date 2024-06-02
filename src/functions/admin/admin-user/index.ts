@@ -1,6 +1,7 @@
-import { AdminAdminUserLambdaHandlerDefinition } from '@/functions/admin/admin-user/handler'
+import { AdminAdminUserLambdaHandlerDefinition } from '@/functions/admin/admin-user/lambda-handler'
+import { adminApp } from '@functions/admin-app'
 import { handle } from 'hono/aws-lambda'
 
-const adminAdminUserLambdaHandlerDefinition = new AdminAdminUserLambdaHandlerDefinition()
+export const adminAdminUserLambdaHandlerDefinition = new AdminAdminUserLambdaHandlerDefinition()
 
-export const handler = handle(adminAdminUserLambdaHandlerDefinition.buildOpenApiRoute())
+export const handler = handle(adminAdminUserLambdaHandlerDefinition.buildOpenApiRoute(adminApp.openApiApp()))

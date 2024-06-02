@@ -1,12 +1,12 @@
 import { adminUserSchema, createAdminPasswordHash, createAdminUserSchema } from '@/domain/admin-users/admin-user'
 import { createAdminUser } from '@/domain/admin-users/api/create-admin-user'
 import { ROUTES } from '@/functions/route-consts'
-import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
+import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
 import { ActionDefinition } from '@libs/open-api/action-definition'
 import { ulid } from 'ulid'
 
 export class CreateAdminAdminUserAction extends ActionDefinition {
-  actionDefinition(): OpenAPIHono {
+  actionDefinition(app: OpenAPIHono): void {
     const route = createRoute({
       method: 'post',
       path: ROUTES.ADMIN.ADMIN_USERS.CREATE.DEFINITION,
@@ -34,8 +34,7 @@ export class CreateAdminAdminUserAction extends ActionDefinition {
       },
     })
 
-    const action = new OpenAPIHono()
-    action.openapi(route, async (c) => {
+    app.openapi(route, async (c) => {
       const user = c.req.valid('json')
 
       const userId = ulid()
@@ -47,7 +46,5 @@ export class CreateAdminAdminUserAction extends ActionDefinition {
       })
       return c.json(createdUser)
     })
-
-    return action
   }
 }

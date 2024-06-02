@@ -1,5 +1,10 @@
 export const ROUTES = {
   ADMIN: {
+    AUTH: {
+      LOGIN: {
+        DEFINITION: '/admin/auth/login',
+      },
+    },
     ADMIN_USERS: {
       CREATE: {
         DEFINITION: '/admin/admin-users',

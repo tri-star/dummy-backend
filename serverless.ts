@@ -5,7 +5,7 @@ import adminCompanyHandler from '@functions/admin/companies'
 import adminTaskHandler from '@functions/admin/tasks'
 import authHandler from '@functions/auth'
 import userHandler from '@functions/users'
-import { openApiFunctionRules } from '@functions/open-api-routes'
+import { adminAppLambdaHandlerDefinition } from '@functions/admin-app-routes'
 
 const serverlessConfiguration: AWS = {
   service: 'dummy-backend',
@@ -59,7 +59,7 @@ const serverlessConfiguration: AWS = {
     },
   },
   functions: {
-    ...openApiFunctionRules,
+    ...adminAppLambdaHandlerDefinition,
     // ...adminUserHandler,
     ...adminCompanyHandler,
     ...adminTaskHandler,

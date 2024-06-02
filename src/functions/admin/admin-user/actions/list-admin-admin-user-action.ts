@@ -1,7 +1,7 @@
 import { adminUserSchema } from '@/domain/admin-users/admin-user'
 import { fetchAdminUserList } from '@/domain/admin-users/api/fetch-admin-user-list'
 import { ROUTES } from '@/functions/route-consts'
-import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
+import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
 import { ActionDefinition } from '@libs/open-api/action-definition'
 
 const listAdminUsersRequestSchema = z.object({
@@ -22,7 +22,7 @@ const listAdminUsersResponseSchema = z.object({
 })
 
 export class ListAdminAdminUserAction extends ActionDefinition {
-  actionDefinition(): OpenAPIHono {
+  actionDefinition(app: OpenAPIHono): void {
     const route = createRoute({
       method: 'get',
       path: ROUTES.ADMIN.ADMIN_USERS.LIST.DEFINITION,
@@ -46,8 +46,7 @@ export class ListAdminAdminUserAction extends ActionDefinition {
       },
     })
 
-    const action = new OpenAPIHono()
-    action.openapi(route, async (c) => {
+    app.openapi(route, async (c) => {
       const { loginId /* page, offset */ } = c.req.valid('query')
 
       const userListResponse = await fetchAdminUserList(loginId)
@@ -58,7 +57,5 @@ export class ListAdminAdminUserAction extends ActionDefinition {
         count: userListResponse?.count ?? 0,
       })
     })
-
-    return action
   }
 }

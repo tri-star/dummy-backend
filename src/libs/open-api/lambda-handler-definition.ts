@@ -4,5 +4,5 @@ import { type AWS } from '@serverless/typescript'
 export abstract class LambdaHandlerDefinition {
   abstract definition(): AWS['functions']
 
-  abstract buildOpenApiRoute(): OpenAPIHono
+  abstract buildOpenApiRoute(app: OpenAPIHono): OpenAPIHono
 }
