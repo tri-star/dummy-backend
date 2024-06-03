@@ -17,16 +17,16 @@
     "node": ">=14.15.0"
   },
   "dependencies": {
-    "@middy/core": "^5.2.6",
-    "@middy/http-cors": "^5.2.6",
-    "@middy/http-error-handler": "^5.2.6",
-    "@middy/http-json-body-parser": "^5.2.6",
+    "@middy/core": "^5.4.0",
+    "@middy/http-cors": "^5.4.0",
+    "@middy/http-error-handler": "^5.4.0",
+    "@middy/http-json-body-parser": "^5.4.0",
     "@middy/util": "^5.2.4",
-    "@supabase/supabase-js": "^2.39.8",
-    "aws-xray-sdk-core": "^3.5.4",
+    "@supabase/supabase-js": "^2.43.4",
+    "aws-xray-sdk-core": "^3.6.0",
     "http-errors": "^2.0.0",
     "ulid": "^2.3.0",
-    "zod": "^3.22.4"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@serverless/typescript": "^3.0.0",
