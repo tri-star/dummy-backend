@@ -1,5 +1,6 @@
 import { corsSettings } from '@/functions/cors'
 import { CreateCompanyAdminAction } from '@functions/admin/companies/actions/create-company-admin-action'
+import { DeleteCompanyAdminAction } from '@functions/admin/companies/actions/delete-company-admin-action'
 import { FetchCompanyAdminAction } from '@functions/admin/companies/actions/fetch-company-admin-action'
 import { ListCompanyAdminAction } from '@functions/admin/companies/actions/list-company-admin-action'
 import { UpdateCompanyAdminAction } from '@functions/admin/companies/actions/update-company-admin-action'
@@ -32,6 +33,7 @@ export class AdminCompanyLambdaHandlerDefinition extends LambdaHandlerDefinition
     new ListCompanyAdminAction().buildOpenApiAppRoute(parentApp)
     new FetchCompanyAdminAction().buildOpenApiAppRoute(parentApp)
     new UpdateCompanyAdminAction().buildOpenApiAppRoute(parentApp)
+    new DeleteCompanyAdminAction().buildOpenApiAppRoute(parentApp)
     return parentApp
   }
 }
