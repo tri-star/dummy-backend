@@ -7,26 +7,6 @@ import { handle } from 'hono/aws-lambda'
 import { AdminCompanyLambdaHandlerDefinition } from '@functions/admin/companies/lambda-handler'
 
 export const rules: AWS['functions'] = {
-  fetchCompanyAdminHandler: {
-    handler: `${handlerPath(__dirname)}/handlers/fetch-company-admin-handler.fetchCompanyAdminHandler`,
-    timeout: 15,
-    events: [
-      {
-        http: {
-          method: 'get',
-          path: 'admin/companies/{id}',
-          cors: corsSettings,
-          request: {
-            parameters: {
-              paths: {
-                id: true,
-              },
-            },
-          },
-        },
-      },
-    ],
-  },
   updateCompanyAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/update-company-admin-handler.updateCompanyAdminHandler`,
     timeout: 15,
