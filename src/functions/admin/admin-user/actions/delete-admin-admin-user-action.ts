@@ -7,6 +7,7 @@ import { HTTPException } from 'hono/http-exception'
 export class DeleteAdminAdminUserAction extends ActionDefinition {
   buildOpenApiAppRoute(app: OpenAPIHono): void {
     const route = createRoute({
+      tags: ['admin-users'],
       method: 'delete',
       path: ROUTES.ADMIN.ADMIN_USERS.DELETE.DEFINITION,
       security: [

@@ -37,8 +37,8 @@ export const openApiSwaggerLambdaDefinition: AWS['functions'] = {
 const adminApp = createAdminApp()
 
 // NOTE: 全てのOpenAPIのルート定義が済んだ状態を作るため、各機能のappを追加していく
-adminApp.route('/', adminAdminUserApp)
 adminApp.route('/', adminLoginApp)
+adminApp.route('/', adminAdminUserApp)
 adminApp.doc('/admin/swagger-docs', {
   openapi: '3.0.0',
   servers: [

@@ -8,6 +8,7 @@ import { HTTPException } from 'hono/http-exception'
 export class FetchAdminAdminUserAction extends ActionDefinition {
   buildOpenApiAppRoute(app: OpenAPIHono): void {
     const route = createRoute({
+      tags: ['admin-users'],
       method: 'get',
       path: ROUTES.ADMIN.ADMIN_USERS.DETAIL.DEFINITION,
       security: [

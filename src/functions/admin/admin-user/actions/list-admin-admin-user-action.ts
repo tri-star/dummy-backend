@@ -24,6 +24,7 @@ const listAdminUsersResponseSchema = z.object({
 export class ListAdminAdminUserAction extends ActionDefinition {
   buildOpenApiAppRoute(app: OpenAPIHono): void {
     const route = createRoute({
+      tags: ['admin-users'],
       method: 'get',
       path: ROUTES.ADMIN.ADMIN_USERS.LIST.DEFINITION,
       security: [

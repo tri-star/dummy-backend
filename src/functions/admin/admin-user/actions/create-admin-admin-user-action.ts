@@ -8,6 +8,7 @@ import { ulid } from 'ulid'
 export class CreateAdminAdminUserAction extends ActionDefinition {
   buildOpenApiAppRoute(app: OpenAPIHono): void {
     const route = createRoute({
+      tags: ['admin-users'],
       method: 'post',
       path: ROUTES.ADMIN.ADMIN_USERS.CREATE.DEFINITION,
       security: [
