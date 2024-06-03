@@ -1,37 +1,11 @@
 import type { AWS } from '@serverless/typescript'
 import { handlerPath } from '@libs/handler-resolver'
 import { corsSettings } from '@functions/cors'
-import { updateCompanySchema } from '@functions/admin/companies/schema'
 import { createAdminApp } from '@functions/admin-app'
 import { handle } from 'hono/aws-lambda'
 import { AdminCompanyLambdaHandlerDefinition } from '@functions/admin/companies/lambda-handler'
 
 export const rules: AWS['functions'] = {
-  updateCompanyAdminHandler: {
-    handler: `${handlerPath(__dirname)}/handlers/update-company-admin-handler.updateCompanyAdminHandler`,
-    timeout: 15,
-    events: [
-      {
-        http: {
-          method: 'put',
-          path: 'admin/companies/{id}',
-          cors: corsSettings,
-          request: {
-            parameters: {
-              paths: {
-                id: true,
-              },
-            },
-            schemas: {
-              'application/json': {
-                schema: updateCompanySchema,
-              },
-            },
-          },
-        },
-      },
-    ],
-  },
   deleteCompanyAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/delete-company-admin-handler.deleteCompanyAdminHandler`,
     timeout: 15,
