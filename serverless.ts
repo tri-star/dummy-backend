@@ -1,7 +1,6 @@
 import type { AWS } from '@serverless/typescript'
 
-// import adminUserHandler from '@functions/admin/users'
-import adminCompanyHandler from '@functions/admin/companies'
+import { adminCompaniesLambdaHandlerDefinition } from '@functions/admin/companies'
 import adminTaskHandler from '@functions/admin/tasks'
 import authHandler from '@functions/auth'
 import userHandler from '@functions/users'
@@ -63,8 +62,8 @@ const serverlessConfiguration: AWS = {
   functions: {
     ...adminLoginLambdaHandlerDefinition.definition(),
     ...adminAdminUserLambdaHandlerDefinition.definition(),
+    ...adminCompaniesLambdaHandlerDefinition.definition(),
     ...openApiSwaggerLambdaDefinition,
-    ...adminCompanyHandler,
     ...adminTaskHandler,
     ...authHandler,
     ...userHandler,

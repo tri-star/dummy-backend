@@ -1,6 +1,7 @@
 import { createAdminApp } from '@functions/admin-app'
 import { adminAdminUserApp } from '@functions/admin/admin-user'
 import { adminLoginApp } from '@functions/admin/auth'
+import { adminCompaniesApp } from '@functions/admin/companies'
 import { corsSettings } from '@functions/cors'
 import { swaggerUI } from '@hono/swagger-ui'
 import { handlerPath } from '@libs/handler-resolver'
@@ -39,6 +40,7 @@ const adminApp = createAdminApp()
 // NOTE: 全てのOpenAPIのルート定義が済んだ状態を作るため、各機能のappを追加していく
 adminApp.route('/', adminLoginApp)
 adminApp.route('/', adminAdminUserApp)
+adminApp.route('/', adminCompaniesApp)
 adminApp.doc('/admin/swagger-docs', {
   openapi: '3.0.0',
   servers: [

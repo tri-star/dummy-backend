@@ -25,5 +25,25 @@ export const ROUTES = {
         URL: (id: string) => `/admin/admin-users/${id}`,
       },
     },
+    COMPANIES: {
+      CREATE: {
+        DEFINITION: '/admin/companies',
+      },
+      LIST: {
+        DEFINITION: '/admin/companies',
+      },
+      DETAIL: {
+        DEFINITION: '/admin/companies/{id}',
+        URL: (id: string) => `/admin/companies/${id}`,
+      },
+      UPDATE: {
+        DEFINITION: '/admin/companies/{id}',
+        URL: (id: string) => `/admin/companies/${id}`,
+      },
+      DELETE: {
+        DEFINITION: '/admin/companies/{id}',
+        URL: (id: string) => `/admin/companies/${id}`,
+      },
+    },
   },
 } as const
