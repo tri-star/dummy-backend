@@ -7,19 +7,6 @@ import { AdminTasksLambdaHandlerDefinition } from '@functions/admin/tasks/lambda
 import { handle } from 'hono/aws-lambda'
 
 export const rules: AWS['functions'] = {
-  fetchTaskListAdminHandler: {
-    handler: `${handlerPath(__dirname)}/handlers/fetch-task-list-admin-handler.fetchTaskListAdminHandler`,
-    timeout: 15,
-    events: [
-      {
-        http: {
-          method: 'get',
-          path: 'admin/tasks',
-          cors: corsSettings,
-        },
-      },
-    ],
-  },
   fetchTaskAdminHandler: {
     handler: `${handlerPath(__dirname)}/handlers/fetch-task-admin-handler.fetchTaskAdminHandler`,
     timeout: 15,
