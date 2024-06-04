@@ -8,7 +8,7 @@ import { HTTPException } from 'hono/http-exception'
 export class UpdateTaskAdminAction extends ActionDefinition {
   buildOpenApiAppRoute(app: OpenAPIHono): void {
     const route = createRoute({
-      tags: ['task'],
+      tags: ['tasks'],
       method: 'put',
       path: ROUTES.ADMIN.TASKS.UPDATE.DEFINITION,
       security: [
