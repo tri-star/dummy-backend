@@ -41,7 +41,6 @@ export class UpdateAdminAdminUserAction extends ActionDefinition {
 
     app.openapi(route, async (c) => {
       const adminUserId = c.req.param('id')
-      console.log('pass', adminUserId)
       if (adminUserId == null) {
         throw new HTTPException(400, { message: 'idが指定されていません' })
       }

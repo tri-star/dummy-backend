@@ -45,7 +45,6 @@ export class FetchAdminAdminUserAction extends ActionDefinition {
         throw new HTTPException(400)
       }
 
-      console.log(adminUserId)
       const userResponse = await fetchAdminUser(adminUserId)
       if (userResponse == null) {
         throw new HTTPException(404)
