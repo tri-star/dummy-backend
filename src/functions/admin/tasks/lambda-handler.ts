@@ -1,5 +1,6 @@
 import { corsSettings } from '@/functions/cors'
 import { CreateTaskAdminAction } from '@functions/admin/tasks/actions/create-task-admin-action'
+import { DeleteTaskAdminAction } from '@functions/admin/tasks/actions/delete-task-admin-action'
 import { FetchTaskAdminAction } from '@functions/admin/tasks/actions/fetch-task-admin-action'
 import { ListTaskAdminAction } from '@functions/admin/tasks/actions/list-task-admin-action'
 import { UpdateTaskAdminAction } from '@functions/admin/tasks/actions/update-task-admin-action'
@@ -32,6 +33,7 @@ export class AdminTasksLambdaHandlerDefinition extends LambdaHandlerDefinition {
     new ListTaskAdminAction().buildOpenApiAppRoute(parentApp)
     new FetchTaskAdminAction().buildOpenApiAppRoute(parentApp)
     new UpdateTaskAdminAction().buildOpenApiAppRoute(parentApp)
+    new DeleteTaskAdminAction().buildOpenApiAppRoute(parentApp)
     return parentApp
   }
 }

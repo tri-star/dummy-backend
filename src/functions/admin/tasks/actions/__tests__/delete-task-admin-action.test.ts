@@ -1,13 +1,11 @@
 import { supabaseClient } from '@libs/supabase/api-client'
-import { type APIGatewayProxyEvent } from 'aws-lambda'
-import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
-import { parseHandlerJsonResponse } from '@/utils/jest'
 import { prepareAdminUserToken } from '@libs/jest/admin-auth-utils'
 import { prepareAdminUser } from '@libs/jest/admin-user-utils'
 import { prepareTask } from '@libs/jest/task-utils'
-import { deleteTaskAdminHandler } from '@/functions/admin/tasks/handlers/delete-task-admin-handler'
 import { prepareCompany } from '@libs/jest/company-utils'
-import { type AdminApiContext } from '@libs/lambda'
+import { createAdminApp } from '@functions/admin-app'
+import { AdminTasksLambdaHandlerDefinition } from '@functions/admin/tasks/lambda-handler'
+import { ROUTES } from '@functions/route-consts'
 
 describe('taskDeleteAdminHandler', () => {
   beforeEach(async () => {
@@ -23,19 +21,18 @@ describe('taskDeleteAdminHandler', () => {
     const company = await prepareCompany({})
     const task = await prepareTask({ companyId: company.id })
 
-    const result = await deleteTaskAdminHandler(
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        pathParameters: {
-          id: task.id,
-        },
-      } as unknown as APIGatewayProxyEvent & VersionedApiGatewayEvent,
-      undefined as unknown as AdminApiContext,
-    )
-    const { statusCode } = parseHandlerJsonResponse<undefined>(result)
+    const adminApp = createAdminApp()
+    const lambdaDefinition = new AdminTasksLambdaHandlerDefinition()
+    lambdaDefinition.buildOpenApiRoute(adminApp)
 
-    expect(statusCode).toBe(200)
+    const result = await adminApp.request(ROUTES.ADMIN.TASKS.DELETE.URL(task.id), {
+      method: 'delete',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+
+    expect(result.status).toBe(204)
   })
 })
