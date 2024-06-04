@@ -1,7 +1,10 @@
 import type { AWS } from '@serverless/typescript'
 import { handlerPath } from '@libs/handler-resolver'
 import { corsSettings } from '@functions/cors'
-import { createTaskSchema, updateTaskSchema } from '@functions/admin/tasks/schema'
+import { updateTaskSchema } from '@functions/admin/tasks/schema'
+import { createAdminApp } from '@functions/admin-app'
+import { AdminTasksLambdaHandlerDefinition } from '@functions/admin/tasks/lambda-handler'
+import { handle } from 'hono/aws-lambda'
 
 export const rules: AWS['functions'] = {
   fetchTaskListAdminHandler: {
@@ -30,26 +33,6 @@ export const rules: AWS['functions'] = {
             parameters: {
               paths: {
                 id: true,
-              },
-            },
-          },
-        },
-      },
-    ],
-  },
-  createTaskAdminHandler: {
-    handler: `${handlerPath(__dirname)}/handlers/create-task-admin-handler.createTaskAdminHandler`,
-    timeout: 15,
-    events: [
-      {
-        http: {
-          method: 'post',
-          path: 'admin/tasks',
-          cors: corsSettings,
-          request: {
-            schemas: {
-              'application/json': {
-                schema: createTaskSchema,
               },
             },
           },
@@ -105,3 +88,11 @@ export const rules: AWS['functions'] = {
 }
 
 export default rules
+
+const adminApp = createAdminApp()
+
+export const adminTasksLambdaHandlerDefinition = new AdminTasksLambdaHandlerDefinition()
+
+export const adminTasksApp = adminTasksLambdaHandlerDefinition.buildOpenApiRoute(adminApp)
+
+export const handler = handle(adminTasksApp)

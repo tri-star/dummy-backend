@@ -45,5 +45,25 @@ export const ROUTES = {
         URL: (id: string) => `/admin/companies/${id}`,
       },
     },
+    TASKS: {
+      CREATE: {
+        DEFINITION: '/admin/tasks',
+      },
+      LIST: {
+        DEFINITION: '/admin/tasks',
+      },
+      DETAIL: {
+        DEFINITION: '/admin/tasks/{id}',
+        URL: (id: string) => `/admin/tasks/${id}`,
+      },
+      UPDATE: {
+        DEFINITION: '/admin/tasks/{id}',
+        URL: (id: string) => `/admin/tasks/${id}`,
+      },
+      DELETE: {
+        DEFINITION: '/admin/tasks/{id}',
+        URL: (id: string) => `/admin/tasks/${id}`,
+      },
+    },
   },
 } as const
