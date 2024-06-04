@@ -34,7 +34,7 @@ describe('FetchTaskAdminAction', () => {
       },
     })
 
-    expect((await result.json()) as { id: string }).toBe(task.id)
+    expect(((await result.json()) as { id: string }).id).toBe(task.id)
     expect(result.status).toBe(200)
   })
 })

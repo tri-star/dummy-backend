@@ -1,14 +1,14 @@
 import { supabaseClient } from '@libs/supabase/api-client'
 import { prepareAdminUser } from '@libs/jest/admin-user-utils'
 import { prepareAdminUserToken } from '@libs/jest/admin-auth-utils'
-import { type APIGatewayProxyEvent, type Context } from 'aws-lambda'
-import { type VersionedApiGatewayEvent } from '@middy/http-json-body-parser'
-import { parseHandlerJsonResponse } from '@/utils/jest'
 import { prepareTask } from '@libs/jest/task-utils'
-import { updateTaskAdminHandler } from '@/functions/admin/tasks/handlers/update-task-admin-handler'
 import { prepareCompany } from '@libs/jest/company-utils'
+import { createAdminApp } from '@functions/admin-app'
+import { AdminTasksLambdaHandlerDefinition } from '@functions/admin/tasks/lambda-handler'
+import { ROUTES } from '@functions/route-consts'
+import { type UpdateTask } from '@/domain/tasks/task'
 
-describe('updateTaskHandler', () => {
+describe('updateTaskAdminAction', () => {
   beforeEach(async () => {
     await supabaseClient().from('admin_tokens').delete().neq('id', '')
     await supabaseClient().from('admin_users').delete().neq('id', '')
@@ -25,23 +25,22 @@ describe('updateTaskHandler', () => {
       title: 'target_task',
     })
 
-    const result = await updateTaskAdminHandler(
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        pathParameters: {
-          id: targetTask.id,
-        },
-        body: {
-          ...targetTask,
-          title: 'updated_task',
-        },
-      } as unknown as APIGatewayProxyEvent & VersionedApiGatewayEvent,
-      undefined as unknown as Context,
-    )
-    const { statusCode } = parseHandlerJsonResponse<undefined>(result)
+    const adminApp = createAdminApp()
+    const lambdaDefinition = new AdminTasksLambdaHandlerDefinition()
+    lambdaDefinition.buildOpenApiRoute(adminApp)
 
-    expect(statusCode).toBe(200)
+    const result = await adminApp.request(ROUTES.ADMIN.TASKS.UPDATE.URL(targetTask.id), {
+      method: 'put',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...targetTask,
+        title: 'updated_task',
+      } satisfies UpdateTask),
+    })
+
+    expect(result.status).toBe(204)
   })
 })
