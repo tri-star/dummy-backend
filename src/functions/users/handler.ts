@@ -7,6 +7,7 @@ import { type OpenAPIHono } from '@hono/zod-openapi'
 import { handlerPath } from '@libs/handler-resolver'
 import { LambdaHandlerDefinition } from '@libs/open-api/lambda-handler-definition'
 import { type AWS } from '@serverless/typescript'
+import { UpdateUserAction } from '@functions/users/actions/update-user-action'
 
 export class UserLambdaHandlerDefinition extends LambdaHandlerDefinition<AppContext> {
   definition(): AWS['functions'] {
@@ -31,6 +32,7 @@ export class UserLambdaHandlerDefinition extends LambdaHandlerDefinition<AppCont
     new CreateUserAction().buildOpenApiAppRoute(app)
     new ListUsersAction().buildOpenApiAppRoute(app)
     new FetchUserAction().buildOpenApiAppRoute(app)
+    new UpdateUserAction().buildOpenApiAppRoute(app)
     return app
   }
 }

@@ -1,4 +1,4 @@
-import * as z from 'zod'
+import { z } from '@hono/zod-openapi'
 import crypto from 'crypto'
 
 /**
