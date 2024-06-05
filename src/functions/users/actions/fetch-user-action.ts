@@ -13,6 +13,7 @@ export class FetchUserAction extends ActionDefinition<AppContext> {
       method: 'get',
       tags: ['users'],
       path: ROUTES.USERS.DETAIL.DEFINITION,
+      security: [{ AppBearer: [] }],
       parameters: [
         {
           in: 'path',

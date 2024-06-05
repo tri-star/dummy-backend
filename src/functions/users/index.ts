@@ -56,9 +56,9 @@ export const rules: AWS['functions'] = {
 
 export default rules
 
-const app = createApp()
+export const userApp = createApp()
 
 export const userLambdaHandlerDefinition = new UserLambdaHandlerDefinition()
-userLambdaHandlerDefinition.buildOpenApiRoute(app)
+userLambdaHandlerDefinition.buildOpenApiRoute(userApp)
 
-export const handler = handle(app)
+export const handler = handle(userApp)
