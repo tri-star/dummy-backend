@@ -3,6 +3,7 @@ import { adminAdminUserApp } from '@functions/admin/admin-user'
 import { adminLoginApp } from '@functions/admin/auth'
 import { adminCompaniesApp } from '@functions/admin/companies'
 import { adminTasksApp } from '@functions/admin/tasks'
+import { userAdminApp } from '@functions/admin/users'
 import { corsSettings } from '@functions/cors'
 import { swaggerUI } from '@hono/swagger-ui'
 import { handlerPath } from '@libs/handler-resolver'
@@ -42,6 +43,7 @@ const adminApp = createAdminApp()
 adminApp.route('/', adminLoginApp)
 adminApp.route('/', adminAdminUserApp)
 adminApp.route('/', adminCompaniesApp)
+adminApp.route('/', userAdminApp)
 adminApp.route('/', adminTasksApp)
 adminApp.doc('/admin/swagger-docs', {
   openapi: '3.0.0',

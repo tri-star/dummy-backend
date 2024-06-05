@@ -8,6 +8,7 @@ import { adminAdminUserLambdaHandlerDefinition } from '@functions/admin/admin-us
 import { adminOpenApiSwaggerLambdaDefinition } from '@functions/admin-open-api'
 import { adminLoginLambdaHandlerDefinition } from '@functions/admin/auth'
 import { openApiSwaggerLambdaDefinition } from '@functions/open-api'
+import { userAdminLambdaHandlerDefinition } from '@functions/admin/users'
 
 const serverlessConfiguration: AWS = {
   service: 'dummy-backend',
@@ -64,6 +65,7 @@ const serverlessConfiguration: AWS = {
     ...adminLoginLambdaHandlerDefinition.definition(),
     ...adminAdminUserLambdaHandlerDefinition.definition(),
     ...adminCompaniesLambdaHandlerDefinition.definition(),
+    ...userAdminLambdaHandlerDefinition.definition(),
     ...adminTasksLambdaHandlerDefinition.definition(),
     ...authLambdaHandlerDefinition.definition(),
     ...userLambdaHandlerDefinition.definition(),
