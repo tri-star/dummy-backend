@@ -1,29 +1,11 @@
-import type { AWS } from '@serverless/typescript'
-import { handlerPath } from '@libs/handler-resolver'
-import { corsSettings } from '@functions/cors'
-import { loginSchema } from './schema'
+import { createApp } from '@functions/app'
+import { AuthLambdaHandlerDefinition } from '@functions/auth/handler'
+import { handle } from 'hono/aws-lambda'
 
-export const rules: AWS['functions'] = {
-  loginHandler: {
-    handler: `${handlerPath(__dirname)}/handler.loginHandler`,
-    timeout: 15,
-    events: [
-      {
-        http: {
-          method: 'post',
-          path: 'auth/login',
-          request: {
-            schemas: {
-              'application/json': {
-                schema: loginSchema,
-              },
-            },
-          },
-          cors: corsSettings,
-        },
-      },
-    ],
-  },
-}
+const app = createApp()
 
-export default rules
+export const authLambdaHandlerDefinition = new AuthLambdaHandlerDefinition()
+
+authLambdaHandlerDefinition.buildOpenApiRoute(app)
+
+export const handler = handle(app)

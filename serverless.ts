@@ -2,11 +2,12 @@ import type { AWS } from '@serverless/typescript'
 
 import { adminCompaniesLambdaHandlerDefinition } from '@functions/admin/companies'
 import { adminTasksLambdaHandlerDefinition } from '@functions/admin/tasks'
-import authHandler from '@functions/auth'
+import { authLambdaHandlerDefinition } from '@functions/auth'
 import userHandler from '@functions/users'
 import { adminAdminUserLambdaHandlerDefinition } from '@functions/admin/admin-user'
-import { openApiSwaggerLambdaDefinition } from '@functions/admin-open-api'
+import { adminOpenApiSwaggerLambdaDefinition } from '@functions/admin-open-api'
 import { adminLoginLambdaHandlerDefinition } from '@functions/admin/auth'
+import { openApiSwaggerLambdaDefinition } from '@functions/open-api'
 
 const serverlessConfiguration: AWS = {
   service: 'dummy-backend',
@@ -64,8 +65,9 @@ const serverlessConfiguration: AWS = {
     ...adminAdminUserLambdaHandlerDefinition.definition(),
     ...adminCompaniesLambdaHandlerDefinition.definition(),
     ...adminTasksLambdaHandlerDefinition.definition(),
+    ...authLambdaHandlerDefinition.definition(),
+    ...adminOpenApiSwaggerLambdaDefinition,
     ...openApiSwaggerLambdaDefinition,
-    ...authHandler,
     ...userHandler,
   },
   package: { individually: true },

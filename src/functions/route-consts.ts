@@ -66,4 +66,9 @@ export const ROUTES = {
       },
     },
   },
+  AUTH: {
+    LOGIN: {
+      DEFINITION: '/auth/login',
+    },
+  },
 } as const

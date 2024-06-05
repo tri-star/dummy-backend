@@ -1,40 +1,32 @@
-import { fetchUserForAuth } from '@/domain/users/api/fetch-user-for-auth'
-import { generateToken } from '@/domain/users/api/generate-token'
-import { createPasswordHash } from '@/domain/users/user'
-import { formatJSONResponse } from '@libs/api-gateway'
-import { middyfy } from '@libs/lambda'
-import { type APIGatewayProxyEvent } from 'aws-lambda'
-import createHttpError from 'http-errors'
+import { type AppContext } from '@functions/app'
+import { LoginAction } from '@functions/auth/actions/login-action'
+import { corsSettings } from '@functions/cors'
+import { type OpenAPIHono } from '@hono/zod-openapi'
+import { handlerPath } from '@libs/handler-resolver'
+import { LambdaHandlerDefinition } from '@libs/open-api/lambda-handler-definition'
+import { type AWS } from '@serverless/typescript'
 
-/**
- * 一般ユーザー用ログイン
- */
-export const loginHandler = middyfy(async (event: APIGatewayProxyEvent) => {
-  const json = event.body as unknown as Record<string, unknown>
-  const loginId = String(json.loginId ?? '')
-  const password = String(json.password ?? '')
-
-  if (loginId === '') {
-    throw new createHttpError.BadRequest('loginIdが入力されていません')
-  }
-  if (password === '') {
-    throw new createHttpError.BadRequest('passwordが入力されていません')
-  }
-
-  const user = await fetchUserForAuth(loginId)
-  if (user === undefined) {
-    throw new createHttpError.Unauthorized('ログインに失敗しました')
-  }
-
-  const hashedPassword = user.password
-  if (hashedPassword !== createPasswordHash(password, user.id)) {
-    throw new createHttpError.Unauthorized('ログインに失敗しました')
+export class AuthLambdaHandlerDefinition extends LambdaHandlerDefinition<AppContext> {
+  definition(): AWS['functions'] {
+    return {
+      loginHandler: {
+        handler: `${handlerPath(__dirname)}/index.handler`,
+        timeout: 15,
+        events: [
+          {
+            http: {
+              method: 'post',
+              path: 'auth/login',
+              cors: corsSettings,
+            },
+          },
+        ],
+      },
+    }
   }
 
-  const token = await generateToken(user.id)
-
-  const response = formatJSONResponse({
-    token,
-  })
-  return response
-})
+  buildOpenApiRoute(app: OpenAPIHono<AppContext>): OpenAPIHono<AppContext> {
+    new LoginAction().buildOpenApiAppRoute(app)
+    return app
+  }
+}

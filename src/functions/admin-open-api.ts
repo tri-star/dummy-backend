@@ -9,7 +9,7 @@ import { handlerPath } from '@libs/handler-resolver'
 import { type AWS } from '@serverless/typescript'
 import { handle } from 'hono/aws-lambda'
 
-export const openApiSwaggerLambdaDefinition: AWS['functions'] = {
+export const adminOpenApiSwaggerLambdaDefinition: AWS['functions'] = {
   adminSwaggerJsonHandler: {
     handler: `${handlerPath(__dirname)}/admin-open-api.swaggerJsonHandler`,
     events: [
