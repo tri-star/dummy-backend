@@ -1,5 +1,6 @@
 import { type AppContext } from '@functions/app'
 import { corsSettings } from '@functions/cors'
+import { FetchUserAction } from '@functions/users/actions/fetch-user-action'
 import { CreateUserAction } from '@functions/users/actions/create-user-action'
 import { ListUsersAction } from '@functions/users/actions/list-user-action'
 import { type OpenAPIHono } from '@hono/zod-openapi'
@@ -29,6 +30,7 @@ export class UserLambdaHandlerDefinition extends LambdaHandlerDefinition<AppCont
   buildOpenApiRoute(app: OpenAPIHono<AppContext>): OpenAPIHono<AppContext> {
     new CreateUserAction().buildOpenApiAppRoute(app)
     new ListUsersAction().buildOpenApiAppRoute(app)
+    new FetchUserAction().buildOpenApiAppRoute(app)
     return app
   }
 }
