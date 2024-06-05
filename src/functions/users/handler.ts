@@ -1,6 +1,7 @@
 import { type AppContext } from '@functions/app'
 import { corsSettings } from '@functions/cors'
 import { CreateUserAction } from '@functions/users/actions/create-user-action'
+import { ListUsersAction } from '@functions/users/actions/list-user-action'
 import { type OpenAPIHono } from '@hono/zod-openapi'
 import { handlerPath } from '@libs/handler-resolver'
 import { LambdaHandlerDefinition } from '@libs/open-api/lambda-handler-definition'
@@ -9,7 +10,7 @@ import { type AWS } from '@serverless/typescript'
 export class UserLambdaHandlerDefinition extends LambdaHandlerDefinition<AppContext> {
   definition(): AWS['functions'] {
     return {
-      createUserHandler: {
+      userHandler: {
         handler: `${handlerPath(__dirname)}/handlers/index.handler`,
         timeout: 15,
         events: [
@@ -27,6 +28,7 @@ export class UserLambdaHandlerDefinition extends LambdaHandlerDefinition<AppCont
 
   buildOpenApiRoute(app: OpenAPIHono<AppContext>): OpenAPIHono<AppContext> {
     new CreateUserAction().buildOpenApiAppRoute(app)
+    new ListUsersAction().buildOpenApiAppRoute(app)
     return app
   }
 }

@@ -7,26 +7,6 @@ import { createApp } from '@functions/app'
 import { handle } from 'hono/aws-lambda'
 
 export const rules: AWS['functions'] = {
-  listUsersHandler: {
-    handler: `${handlerPath(__dirname)}/handlers/list-users-handler.listUsersHandler`,
-    timeout: 15,
-    events: [
-      {
-        http: {
-          method: 'get',
-          path: 'users',
-          // request: {
-          //   parameters: {
-          //     querystrings: {
-          //       loginId: true,
-          //     },
-          //   },
-          // },
-          cors: corsSettings,
-        },
-      },
-    ],
-  },
   fetchUserHandler: {
     handler: `${handlerPath(__dirname)}/handlers/fetch-user-handler.fetchUserHandler`,
     timeout: 15,
