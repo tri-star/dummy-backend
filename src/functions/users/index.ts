@@ -2,6 +2,9 @@ import type { AWS } from '@serverless/typescript'
 import { handlerPath } from '@libs/handler-resolver'
 // import { updateUserSchema } from './schema'
 import { corsSettings } from '@functions/cors'
+import { UserLambdaHandlerDefinition } from '@functions/users/handler'
+import { createApp } from '@functions/app'
+import { handle } from 'hono/aws-lambda'
 
 export const rules: AWS['functions'] = {
   listUsersHandler: {
@@ -40,26 +43,6 @@ export const rules: AWS['functions'] = {
               },
             },
           },
-        },
-      },
-    ],
-  },
-  createUserHandler: {
-    handler: `${handlerPath(__dirname)}/handlers/create-user-handler.createUserHandler`,
-    timeout: 15,
-    events: [
-      {
-        http: {
-          method: 'post',
-          path: 'users',
-          // request: {
-          //   // schemas: {
-          //   //   'application/json': {
-          //   //     schema: createUserSchema,
-          //   //   },
-          //   // },
-          // },
-          cors: corsSettings,
         },
       },
     ],
@@ -112,3 +95,10 @@ export const rules: AWS['functions'] = {
 }
 
 export default rules
+
+const app = createApp()
+
+export const userLambdaHandlerDefinition = new UserLambdaHandlerDefinition()
+userLambdaHandlerDefinition.buildOpenApiRoute(app)
+
+export const handler = handle(app)

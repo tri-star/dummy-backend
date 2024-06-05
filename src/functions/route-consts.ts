@@ -71,4 +71,24 @@ export const ROUTES = {
       DEFINITION: '/auth/login',
     },
   },
+  USERS: {
+    CREATE: {
+      DEFINITION: '/users',
+    },
+    LIST: {
+      DEFINITION: '/users',
+    },
+    DETAIL: {
+      DEFINITION: '/users/{id}',
+      URL: (id: string) => `/users/${id}`,
+    },
+    UPDATE: {
+      DEFINITION: '/users/{id}',
+      URL: (id: string) => `/users/${id}`,
+    },
+    DELETE: {
+      DEFINITION: '/users/{id}',
+      URL: (id: string) => `/users/${id}`,
+    },
+  },
 } as const
