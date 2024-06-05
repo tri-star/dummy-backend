@@ -8,18 +8,19 @@ import { handlerPath } from '@libs/handler-resolver'
 import { LambdaHandlerDefinition } from '@libs/open-api/lambda-handler-definition'
 import { type AWS } from '@serverless/typescript'
 import { UpdateUserAction } from '@functions/users/actions/update-user-action'
+import { DeleteUserAction } from '@functions/users/actions/delete-user-action'
 
 export class UserLambdaHandlerDefinition extends LambdaHandlerDefinition<AppContext> {
   definition(): AWS['functions'] {
     return {
       userHandler: {
-        handler: `${handlerPath(__dirname)}/handlers/index.handler`,
+        handler: `${handlerPath(__dirname)}/index.handler`,
         timeout: 15,
         events: [
           {
             http: {
-              method: 'post',
-              path: 'users',
+              method: '*',
+              path: 'users/{proxy+}',
               cors: corsSettings,
             },
           },
@@ -33,6 +34,7 @@ export class UserLambdaHandlerDefinition extends LambdaHandlerDefinition<AppCont
     new ListUsersAction().buildOpenApiAppRoute(app)
     new FetchUserAction().buildOpenApiAppRoute(app)
     new UpdateUserAction().buildOpenApiAppRoute(app)
+    new DeleteUserAction().buildOpenApiAppRoute(app)
     return app
   }
 }
