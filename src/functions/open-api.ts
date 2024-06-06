@@ -35,7 +35,7 @@ export const openApiSwaggerLambdaDefinition: AWS['functions'] = {
 }
 
 const app = createApp()
-
+const stage = process.env.STAGE || 'local'
 // NOTE: 全てのOpenAPIのルート定義が済んだ状態を作るため、各機能のappを追加していく
 app.route('/', loginApp)
 app.route('/', userApp)
@@ -43,7 +43,7 @@ app.doc('/swagger-docs', {
   openapi: '3.0.0',
   servers: [
     {
-      url: '/local',
+      url: `/${stage}`,
       description: 'Local server',
     },
   ],
@@ -53,7 +53,7 @@ app.doc('/swagger-docs', {
   },
 })
 
-app.get('/docs', swaggerUI({ url: '/local/swagger-docs' }))
+app.get('/docs', swaggerUI({ url: `/${stage}/swagger-docs` }))
 
 export const swaggerJsonHandler = handle(app)
 export const swaggerUiHandler = handle(app)

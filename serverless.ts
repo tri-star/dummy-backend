@@ -59,6 +59,7 @@ const serverlessConfiguration: AWS = {
       SUPABASE_SERVICE_ROLE_KEY:
         '${env:SUPABASE_SERVICE_ROLE_KEY, ssm:/aws/reference/secretsmanager/${sls:stage}/supabase/service_role_key}',
       APP_KEY: '${env:APP_KEY, ssm:/aws/reference/secretsmanager/${sls:stage}/app/key}',
+      STAGE: '${sls:stage}',
     },
   },
   functions: {

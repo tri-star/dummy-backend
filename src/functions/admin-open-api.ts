@@ -38,6 +38,7 @@ export const adminOpenApiSwaggerLambdaDefinition: AWS['functions'] = {
 }
 
 const adminApp = createAdminApp()
+const stage = process.env.STAGE || 'local'
 
 // NOTE: 全てのOpenAPIのルート定義が済んだ状態を作るため、各機能のappを追加していく
 adminApp.route('/', adminLoginApp)
@@ -49,7 +50,7 @@ adminApp.doc('/admin/swagger-docs', {
   openapi: '3.0.0',
   servers: [
     {
-      url: '/local',
+      url: `/${stage}`,
       description: 'Local server',
     },
   ],
@@ -59,7 +60,7 @@ adminApp.doc('/admin/swagger-docs', {
   },
 })
 
-adminApp.get('/admin/docs', swaggerUI({ url: '/local/admin/swagger-docs' }))
+adminApp.get('/admin/docs', swaggerUI({ url: `/${stage}/admin/swagger-docs` }))
 
 export const swaggerJsonHandler = handle(adminApp)
 export const swaggerUiHandler = handle(adminApp)
