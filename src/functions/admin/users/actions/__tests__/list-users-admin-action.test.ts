@@ -10,6 +10,7 @@ describe('listUserAdminAction', () => {
   beforeEach(async () => {
     await supabaseClient().from('admin_users').delete().neq('id', '')
     await supabaseClient().from('admin_tokens').delete().neq('id', '')
+    await supabaseClient().from('tokens').delete().neq('id', '')
     await supabaseClient().from('users').delete().neq('id', '')
   })
 
