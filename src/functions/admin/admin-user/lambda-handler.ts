@@ -20,14 +20,21 @@ export class AdminAdminUserLambdaHandlerDefinition extends LambdaHandlerDefiniti
           },
         ],
       },
-      AdminAdminUsersHandler: {
+      adminadminUsersHandler: {
         handler: `${handlerPath(__dirname)}/index.handler`,
         timeout: 15,
         events: [
           {
             http: {
-              method: '*',
+              method: 'ANY',
               path: '/admin/admin-users/{proxy+}',
+              cors: corsSettings,
+            },
+          },
+          {
+            http: {
+              method: 'ANY',
+              path: '/admin/admin-users',
               cors: corsSettings,
             },
           },

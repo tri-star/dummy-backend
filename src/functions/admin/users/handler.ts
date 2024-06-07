@@ -18,8 +18,15 @@ export class UserAdminLambdaHandlerDefinition extends LambdaHandlerDefinition {
         events: [
           {
             http: {
-              method: '*',
+              method: 'ANY',
               path: 'admin/users/{proxy+}',
+              cors: corsSettings,
+            },
+          },
+          {
+            http: {
+              method: 'ANY',
+              path: 'admin/users',
               cors: corsSettings,
             },
           },

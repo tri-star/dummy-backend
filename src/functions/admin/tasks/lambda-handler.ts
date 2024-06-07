@@ -18,8 +18,15 @@ export class AdminTasksLambdaHandlerDefinition extends LambdaHandlerDefinition {
         events: [
           {
             http: {
-              method: '*',
+              method: 'ANY',
               path: '/admin/tasks/{proxy+}',
+              cors: corsSettings,
+            },
+          },
+          {
+            http: {
+              method: 'ANY',
+              path: '/admin/tasks',
               cors: corsSettings,
             },
           },

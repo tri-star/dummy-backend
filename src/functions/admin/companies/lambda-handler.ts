@@ -18,8 +18,15 @@ export class AdminCompanyLambdaHandlerDefinition extends LambdaHandlerDefinition
         events: [
           {
             http: {
-              method: '*',
+              method: 'ANY',
               path: '/admin/companies/{proxy+}',
+              cors: corsSettings,
+            },
+          },
+          {
+            http: {
+              method: 'ANY',
+              path: '/admin/companies',
               cors: corsSettings,
             },
           },

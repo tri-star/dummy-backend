@@ -19,8 +19,15 @@ export class UserLambdaHandlerDefinition extends LambdaHandlerDefinition<AppCont
         events: [
           {
             http: {
-              method: '*',
+              method: 'ANY',
               path: 'users/{proxy+}',
+              cors: corsSettings,
+            },
+          },
+          {
+            http: {
+              method: 'ANY',
+              path: 'users',
               cors: corsSettings,
             },
           },
