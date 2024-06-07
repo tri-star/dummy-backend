@@ -1,107 +1,11 @@
-import type { AWS } from '@serverless/typescript'
-import { handlerPath } from '@libs/handler-resolver'
-import { corsSettings } from '@functions/cors'
-import { createCompanySchema, updateCompanySchema } from '@functions/admin/companies/schema'
+import { createAdminApp } from '@functions/admin-app'
+import { handle } from 'hono/aws-lambda'
+import { AdminCompanyLambdaHandlerDefinition } from '@functions/admin/companies/lambda-handler'
 
-export const rules: AWS['functions'] = {
-  listCompaniesAdminHandler: {
-    handler: `${handlerPath(__dirname)}/handlers/fetch-company-list-admin-handler.fetchCompanyListAdminHandler`,
-    timeout: 15,
-    events: [
-      {
-        http: {
-          method: 'get',
-          path: 'admin/companies',
-          cors: corsSettings,
-        },
-      },
-    ],
-  },
-  fetchCompanyAdminHandler: {
-    handler: `${handlerPath(__dirname)}/handlers/fetch-company-admin-handler.fetchCompanyAdminHandler`,
-    timeout: 15,
-    events: [
-      {
-        http: {
-          method: 'get',
-          path: 'admin/companies/{id}',
-          cors: corsSettings,
-          request: {
-            parameters: {
-              paths: {
-                id: true,
-              },
-            },
-          },
-        },
-      },
-    ],
-  },
-  createCompanyAdminHandler: {
-    handler: `${handlerPath(__dirname)}/handlers/create-company-admin-handler.createCompanyAdminHandler`,
-    timeout: 15,
-    events: [
-      {
-        http: {
-          method: 'post',
-          path: 'admin/companies',
-          cors: corsSettings,
-          request: {
-            schemas: {
-              'application/json': {
-                schema: createCompanySchema,
-              },
-            },
-          },
-        },
-      },
-    ],
-  },
-  updateCompanyAdminHandler: {
-    handler: `${handlerPath(__dirname)}/handlers/update-company-admin-handler.updateCompanyAdminHandler`,
-    timeout: 15,
-    events: [
-      {
-        http: {
-          method: 'put',
-          path: 'admin/companies/{id}',
-          cors: corsSettings,
-          request: {
-            parameters: {
-              paths: {
-                id: true,
-              },
-            },
-            schemas: {
-              'application/json': {
-                schema: updateCompanySchema,
-              },
-            },
-          },
-        },
-      },
-    ],
-  },
-  deleteCompanyAdminHandler: {
-    handler: `${handlerPath(__dirname)}/handlers/delete-company-admin-handler.deleteCompanyAdminHandler`,
-    timeout: 15,
-    events: [
-      {
-        http: {
-          method: 'delete',
-          path: 'admin/companies/{id}',
-          cors: corsSettings,
-          request: {
-            parameters: {
-              paths: {
-                id: true,
-              },
-            },
-          },
-        },
-      },
-    ],
-  },
-}
+const adminApp = createAdminApp()
 
-export default rules
+export const adminCompaniesLambdaHandlerDefinition = new AdminCompanyLambdaHandlerDefinition()
+
+export const adminCompaniesApp = adminCompaniesLambdaHandlerDefinition.buildOpenApiRoute(adminApp)
+
+export const handler = handle(adminCompaniesApp)

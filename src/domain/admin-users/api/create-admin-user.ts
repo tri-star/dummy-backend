@@ -1,6 +1,6 @@
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 import { type AdminUser, type CreateAdminUser } from '../admin-user'
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 
 /**
  * 管理者ユーザーの登録
@@ -10,7 +10,7 @@ export async function createAdminUser(userId: string, user: CreateAdminUser): Pr
 
   const createdAdminUser = await traceAsync<AdminUser>(segment, 'insert', async () => {
     const now = new Date()
-    const result = await supabase.from('admin_users').insert({
+    const result = await supabaseClient().from('admin_users').insert({
       id: userId,
       name: user.name,
       login_id: user.loginId,

@@ -1,5 +1,5 @@
 import { type Company, type CreateCompany } from '@/domain/company/company'
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 
 /**
@@ -10,7 +10,7 @@ export async function createCompany(companyId: string, company: CreateCompany): 
 
   const createdCompany = await traceAsync<Company>(segment, 'insert', async () => {
     const now = new Date()
-    const result = await supabase.from('companies').insert({
+    const result = await supabaseClient().from('companies').insert({
       id: companyId,
       name: company.name,
       postal_code: company.postalCode,

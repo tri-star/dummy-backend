@@ -1,11 +1,14 @@
 import type { AWS } from '@serverless/typescript'
 
-import adminUserHandler from '@functions/admin/users'
-import adminAuthHandler from '@functions/admin/auth'
-import adminCompanyHandler from '@functions/admin/companies'
-import adminTaskHandler from '@functions/admin/tasks'
-import authHandler from '@functions/auth'
-import userHandler from '@functions/users'
+import { adminCompaniesLambdaHandlerDefinition } from '@functions/admin/companies'
+import { adminTasksLambdaHandlerDefinition } from '@functions/admin/tasks'
+import { authLambdaHandlerDefinition } from '@functions/auth'
+import { userLambdaHandlerDefinition } from '@functions/users'
+import { adminAdminUserLambdaHandlerDefinition } from '@functions/admin/admin-user'
+import { adminOpenApiSwaggerLambdaDefinition } from '@functions/admin-open-api'
+import { adminLoginLambdaHandlerDefinition } from '@functions/admin/auth'
+import { openApiSwaggerLambdaDefinition } from '@functions/open-api'
+import { userAdminLambdaHandlerDefinition } from '@functions/admin/users'
 
 const serverlessConfiguration: AWS = {
   service: 'dummy-backend',
@@ -15,8 +18,7 @@ const serverlessConfiguration: AWS = {
   useDotenv: true,
   provider: {
     name: 'aws',
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
-    region: '${env:AWS_REGION}' as any,
+    region: '${env:AWS_REGION}' as AWS['provider']['region'],
     tracing: {
       apiGateway: true,
       lambda: true,
@@ -57,15 +59,19 @@ const serverlessConfiguration: AWS = {
       SUPABASE_SERVICE_ROLE_KEY:
         '${env:SUPABASE_SERVICE_ROLE_KEY, ssm:/aws/reference/secretsmanager/${sls:stage}/supabase/service_role_key}',
       APP_KEY: '${env:APP_KEY, ssm:/aws/reference/secretsmanager/${sls:stage}/app/key}',
+      STAGE: '${sls:stage}',
     },
   },
   functions: {
-    ...adminAuthHandler,
-    ...adminUserHandler,
-    ...adminCompanyHandler,
-    ...adminTaskHandler,
-    ...authHandler,
-    ...userHandler,
+    ...adminLoginLambdaHandlerDefinition.definition(),
+    ...adminAdminUserLambdaHandlerDefinition.definition(),
+    ...adminCompaniesLambdaHandlerDefinition.definition(),
+    ...userAdminLambdaHandlerDefinition.definition(),
+    ...adminTasksLambdaHandlerDefinition.definition(),
+    ...authLambdaHandlerDefinition.definition(),
+    ...userLambdaHandlerDefinition.definition(),
+    ...adminOpenApiSwaggerLambdaDefinition,
+    ...openApiSwaggerLambdaDefinition,
   },
   package: { individually: true },
   custom: {

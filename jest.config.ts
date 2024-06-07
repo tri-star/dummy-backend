@@ -9,6 +9,7 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/src/libs/jest/mock-xray.ts'],
   moduleNameMapper: {
     '^@libs/(.*)$': '<rootDir>/src/libs/$1',
+    '^@functions/(.*)$': '<rootDir>/src/functions/$1',
     '^@/(.*)$': '<rootDir>/src/$1',
     // '^@middy(.*)$': '<rootDir>/node_modules/@middy/$1',
     '^(\\.{1,2}/.*)\\.js$': '$1',

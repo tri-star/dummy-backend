@@ -1,29 +1,11 @@
-import type { AWS } from '@serverless/typescript'
-import { handlerPath } from '@libs/handler-resolver'
-import { corsSettings } from '@functions/cors'
-import { adminLoginSchema } from './schema'
+import { createAdminApp } from '@functions/admin-app'
+import { AdminAuthLambdaHandlerDefinition } from '@functions/admin/auth/lambda-handler'
+import { handle } from 'hono/aws-lambda'
 
-export const rules: AWS['functions'] = {
-  adminLoginHandler: {
-    handler: `${handlerPath(__dirname)}/handler.adminLoginHandler`,
-    timeout: 15,
-    events: [
-      {
-        http: {
-          method: 'post',
-          path: 'admin/auth/login',
-          request: {
-            schemas: {
-              'application/json': {
-                schema: adminLoginSchema,
-              },
-            },
-          },
-          cors: corsSettings,
-        },
-      },
-    ],
-  },
-}
+const adminApp = createAdminApp()
 
-export default rules
+export const adminLoginLambdaHandlerDefinition = new AdminAuthLambdaHandlerDefinition()
+
+export const adminLoginApp = adminLoginLambdaHandlerDefinition.buildOpenApiRoute(adminApp)
+
+export const handler = handle(adminLoginApp)

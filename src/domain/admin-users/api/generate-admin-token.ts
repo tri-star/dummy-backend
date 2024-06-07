@@ -1,4 +1,4 @@
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 import { generateAdminTokenString } from '../admin-user'
 import { ulid } from 'ulid'
@@ -12,7 +12,7 @@ export async function generateAdminToken(userId: string) {
   const token = await traceAsync<string>(segment, 'insert', async () => {
     const now = new Date()
     const token = generateAdminTokenString()
-    const result = await supabase.from('admin_tokens').insert({
+    const result = await supabaseClient().from('admin_tokens').insert({
       id: ulid(),
       admin_user_id: userId,
       token,

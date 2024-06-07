@@ -1,5 +1,5 @@
 import { type CreateTaskAdmin, type Task } from '@/domain/tasks/task'
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 
 /**
@@ -10,7 +10,7 @@ export async function createTask(taskId: string, task: CreateTaskAdmin): Promise
 
   const createdTask = await traceAsync<Task>(segment, 'insert', async () => {
     const now = new Date()
-    const result = await supabase.from('tasks').insert({
+    const result = await supabaseClient().from('tasks').insert({
       id: taskId,
       title: task.title,
       company_id: task.companyId,

@@ -1,5 +1,5 @@
 import { type UpdateTask } from '@/domain/tasks/task'
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 
 /**
@@ -9,7 +9,7 @@ export async function updateTask(taskId: string, task: UpdateTask): Promise<void
   const segment = createSegment('Supabase')
 
   await traceAsync(segment, 'update', async () => {
-    const result = await supabase
+    const result = await supabaseClient()
       .from('tasks')
       .update({
         title: task.title,
@@ -32,7 +32,7 @@ export async function deleteTask(taskId: string): Promise<void> {
   const segment = createSegment('Supabase')
 
   await traceAsync(segment, 'delete', async () => {
-    const result = await supabase.from('tasks').delete().match({ id: taskId })
+    const result = await supabaseClient().from('tasks').delete().match({ id: taskId })
     if (result.error != null) {
       throw new Error(JSON.stringify(result.error))
     }

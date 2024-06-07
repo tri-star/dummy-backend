@@ -1,6 +1,6 @@
 // fetch-task.ts
 import { createSegment, traceAsync } from '@libs/xray-tracer'
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { dbTaskSchema, type Task } from '@/domain/tasks/task'
 
 /**
@@ -10,7 +10,7 @@ export async function fetchTask(taskId: string): Promise<Task | undefined> {
   const segment = createSegment('Supabase')
 
   const result = await traceAsync<Task | undefined>(segment, 'query', async () => {
-    const dbResult = await supabase.from('tasks').select('*').eq('id', taskId)
+    const dbResult = await supabaseClient().from('tasks').select('*').eq('id', taskId)
 
     if (dbResult.error != null) {
       throw new Error(JSON.stringify(dbResult.error))

@@ -1,4 +1,4 @@
-import { supabase } from '@libs/supabase/api-client'
+import { supabaseClient } from '@libs/supabase/api-client'
 import { createSegment, traceAsync } from '@libs/xray-tracer'
 import { type AdminUser, type UpdateAdminUser } from '../admin-user'
 
@@ -10,7 +10,7 @@ export async function updateAdminUser(adminUserId: string, user: UpdateAdminUser
 
   await traceAsync<AdminUser>(segment, 'update', async () => {
     const now = new Date()
-    const result = await supabase
+    const result = await supabaseClient()
       .from('admin_users')
       .update({
         name: user.name,
