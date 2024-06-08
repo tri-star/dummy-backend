@@ -1,5 +1,13 @@
 version: 2
 updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: 'weekly'
+    # ignore:
+    #   - dependency-name: actions/upload-artifact
+    #     versions:
+    #     - 4.3.0
   - package-ecosystem: 'terraform'
     directory: '/terraform/environments/dev'
     schedule:
