@@ -27,7 +27,7 @@
     "@hono/swagger-ui": "^0.2.2",
     "@hono/zod-openapi": "^0.14.2",
     "@supabase/supabase-js": "^2.43.4",
-    "aws-xray-sdk-core": "^3.8.0",
+    "aws-xray-sdk-core": "^3.9.0",
     "hono": "^4.4.4",
     "ulid": "^2.3.0",
     "zod": "^3.23.8"
