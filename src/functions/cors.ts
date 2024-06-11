@@ -1,5 +1,5 @@
 export const corsSettings = {
-  origins: ['http://localhost:3000'],
+  origins: ['*'],
   headers: ['Content-Type', 'Authorization'],
   allowCredentials: false,
 }
