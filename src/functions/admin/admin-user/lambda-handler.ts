@@ -1,6 +1,7 @@
 import { CreateAdminAdminUserAction } from '@/functions/admin/admin-user/actions/create-admin-admin-user-action'
 import { ListAdminAdminUserAction } from '@/functions/admin/admin-user/actions/list-admin-admin-user-action'
 import { corsSettings } from '@/functions/cors'
+import { type AdminAppContext } from '@functions/admin-app'
 import { DeleteAdminAdminUserAction } from '@functions/admin/admin-user/actions/delete-admin-admin-user-action'
 import { FetchAdminAdminUserAction } from '@functions/admin/admin-user/actions/fetch-admin-admin-user-action'
 import { UpdateAdminAdminUserAction } from '@functions/admin/admin-user/actions/update-admin-admin-user-action'
@@ -9,7 +10,7 @@ import { handlerPath } from '@libs/handler-resolver'
 import { LambdaHandlerDefinition } from '@libs/open-api/lambda-handler-definition'
 import { type AWS } from '@serverless/typescript'
 
-export class AdminAdminUserLambdaHandlerDefinition extends LambdaHandlerDefinition {
+export class AdminAdminUserLambdaHandlerDefinition extends LambdaHandlerDefinition<AdminAppContext> {
   definition(): AWS['functions'] {
     return {
       createAdminUserNoAuthHandler: {
@@ -43,7 +44,7 @@ export class AdminAdminUserLambdaHandlerDefinition extends LambdaHandlerDefiniti
     }
   }
 
-  buildOpenApiRoute(parentApp: OpenAPIHono): OpenAPIHono {
+  buildOpenApiRoute(parentApp: OpenAPIHono<AdminAppContext>): OpenAPIHono<AdminAppContext> {
     new CreateAdminAdminUserAction().buildOpenApiAppRoute(parentApp)
     new ListAdminAdminUserAction().buildOpenApiAppRoute(parentApp)
     new FetchAdminAdminUserAction().buildOpenApiAppRoute(parentApp)

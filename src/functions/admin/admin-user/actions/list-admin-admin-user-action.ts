@@ -1,6 +1,7 @@
 import { adminUserSchema } from '@/domain/admin-users/admin-user'
 import { fetchAdminUserList } from '@/domain/admin-users/api/fetch-admin-user-list'
 import { ROUTES } from '@/functions/route-consts'
+import { type AdminAppContext } from '@functions/admin-app'
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
 import { ActionDefinition } from '@libs/open-api/action-definition'
 
@@ -21,8 +22,8 @@ const listAdminUsersResponseSchema = z.object({
   count: z.number(),
 })
 
-export class ListAdminAdminUserAction extends ActionDefinition {
-  buildOpenApiAppRoute(app: OpenAPIHono): void {
+export class ListAdminAdminUserAction extends ActionDefinition<AdminAppContext> {
+  buildOpenApiAppRoute(app: OpenAPIHono<AdminAppContext>): void {
     const route = createRoute({
       tags: ['admin-users'],
       method: 'get',

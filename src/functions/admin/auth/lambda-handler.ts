@@ -5,8 +5,9 @@ import { corsSettings } from '@/functions/cors'
 import { LambdaHandlerDefinition } from '@libs/open-api/lambda-handler-definition'
 import { type OpenAPIHono } from '@hono/zod-openapi'
 import { AdminLoginAction } from '@/functions/admin/auth/actions/login-action'
+import { type AdminAppContext } from '@functions/admin-app'
 
-export class AdminAuthLambdaHandlerDefinition extends LambdaHandlerDefinition {
+export class AdminAuthLambdaHandlerDefinition extends LambdaHandlerDefinition<AdminAppContext> {
   definition(): AWS['functions'] {
     return {
       adminLoginHandler: {
@@ -25,7 +26,7 @@ export class AdminAuthLambdaHandlerDefinition extends LambdaHandlerDefinition {
     }
   }
 
-  buildOpenApiRoute(parentApp: OpenAPIHono): OpenAPIHono {
+  buildOpenApiRoute(parentApp: OpenAPIHono<AdminAppContext>): OpenAPIHono<AdminAppContext> {
     new AdminLoginAction().buildOpenApiAppRoute(parentApp)
     return parentApp
   }
