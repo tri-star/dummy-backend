@@ -4,6 +4,9 @@ export const ROUTES = {
       LOGIN: {
         DEFINITION: '/admin/auth/login',
       },
+      VALIDATE_LOGIN_ID: {
+        DEFINITION: '/admin/auth/validate-login-id',
+      },
     },
     ADMIN_USERS: {
       CREATE: {
