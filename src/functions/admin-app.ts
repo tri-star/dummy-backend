@@ -1,9 +1,16 @@
+import { type AdminUser } from '@/domain/admin-users/admin-user'
 import { adminAuthenticateMiddleware } from '@/middlewares/admin-authenticate-next-middleware'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { cors } from 'hono/cors'
 
-export function createAdminApp(): OpenAPIHono {
-  const app = new OpenAPIHono()
+export type AdminAppContext = {
+  Variables: {
+    adminUser: AdminUser | undefined
+  }
+}
+
+export function createAdminApp(): OpenAPIHono<AdminAppContext> {
+  const app = new OpenAPIHono<AdminAppContext>()
   app.openAPIRegistry.registerComponent('securitySchemes', 'AdminBearer', {
     type: 'http',
     scheme: 'bearer',
