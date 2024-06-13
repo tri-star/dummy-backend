@@ -1,12 +1,13 @@
 import { createUser } from '@/domain/users/api/create-user'
 import { createPasswordHash, createUserSchema, userSchema } from '@/domain/users/user'
+import { type AdminAppContext } from '@functions/admin-app'
 import { ROUTES } from '@functions/route-consts'
 import { createRoute, z, type OpenAPIHono } from '@hono/zod-openapi'
 import { ActionDefinition } from '@libs/open-api/action-definition'
 import { ulid } from 'ulid'
 
-export class CreateUserAdminAction extends ActionDefinition {
-  buildOpenApiAppRoute(parentApp: OpenAPIHono): void {
+export class CreateUserAdminAction extends ActionDefinition<AdminAppContext> {
+  buildOpenApiAppRoute(parentApp: OpenAPIHono<AdminAppContext>): void {
     const route = createRoute({
       tags: ['users'],
       method: 'post',

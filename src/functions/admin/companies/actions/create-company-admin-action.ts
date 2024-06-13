@@ -4,9 +4,10 @@ import { createCompany } from '@/domain/company/api/create-company'
 import { ActionDefinition } from '@libs/open-api/action-definition'
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
 import { ROUTES } from '@functions/route-consts'
+import { type AdminAppContext } from '@functions/admin-app'
 
-export class CreateCompanyAdminAction extends ActionDefinition {
-  buildOpenApiAppRoute(app: OpenAPIHono): void {
+export class CreateCompanyAdminAction extends ActionDefinition<AdminAppContext> {
+  buildOpenApiAppRoute(app: OpenAPIHono<AdminAppContext>): void {
     const route = createRoute({
       tags: ['companies'],
       method: 'post',

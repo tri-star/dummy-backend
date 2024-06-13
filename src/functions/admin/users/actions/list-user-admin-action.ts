@@ -3,6 +3,7 @@ import { fetchUserList } from '@/domain/users/api/fetch-user-list'
 import { ROUTES } from '@/functions/route-consts'
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
 import { ActionDefinition } from '@libs/open-api/action-definition'
+import { type AdminAppContext } from '@functions/admin-app'
 
 const listUsersRequestSchema = z.object({
   loginId: z.string().optional(),
@@ -20,8 +21,8 @@ const listUsersResponseSchema = z.object({
   count: z.number(),
 })
 
-export class ListUserAdminAction extends ActionDefinition {
-  buildOpenApiAppRoute(app: OpenAPIHono): void {
+export class ListUserAdminAction extends ActionDefinition<AdminAppContext> {
+  buildOpenApiAppRoute(app: OpenAPIHono<AdminAppContext>): void {
     const route = createRoute({
       tags: ['users'],
       method: 'get',

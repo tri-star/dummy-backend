@@ -2,13 +2,13 @@ import { supabaseClient } from '@libs/supabase/api-client'
 import { prepareUser } from '@libs/jest/user-utils'
 import { type OpenAPIHono } from '@hono/zod-openapi'
 import { ROUTES } from '@functions/route-consts'
-import { createAdminApp } from '@functions/admin-app'
+import { type AdminAppContext, createAdminApp } from '@functions/admin-app'
 import { UserAdminLambdaHandlerDefinition } from '@functions/admin/users/handler'
 import { prepareAdminUser } from '@libs/jest/admin-user-utils'
 import { prepareAdminUserToken } from '@libs/jest/admin-auth-utils'
 
 describe('deleteUseAdminAction', () => {
-  let app: OpenAPIHono
+  let app: OpenAPIHono<AdminAppContext>
   let lambdaDefinition: UserAdminLambdaHandlerDefinition
 
   beforeEach(async () => {

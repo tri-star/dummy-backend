@@ -1,4 +1,5 @@
 import { corsSettings } from '@/functions/cors'
+import { type AdminAppContext } from '@functions/admin-app'
 import { CreateTaskAdminAction } from '@functions/admin/tasks/actions/create-task-admin-action'
 import { DeleteTaskAdminAction } from '@functions/admin/tasks/actions/delete-task-admin-action'
 import { FetchTaskAdminAction } from '@functions/admin/tasks/actions/fetch-task-admin-action'
@@ -9,7 +10,7 @@ import { handlerPath } from '@libs/handler-resolver'
 import { LambdaHandlerDefinition } from '@libs/open-api/lambda-handler-definition'
 import { type AWS } from '@serverless/typescript'
 
-export class AdminTasksLambdaHandlerDefinition extends LambdaHandlerDefinition {
+export class AdminTasksLambdaHandlerDefinition extends LambdaHandlerDefinition<AdminAppContext> {
   definition(): AWS['functions'] {
     return {
       AdminTasksHandler: {
@@ -35,7 +36,7 @@ export class AdminTasksLambdaHandlerDefinition extends LambdaHandlerDefinition {
     }
   }
 
-  buildOpenApiRoute(parentApp: OpenAPIHono): OpenAPIHono {
+  buildOpenApiRoute(parentApp: OpenAPIHono<AdminAppContext>): OpenAPIHono<AdminAppContext> {
     new CreateTaskAdminAction().buildOpenApiAppRoute(parentApp)
     new ListTaskAdminAction().buildOpenApiAppRoute(parentApp)
     new FetchTaskAdminAction().buildOpenApiAppRoute(parentApp)

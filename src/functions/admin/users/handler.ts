@@ -8,8 +8,9 @@ import { ListUserAdminAction } from '@functions/admin/users/actions/list-user-ad
 import { FetchUserAdminAction } from '@functions/admin/users/actions/fetch-user-admin-action'
 import { UpdateUserAdminAction } from '@functions/admin/users/actions/update-user-admin-action'
 import { DeleteUserAdminAction } from '@functions/admin/users/actions/delete-user-admin-action'
+import { type AdminAppContext } from '@functions/admin-app'
 
-export class UserAdminLambdaHandlerDefinition extends LambdaHandlerDefinition {
+export class UserAdminLambdaHandlerDefinition extends LambdaHandlerDefinition<AdminAppContext> {
   definition(): AWS['functions'] {
     return {
       userAdminHandler: {
@@ -35,7 +36,7 @@ export class UserAdminLambdaHandlerDefinition extends LambdaHandlerDefinition {
     }
   }
 
-  buildOpenApiRoute(app: OpenAPIHono): OpenAPIHono {
+  buildOpenApiRoute(app: OpenAPIHono<AdminAppContext>): OpenAPIHono<AdminAppContext> {
     new CreateUserAdminAction().buildOpenApiAppRoute(app)
     new ListUserAdminAction().buildOpenApiAppRoute(app)
     new FetchUserAdminAction().buildOpenApiAppRoute(app)

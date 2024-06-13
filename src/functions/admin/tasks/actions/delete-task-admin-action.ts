@@ -1,11 +1,12 @@
 import { deleteTask } from '@/domain/tasks/api/delete-task'
+import { type AdminAppContext } from '@functions/admin-app'
 import { ROUTES } from '@functions/route-consts'
 import { type OpenAPIHono, createRoute } from '@hono/zod-openapi'
 import { ActionDefinition } from '@libs/open-api/action-definition'
 import { HTTPException } from 'hono/http-exception'
 
-export class DeleteTaskAdminAction extends ActionDefinition {
-  buildOpenApiAppRoute(parentApp: OpenAPIHono): void {
+export class DeleteTaskAdminAction extends ActionDefinition<AdminAppContext> {
+  buildOpenApiAppRoute(parentApp: OpenAPIHono<AdminAppContext>): void {
     const route = createRoute({
       tags: ['tasks'],
       method: 'delete',

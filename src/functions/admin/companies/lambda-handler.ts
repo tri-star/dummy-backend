@@ -1,4 +1,5 @@
 import { corsSettings } from '@/functions/cors'
+import { type AdminAppContext } from '@functions/admin-app'
 import { CreateCompanyAdminAction } from '@functions/admin/companies/actions/create-company-admin-action'
 import { DeleteCompanyAdminAction } from '@functions/admin/companies/actions/delete-company-admin-action'
 import { FetchCompanyAdminAction } from '@functions/admin/companies/actions/fetch-company-admin-action'
@@ -9,7 +10,7 @@ import { handlerPath } from '@libs/handler-resolver'
 import { LambdaHandlerDefinition } from '@libs/open-api/lambda-handler-definition'
 import { type AWS } from '@serverless/typescript'
 
-export class AdminCompanyLambdaHandlerDefinition extends LambdaHandlerDefinition {
+export class AdminCompanyLambdaHandlerDefinition extends LambdaHandlerDefinition<AdminAppContext> {
   definition(): AWS['functions'] {
     return {
       AdminCompaniesHandler: {
@@ -35,7 +36,7 @@ export class AdminCompanyLambdaHandlerDefinition extends LambdaHandlerDefinition
     }
   }
 
-  buildOpenApiRoute(parentApp: OpenAPIHono): OpenAPIHono {
+  buildOpenApiRoute(parentApp: OpenAPIHono<AdminAppContext>): OpenAPIHono<AdminAppContext> {
     new CreateCompanyAdminAction().buildOpenApiAppRoute(parentApp)
     new ListCompanyAdminAction().buildOpenApiAppRoute(parentApp)
     new FetchCompanyAdminAction().buildOpenApiAppRoute(parentApp)

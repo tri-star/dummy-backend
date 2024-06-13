@@ -3,12 +3,12 @@ import { supabaseClient } from '@libs/supabase/api-client'
 import { type OpenAPIHono } from '@hono/zod-openapi'
 import { ROUTES } from '@functions/route-consts'
 import { UserAdminLambdaHandlerDefinition } from '@functions/admin/users/handler'
-import { createAdminApp } from '@functions/admin-app'
+import { type AdminAppContext, createAdminApp } from '@functions/admin-app'
 import { prepareAdminUser } from '@libs/jest/admin-user-utils'
 import { prepareAdminUserToken } from '@libs/jest/admin-auth-utils'
 
 describe('FetchUserAdminAction', () => {
-  let app: OpenAPIHono
+  let app: OpenAPIHono<AdminAppContext>
   let lambdaDefinition: UserAdminLambdaHandlerDefinition
 
   beforeEach(async () => {
