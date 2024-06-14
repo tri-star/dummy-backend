@@ -15,7 +15,13 @@ export async function fetchAdminUserByToken(token: string): Promise<AdminUserDet
       throw new Error(JSON.stringify(dbResult.error))
     }
 
-    const parsedAdminUser = dbAdminUserDetailSchema.safeParse((dbResult.data[0] as Record<string, unknown>).admin_users)
+    if (dbResult.data.length === 0) {
+      return undefined
+    }
+
+    const parsedAdminUser = dbAdminUserDetailSchema.safeParse(
+      (dbResult.data[0] as Record<string, unknown>)?.admin_users,
+    )
     if (!parsedAdminUser.success) {
       console.error('ユーザー情報のパースに失敗しました', dbResult, parsedAdminUser.error)
       return undefined
