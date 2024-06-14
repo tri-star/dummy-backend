@@ -17,7 +17,7 @@ export class AdminAuthLambdaHandlerDefinition extends LambdaHandlerDefinition<Ad
         events: [
           {
             http: {
-              method: 'post',
+              method: 'ANY',
               path: 'admin/auth/{proxy+}',
               cors: corsSettings,
             },

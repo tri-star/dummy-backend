@@ -17,7 +17,7 @@ export class AdminAdminUserLambdaHandlerDefinition extends LambdaHandlerDefiniti
         handler: `${handlerPath(__dirname)}/functions/create-admin-user-no-auth-handler.createAdminUserNoAuthHandler`,
         events: [
           {
-            sns: `createAdminUser${process.env.STAGE}`,
+            sns: 'createAdminUser${sls:stage}',
           },
         ],
       },

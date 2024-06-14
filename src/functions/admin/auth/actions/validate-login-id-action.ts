@@ -11,14 +11,8 @@ export const validateLoginIdRequestSchema = z.object({
 export class ValidateLoginIdAction extends ActionDefinition<AdminAppContext> {
   buildOpenApiAppRoute(app: OpenAPIHono<AdminAppContext>): void {
     const route = createRoute({
-      tags: ['admin-users'],
       method: 'get',
       path: ROUTES.ADMIN.AUTH.VALIDATE_LOGIN_ID.DEFINITION,
-      security: [
-        {
-          AdminBearer: [],
-        },
-      ],
       request: {
         query: validateLoginIdRequestSchema,
       },
