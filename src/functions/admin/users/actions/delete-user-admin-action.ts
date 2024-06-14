@@ -1,12 +1,13 @@
 import { deleteUser } from '@/domain/users/api/delete-user'
 import { fetchUser } from '@/domain/users/api/fetch-user'
+import { type AdminAppContext } from '@functions/admin-app'
 import { ROUTES } from '@functions/route-consts'
 import { createRoute, type OpenAPIHono } from '@hono/zod-openapi'
 import { ActionDefinition } from '@libs/open-api/action-definition'
 import { HTTPException } from 'hono/http-exception'
 
-export class DeleteUserAdminAction extends ActionDefinition {
-  buildOpenApiAppRoute(app: OpenAPIHono): void {
+export class DeleteUserAdminAction extends ActionDefinition<AdminAppContext> {
+  buildOpenApiAppRoute(app: OpenAPIHono<AdminAppContext>): void {
     const route = createRoute({
       tags: ['users'],
       method: 'delete',

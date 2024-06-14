@@ -1,12 +1,13 @@
 import { fetchCompany } from '@/domain/company/api/fetch-company'
 import { companySchema } from '@/domain/company/company'
+import { type AdminAppContext } from '@functions/admin-app'
 import { ROUTES } from '@functions/route-consts'
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
 import { ActionDefinition } from '@libs/open-api/action-definition'
 import { HTTPException } from 'hono/http-exception'
 
-export class FetchCompanyAdminAction extends ActionDefinition {
-  buildOpenApiAppRoute(app: OpenAPIHono): void {
+export class FetchCompanyAdminAction extends ActionDefinition<AdminAppContext> {
+  buildOpenApiAppRoute(app: OpenAPIHono<AdminAppContext>): void {
     const route = createRoute({
       tags: ['companies'],
       method: 'get',

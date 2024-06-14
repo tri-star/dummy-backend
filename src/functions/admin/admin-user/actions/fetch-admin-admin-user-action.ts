@@ -1,12 +1,13 @@
 import { adminUserDetailSchema } from '@/domain/admin-users/admin-user'
 import { fetchAdminUser } from '@/domain/admin-users/api/fetch-admin-user'
+import { type AdminAppContext } from '@functions/admin-app'
 import { ROUTES } from '@functions/route-consts'
 import { createRoute, z, type OpenAPIHono } from '@hono/zod-openapi'
 import { ActionDefinition } from '@libs/open-api/action-definition'
 import { HTTPException } from 'hono/http-exception'
 
-export class FetchAdminAdminUserAction extends ActionDefinition {
-  buildOpenApiAppRoute(app: OpenAPIHono): void {
+export class FetchAdminAdminUserAction extends ActionDefinition<AdminAppContext> {
+  buildOpenApiAppRoute(app: OpenAPIHono<AdminAppContext>): void {
     const route = createRoute({
       tags: ['admin-users'],
       method: 'get',

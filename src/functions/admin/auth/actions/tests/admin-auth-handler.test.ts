@@ -3,10 +3,10 @@ import { ulid } from 'ulid'
 import { prepareAdminUser } from '@libs/jest/admin-user-utils'
 import { AdminAuthLambdaHandlerDefinition } from '@/functions/admin/auth/lambda-handler'
 import { type OpenAPIHono } from '@hono/zod-openapi'
-import { createAdminApp } from '@functions/admin-app'
+import { type AdminAppContext, createAdminApp } from '@functions/admin-app'
 
 describe('admin-auth-handler.test', () => {
-  let adminApp: OpenAPIHono
+  let adminApp: OpenAPIHono<AdminAppContext>
   let lambdaDefinition: AdminAuthLambdaHandlerDefinition
 
   beforeEach(async () => {

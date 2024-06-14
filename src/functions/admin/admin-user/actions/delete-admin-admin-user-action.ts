@@ -3,9 +3,10 @@ import { ActionDefinition } from '@libs/open-api/action-definition'
 import { type OpenAPIHono, createRoute } from '@hono/zod-openapi'
 import { ROUTES } from '@functions/route-consts'
 import { HTTPException } from 'hono/http-exception'
+import { type AdminAppContext } from '@functions/admin-app'
 
-export class DeleteAdminAdminUserAction extends ActionDefinition {
-  buildOpenApiAppRoute(app: OpenAPIHono): void {
+export class DeleteAdminAdminUserAction extends ActionDefinition<AdminAppContext> {
+  buildOpenApiAppRoute(app: OpenAPIHono<AdminAppContext>): void {
     const route = createRoute({
       tags: ['admin-users'],
       method: 'delete',

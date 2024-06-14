@@ -2,6 +2,7 @@ import { createAdminPasswordHash } from '@/domain/admin-users/admin-user'
 import { fetchAdminUserForAuth } from '@/domain/admin-users/api/fetch-admin-user-for-auth'
 import { generateAdminToken } from '@/domain/admin-users/api/generate-admin-token'
 import { ROUTES } from '@/functions/route-consts'
+import { type AdminAppContext } from '@functions/admin-app'
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
 import { ActionDefinition } from '@libs/open-api/action-definition'
 import { HTTPException } from 'hono/http-exception'
@@ -11,8 +12,8 @@ const adminLoginSchema = z.object({
   password: z.string(),
 })
 
-export class AdminLoginAction extends ActionDefinition {
-  buildOpenApiAppRoute(app: OpenAPIHono): void {
+export class AdminLoginAction extends ActionDefinition<AdminAppContext> {
+  buildOpenApiAppRoute(app: OpenAPIHono<AdminAppContext>): void {
     const route = createRoute({
       method: 'post',
       path: ROUTES.ADMIN.AUTH.LOGIN.DEFINITION,

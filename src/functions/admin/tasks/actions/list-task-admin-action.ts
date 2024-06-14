@@ -1,5 +1,6 @@
 import { fetchTaskList } from '@/domain/tasks/api/fetch-task-list'
 import { taskSchema } from '@/domain/tasks/task'
+import { type AdminAppContext } from '@functions/admin-app'
 import { ROUTES } from '@functions/route-consts'
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
 import { ActionDefinition } from '@libs/open-api/action-definition'
@@ -18,8 +19,8 @@ const listTasksResponseSchema = z.object({
 })
 export type FetchTasksListResponse = z.infer<typeof listTasksResponseSchema>
 
-export class ListTaskAdminAction extends ActionDefinition {
-  buildOpenApiAppRoute(app: OpenAPIHono): void {
+export class ListTaskAdminAction extends ActionDefinition<AdminAppContext> {
+  buildOpenApiAppRoute(app: OpenAPIHono<AdminAppContext>): void {
     const route = createRoute({
       tags: ['tasks'],
       method: 'get',

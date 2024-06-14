@@ -1,5 +1,6 @@
 import { fetchCompanyList } from '@/domain/company/api/fetch-company-list'
 import { companySchema } from '@/domain/company/company'
+import { type AdminAppContext } from '@functions/admin-app'
 import { ROUTES } from '@functions/route-consts'
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
 import { ActionDefinition } from '@libs/open-api/action-definition'
@@ -22,8 +23,8 @@ const listCompaniesResponseSchema = z.object({
 })
 export type FetchCompanyListResponse = z.infer<typeof listCompaniesResponseSchema>
 
-export class ListCompanyAdminAction extends ActionDefinition {
-  buildOpenApiAppRoute(app: OpenAPIHono): void {
+export class ListCompanyAdminAction extends ActionDefinition<AdminAppContext> {
+  buildOpenApiAppRoute(app: OpenAPIHono<AdminAppContext>): void {
     const route = createRoute({
       tags: ['companies'],
       method: 'get',
