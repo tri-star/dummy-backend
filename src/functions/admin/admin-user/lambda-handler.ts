@@ -4,6 +4,7 @@ import { corsSettings } from '@/functions/cors'
 import { type AdminAppContext } from '@functions/admin-app'
 import { DeleteAdminAdminUserAction } from '@functions/admin/admin-user/actions/delete-admin-admin-user-action'
 import { FetchAdminAdminUserAction } from '@functions/admin/admin-user/actions/fetch-admin-admin-user-action'
+import { FetchSelfAdminUserAction } from '@functions/admin/admin-user/actions/fetch-self-admin-action'
 import { UpdateAdminAdminUserAction } from '@functions/admin/admin-user/actions/update-admin-admin-user-action'
 import { type OpenAPIHono } from '@hono/zod-openapi'
 import { handlerPath } from '@libs/handler-resolver'
@@ -47,6 +48,7 @@ export class AdminAdminUserLambdaHandlerDefinition extends LambdaHandlerDefiniti
   buildOpenApiRoute(parentApp: OpenAPIHono<AdminAppContext>): OpenAPIHono<AdminAppContext> {
     new CreateAdminAdminUserAction().buildOpenApiAppRoute(parentApp)
     new ListAdminAdminUserAction().buildOpenApiAppRoute(parentApp)
+    new FetchSelfAdminUserAction().buildOpenApiAppRoute(parentApp) // FetchAdminAdminUserAction よりも前に定義する
     new FetchAdminAdminUserAction().buildOpenApiAppRoute(parentApp)
     new UpdateAdminAdminUserAction().buildOpenApiAppRoute(parentApp)
     new DeleteAdminAdminUserAction().buildOpenApiAppRoute(parentApp)

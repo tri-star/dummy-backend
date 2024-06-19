@@ -19,6 +19,9 @@ export const ROUTES = {
         DEFINITION: '/admin/admin-users/{id}',
         URL: (id: string) => `/admin/admin-users/${id}`,
       },
+      SELF: {
+        DEFINITION: '/admin/admin-users/self',
+      },
       UPDATE: {
         DEFINITION: '/admin/admin-users/{id}',
         URL: (id: string) => `/admin/admin-users/${id}`,
