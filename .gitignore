@@ -11,3 +11,5 @@ jspm_packages
 .env
 .env.dev
 .env.prod
+
+*.code-workspace
