@@ -56,7 +56,7 @@ describe('ValidateLoginIdAction', () => {
     const user = await prepareAdminUser({})
     const token = await prepareAdminUserToken(user)
 
-    const query = `?loginId=${user.loginId}`
+    const query = `?loginId=${user.loginId}&excludeSelf`
     const response = await adminApp.request(ROUTES.ADMIN.AUTH.VALIDATE_LOGIN_ID.DEFINITION + query, {
       headers: {
         Authorization: `Bearer ${token}`,

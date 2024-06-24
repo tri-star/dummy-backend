@@ -6,6 +6,7 @@ import { ActionDefinition } from '@libs/open-api/action-definition'
 
 export const validateLoginIdRequestSchema = z.object({
   loginId: z.string(),
+  excludeSelf: z.string().optional(),
 })
 
 export class ValidateLoginIdAction extends ActionDefinition<AdminAppContext> {
@@ -32,7 +33,8 @@ export class ValidateLoginIdAction extends ActionDefinition<AdminAppContext> {
 
     app.openapi(route, async (c) => {
       const loginId = c.req.valid('query').loginId
-      const self = c.var.adminUser
+      const self = c.req.valid('query').excludeSelf !== undefined ? c.var.adminUser : undefined
+      console.log(self)
 
       const isValid = await validateLoginId(loginId, self)
       return c.json({
