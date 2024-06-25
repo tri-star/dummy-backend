@@ -1,3 +1,5 @@
+import { type AdminUser } from '@/domain/admin-users/admin-user'
+import { fetchAdminUser } from '@/domain/admin-users/api/fetch-admin-user'
 import { validateLoginId } from '@/domain/admin-users/api/validate-login-id'
 import { type AdminAppContext } from '@functions/admin-app'
 import { ROUTES } from '@functions/route-consts'
@@ -6,7 +8,7 @@ import { ActionDefinition } from '@libs/open-api/action-definition'
 
 export const validateLoginIdRequestSchema = z.object({
   loginId: z.string(),
-  excludeSelf: z.string().optional(),
+  except: z.string().optional(),
 })
 
 export class ValidateLoginIdAction extends ActionDefinition<AdminAppContext> {
@@ -33,10 +35,13 @@ export class ValidateLoginIdAction extends ActionDefinition<AdminAppContext> {
 
     app.openapi(route, async (c) => {
       const loginId = c.req.valid('query').loginId
-      const self = c.req.valid('query').excludeSelf !== undefined ? c.var.adminUser : undefined
-      console.log(self)
+      let exceptUser: AdminUser | undefined
 
-      const isValid = await validateLoginId(loginId, self)
+      if (c.req.valid('query').except != null) {
+        exceptUser = await fetchAdminUser(c.req.valid('query').except ?? '')
+      }
+
+      const isValid = await validateLoginId(loginId, exceptUser)
       return c.json({
         valid: isValid,
       })

@@ -5,7 +5,7 @@ import { supabaseClient } from '@libs/supabase/api-client'
 /**
  * ログインIDが利用可能かを返す
  */
-export async function validateLoginId(loginId: string, self: AdminUser | undefined): Promise<boolean> {
+export async function validateLoginId(loginId: string, except: AdminUser | undefined): Promise<boolean> {
   const segment = createSegment('Supabase')
 
   const result = await traceAsync<boolean>(segment, 'query', async () => {
@@ -20,8 +20,8 @@ export async function validateLoginId(loginId: string, self: AdminUser | undefin
     }
 
     const matchedUser = dbResult.data[0] as DbAdminUser
-    if (self != null) {
-      if (matchedUser.id === self.id) {
+    if (except != null) {
+      if (matchedUser.id === except.id) {
         return true
       }
     }
