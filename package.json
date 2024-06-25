@@ -28,7 +28,7 @@
     "@hono/zod-openapi": "^0.14.5",
     "@supabase/supabase-js": "^2.43.5",
     "aws-xray-sdk-core": "^3.9.0",
-    "hono": "^4.4.6",
+    "hono": "^4.4.7",
     "ulid": "^2.3.0",
     "zod": "^3.23.8"
   },
