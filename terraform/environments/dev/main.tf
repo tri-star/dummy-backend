@@ -1,3 +1,7 @@
+module "iam" {
+  source = "../../modules/iam"
+}
+
 module "ssm" {
   stage                     = "dev"
   supabase_url              = var.supabase_url
