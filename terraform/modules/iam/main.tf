@@ -42,12 +42,7 @@ resource "aws_iam_policy" "serverless_deploy_policy" {
       {
         Effect = "Allow"
         Action = [
-          "lambda:CreateFunction",
-          "lambda:UpdateFunction",
-          "lambda:UpdateFunctionConfiguration",
-          "lambda:DeleteFunction",
-          "lambda:GetFunction",
-          "lambda:ListFunctions"
+          "lambda:*"
         ],
         Resource = "arn:aws:lambda:*:*:function:dummy-backend-${var.stage}*"
       },
@@ -58,7 +53,20 @@ resource "aws_iam_policy" "serverless_deploy_policy" {
           "s3:DeleteBucket",
           "s3:PutObject",
           "s3:GetObject",
-          "s3:DeleteObject"
+          "s3:DeleteObject",
+          "s3:ListBucket",
+        ],
+        Resource = "arn:aws:s3:::dummy-backend-${var.stage}"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:CreateBucket",
+          "s3:DeleteBucket",
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:DeleteObject",
+          "s3:ListBucket",
         ],
         Resource = "arn:aws:s3:::dummy-backend-${var.stage}*"
       },
@@ -69,7 +77,8 @@ resource "aws_iam_policy" "serverless_deploy_policy" {
           "iam:DeleteRole",
           "iam:PutRolePolicy",
           "iam:DeleteRolePolicy",
-          "iam:PassRole"
+          "iam:PassRole",
+          "iam:GetRole",
         ],
         Resource = [
           "arn:aws:iam::*:role/dummy-backend-${var.stage}*",
@@ -79,26 +88,16 @@ resource "aws_iam_policy" "serverless_deploy_policy" {
       {
         Effect = "Allow"
         Action = [
-          "apigateway:POST",
-          "apigateway:PATCH",
-          "apigateway:DELETE",
-          "apigateway:GET"
+          "apigateway:*"
         ],
         Resource = "*"
       },
       {
         Effect = "Allow"
         Action = [
-          "cloudformation:CreateStack",
-          "cloudformation:UpdateStack",
-          "cloudformation:DeleteStack",
-          "cloudformation:DescribeStacks",
-          "cloudformation:DescribeStackResources",
-          "cloudformation:DescribeStackEvents",
-          "cloudformation:GetTemplate",
-          "cloudformation:ValidateTemplate"
+          "cloudformation:*"
         ],
-        Resource = "*"
+        Resource = "arn:aws:cloudformation:ap-northeast-1:*:stack/dummy-backend-${var.stage}/*"
       },
       {
         Effect = "Allow"
@@ -113,7 +112,8 @@ resource "aws_iam_policy" "serverless_deploy_policy" {
         Effect = "Allow"
         Action = [
           "secretsmanager:GetSecretValue",
-          "secretsmanager:DescribeSecret"
+          "secretsmanager:DescribeSecret",
+          "ssm:GetParameter"
         ],
         Resource = "*"
       },
