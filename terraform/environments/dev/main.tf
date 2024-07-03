@@ -1,3 +1,10 @@
+module "iam" {
+  aws_id = var.aws_id
+  owner  = var.github_owner
+  repo   = var.github_repo
+  source = "../../modules/iam"
+}
+
 module "ssm" {
   stage                     = "dev"
   supabase_url              = var.supabase_url
