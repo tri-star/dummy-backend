@@ -11,6 +11,8 @@ env:
   ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
   SESSION_NAME: gh-oidc-${{ vars.PROJECT_NAME }}-${{ github.run_id }}-${{ github.run_attempt }}
   STAGE: ${{ github.event.inputs.environment-name }}
+  AWS_REGION: ${{ vars.AWS_REGION }}
+  AWS_ACCOUNT: ${{ secrets.AWS_ID }}
 jobs:
   deploy:
     runs-on: ubuntu-latest
