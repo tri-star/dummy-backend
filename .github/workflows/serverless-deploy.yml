@@ -5,6 +5,7 @@ on:
       environment-name:
         type: environment
         required: true
+concurrency: ${{ github.workflow }}
 
 env:
   ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
@@ -13,6 +14,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       id-token: write # OIDCトークン取得の許可
     steps:
