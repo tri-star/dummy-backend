@@ -34,7 +34,5 @@ jobs:
           cache: 'npm'
       - name: install js package
         run: npm ci
-      - name: doctor
-        run: npx serverless doctor
       - name: deploy
         run: npx serverless deploy --stage ${{ env.STAGE }} --verbose
