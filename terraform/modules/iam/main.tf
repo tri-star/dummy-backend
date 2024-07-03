@@ -10,8 +10,8 @@ resource "aws_iam_openid_connect_provider" "github_actions" {
   ]
 }
 
-resource "aws_iam_role" "github_oidc_role" {
-  name = "github-oidc-role"
+resource "aws_iam_role" "serverless_deploy_role" {
+  name = "serverless-deploy-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -32,7 +32,104 @@ resource "aws_iam_role" "github_oidc_role" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "github_oidc_role_policy_attachment" {
-  role       = aws_iam_role.github_oidc_role.name
-  policy_arn = "arn:aws:iam::aws:policy/IAMReadOnlyAccess"
+resource "aws_iam_policy" "serverless_deploy_policy" {
+  name        = "serverless-deploy-policy"
+  description = "policy for serverless framework deployment"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "lambda:CreateFunction",
+          "lambda:UpdateFunction",
+          "lambda:UpdateFunctionConfiguration",
+          "lambda:DeleteFunction",
+          "lambda:GetFunction",
+          "lambda:ListFunctions"
+        ],
+        Resource = "arn:aws:lambda:*:*:function:dummy-backend-${var.stage}*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:CreateBucket",
+          "s3:DeleteBucket",
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:DeleteObject"
+        ],
+        Resource = "arn:aws:s3:::dummy-backend-${var.stage}*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "iam:CreateRole",
+          "iam:DeleteRole",
+          "iam:PutRolePolicy",
+          "iam:DeleteRolePolicy",
+          "iam:PassRole"
+        ],
+        Resource = [
+          "arn:aws:iam::*:role/dummy-backend-${var.stage}*",
+          "arn:aws:iam::*:role/serverlessApiGatewayCloudWatchRole"
+        ]
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "apigateway:POST",
+          "apigateway:PATCH",
+          "apigateway:DELETE",
+          "apigateway:GET"
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "cloudformation:CreateStack",
+          "cloudformation:UpdateStack",
+          "cloudformation:DeleteStack",
+          "cloudformation:DescribeStacks",
+          "cloudformation:DescribeStackResources",
+          "cloudformation:DescribeStackEvents",
+          "cloudformation:GetTemplate",
+          "cloudformation:ValidateTemplate"
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:DescribeSecret"
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "xray:PutTraceSegments",
+          "xray:PutTelemetryRecords"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "serverless_deploy_role_policy_attachment" {
+  role       = aws_iam_role.serverless_deploy_role.name
+  policy_arn = aws_iam_policy.serverless_deploy_policy.arn
 }

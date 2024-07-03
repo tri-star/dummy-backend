@@ -1,4 +1,5 @@
 module "iam" {
+  stage  = "dev"
   aws_id = var.aws_id
   owner  = var.github_owner
   repo   = var.github_repo

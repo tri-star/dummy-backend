@@ -1,3 +1,8 @@
+variable "stage" {
+  description = "The stage of the deployment"
+  type        = string
+}
+
 variable "aws_id" {
   description = "The AWS account ID"
   type        = string
