@@ -1,5 +1,11 @@
 name: Terraform Deploy
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      environment-name:
+        type: environment
+        required: true
+
 env:
   ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
   SESSION_NAME: gh-oidc-${{ vars.PROJECT_NAME }}-${{ github.run_id }}-${{ github.run_attempt }}
