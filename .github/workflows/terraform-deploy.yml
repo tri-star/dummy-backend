@@ -2,7 +2,7 @@ name: Terraform Deploy
 on: workflow_dispatch
 env:
   ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
-  SESSION_NAME: gh-oidc-${{ github.repository }}${{ github.run_id }}-${{ github.run_attempt }}
+  SESSION_NAME: gh-oidc-${{ vars.PROJECT_NAME }}-${{ github.run_id }}-${{ github.run_attempt }}
 jobs:
   connect:
     runs-on: ubuntu-latest
