@@ -17,3 +17,15 @@ variable "app_key" {
   type      = string
   sensitive = true
 }
+
+variable "aws_id" {
+  type = string
+}
+
+variable "github_owner" {
+  type = string
+}
+
+variable "github_repo" {
+  type = string
+}
