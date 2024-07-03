@@ -48,7 +48,7 @@ app.doc('/swagger-docs', {
     },
   ],
   info: {
-    version: '1.0.0',
+    version: '1.1.0',
     title: 'Dummy Backend API',
   },
 })
