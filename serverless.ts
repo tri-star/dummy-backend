@@ -3,7 +3,7 @@ import type { AWS } from '@serverless/typescript'
 import { adminCompaniesLambdaHandlerDefinition } from '@functions/admin/companies'
 import { adminTasksLambdaHandlerDefinition } from '@functions/admin/tasks'
 import { authLambdaHandlerDefinition } from '@functions/auth'
-// import { userLambdaHandlerDefinition } from '@functions/users'
+import { userLambdaHandlerDefinition } from '@functions/users'
 import { adminAdminUserLambdaHandlerDefinition } from '@functions/admin/admin-user'
 import { adminOpenApiSwaggerLambdaDefinition } from '@functions/admin-open-api'
 import { adminLoginLambdaHandlerDefinition } from '@functions/admin/auth'
@@ -69,7 +69,7 @@ const serverlessConfiguration: AWS = {
     ...userAdminLambdaHandlerDefinition.definition(),
     ...adminTasksLambdaHandlerDefinition.definition(),
     ...authLambdaHandlerDefinition.definition(),
-    // ...userLambdaHandlerDefinition.definition(),
+    ...userLambdaHandlerDefinition.definition(),
     ...adminOpenApiSwaggerLambdaDefinition,
     ...openApiSwaggerLambdaDefinition,
   },

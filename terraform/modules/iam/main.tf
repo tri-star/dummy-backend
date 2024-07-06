@@ -109,7 +109,8 @@ resource "aws_iam_policy" "serverless_deploy_policy" {
           "lambda:DeleteFunctionConcurrency",
           "lambda:GetCodeSigningConfig",
           "lambda:DeleteFunctionUrlConfig",
-          "lambda:GetPolicy"
+          "lambda:GetPolicy",
+          "lambda:RemovePermission",
         ],
         Resource = "arn:aws:lambda:*:*:function:dummy-backend-${var.stage}*"
       },
