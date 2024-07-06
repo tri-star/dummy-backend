@@ -42,21 +42,84 @@ resource "aws_iam_policy" "serverless_deploy_policy" {
       {
         Effect = "Allow"
         Action = [
-          "lambda:*"
+          "lambda:ListTags",
+          "lambda:ListFunctions",
+          "lambda:ListLayers",
+          "lambda:ListLayerVersions",
+          "lambda:ListAliases",
+          "lambda:ListFunctionsByCodeSigningConfig",
+          "lambda:ListProvisionedConcurrencyConfigs",
+          "lambda:ListCodeSigningConfigs",
+          "lambda:ListFunctionEventInvokeConfigs",
+          "lambda:ListEventSourceMappings",
+          "lambda:ListVersionsByFunction",
+          "lambda:ListFunctionUrlConfigs",
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "lambda:CreateFunction",
+          "lambda:TagResource",
+          "lambda:DeleteProvisionedConcurrencyConfig",
+          "lambda:GetFunctionConfiguration",
+          "lambda:GetProvisionedConcurrencyConfig",
+          "lambda:DeleteFunction",
+          "lambda:GetAlias",
+          "lambda:UpdateFunctionUrlConfig",
+          "lambda:CreateFunctionUrlConfig",
+          "lambda:UpdateFunctionEventInvokeConfig",
+          "lambda:DeleteFunctionCodeSigningConfig",
+          "lambda:InvokeFunctionUrl",
+          "lambda:GetEventSourceMapping",
+          "lambda:InvokeFunction",
+          "lambda:GetFunctionUrlConfig",
+          "lambda:GetFunctionCodeSigningConfig",
+          "lambda:UpdateAlias",
+          "lambda:UpdateFunctionCode",
+          "lambda:PutRuntimeManagementConfig",
+          "lambda:GetFunctionConcurrency",
+          "lambda:PutProvisionedConcurrencyConfig",
+          "lambda:PublishVersion",
+          "lambda:DeleteEventSourceMapping",
+          "lambda:CreateAlias",
+          "lambda:GetLayerVersion",
+          "lambda:PublishLayerVersion",
+          "lambda:InvokeAsync",
+          "lambda:GetAccountSettings",
+          "lambda:CreateEventSourceMapping",
+          "lambda:GetLayerVersionPolicy",
+          "lambda:UntagResource",
+          "lambda:PutFunctionConcurrency",
+          "lambda:DeleteCodeSigningConfig",
+          "lambda:GetRuntimeManagementConfig",
+          "lambda:DeleteLayerVersion",
+          "lambda:PutFunctionEventInvokeConfig",
+          "lambda:DeleteFunctionEventInvokeConfig",
+          "lambda:CreateCodeSigningConfig",
+          "lambda:PutFunctionCodeSigningConfig",
+          "lambda:UpdateEventSourceMapping",
+          "lambda:UpdateFunctionCodeSigningConfig",
+          "lambda:GetFunction",
+          "lambda:UpdateFunctionConfiguration",
+          "lambda:UpdateCodeSigningConfig",
+          "lambda:GetFunctionEventInvokeConfig",
+          "lambda:DeleteAlias",
+          "lambda:DeleteFunctionConcurrency",
+          "lambda:GetCodeSigningConfig",
+          "lambda:DeleteFunctionUrlConfig",
+          "lambda:GetPolicy"
         ],
         Resource = "arn:aws:lambda:*:*:function:dummy-backend-${var.stage}*"
       },
       {
         Effect = "Allow"
         Action = [
-          "s3:CreateBucket",
-          "s3:DeleteBucket",
-          "s3:PutObject",
-          "s3:GetObject",
-          "s3:DeleteObject",
           "s3:ListBucket",
+          "s3:ListTagsForResource",
         ],
-        Resource = "arn:aws:s3:::dummy-backend-${var.stage}"
+        Resource = "*"
       },
       {
         Effect = "Allow"
@@ -66,7 +129,16 @@ resource "aws_iam_policy" "serverless_deploy_policy" {
           "s3:PutObject",
           "s3:GetObject",
           "s3:DeleteObject",
-          "s3:ListBucket",
+          "s3:DeleteObjectTagging",
+          "s3:PutObjectTagging",
+          "s3:ReplicateTags",
+          "s3:PutBucketTagging",
+          "s3:PutObjectVersionTagging",
+          "s3:TagResource",
+          "s3:DeleteObjectVersionTagging",
+          "s3:UntagResource",
+          "s3:PutEncryptionConfiguration",
+          "s3:PutBucketPolicy",
         ],
         Resource = "arn:aws:s3:::dummy-backend-${var.stage}*"
       },
@@ -97,14 +169,12 @@ resource "aws_iam_policy" "serverless_deploy_policy" {
         Action = [
           "cloudformation:*"
         ],
-        Resource = "arn:aws:cloudformation:ap-northeast-1:*:stack/dummy-backend-${var.stage}/*"
+        Resource = "*"
       },
       {
         Effect = "Allow"
         Action = [
-          "logs:CreateLogGroup",
-          "logs:CreateLogStream",
-          "logs:PutLogEvents"
+          "logs:*",
         ],
         Resource = "*"
       },
