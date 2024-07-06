@@ -111,6 +111,7 @@ resource "aws_iam_policy" "serverless_deploy_policy" {
           "lambda:DeleteFunctionUrlConfig",
           "lambda:GetPolicy",
           "lambda:RemovePermission",
+          "lambda:AddPermission",
         ],
         Resource = "arn:aws:lambda:*:*:function:dummy-backend-${var.stage}*"
       },
