@@ -25,10 +25,10 @@
   },
   "dependencies": {
     "@hono/swagger-ui": "^0.3.0",
-    "@hono/zod-openapi": "^0.14.8",
-    "@supabase/supabase-js": "^2.44.3",
+    "@hono/zod-openapi": "^0.14.9",
+    "@supabase/supabase-js": "^2.44.4",
     "aws-xray-sdk-core": "^3.9.0",
-    "hono": "^4.4.12",
+    "hono": "^4.4.13",
     "ulid": "^2.3.0",
     "zod": "^3.23.8"
   },
