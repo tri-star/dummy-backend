@@ -24,11 +24,11 @@
     }
   },
   "dependencies": {
-    "@hono/swagger-ui": "^0.3.0",
-    "@hono/zod-openapi": "^0.14.9",
-    "@supabase/supabase-js": "^2.44.4",
+    "@hono/swagger-ui": "^0.4.0",
+    "@hono/zod-openapi": "^0.15.1",
+    "@supabase/supabase-js": "^2.45.0",
     "aws-xray-sdk-core": "^3.9.0",
-    "hono": "^4.4.13",
+    "hono": "^4.5.3",
     "ulid": "^2.3.0",
     "zod": "^3.23.8"
   },
