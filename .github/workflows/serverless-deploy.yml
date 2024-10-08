@@ -13,6 +13,7 @@ env:
   STAGE: ${{ github.event.inputs.environment-name }}
   AWS_REGION: ${{ vars.AWS_REGION }}
   AWS_ACCOUNT: ${{ secrets.AWS_ID }}
+  SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
 jobs:
   deploy:
     runs-on: ubuntu-latest
