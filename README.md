@@ -3,7 +3,7 @@
 ## デプロイ
 
 ```bash
-serverless deploy --aws-profile [PROFILE名] --verbose
+npx serverless deploy --aws-profile [PROFILE名] --verbose
 # または、npx sls deploy
 ```
 
@@ -28,18 +28,18 @@ curl --location --request POST 'https://myApiEndpoint/dev/admin/login' \
 ローカルの場合：
 
 ```bash
-serverless invoke local --stage=local -f createAdminUserNoAuthHandler --path src/functions/admin/admin-user/mock.json
+npx serverless invoke local --stage=local -f createAdminUserNoAuthHandler --path src/functions/admin/admin-user/mock.json
 ```
 
 または
 
 ```bash
 npx supabase start
-serverless offline --stage=local
+npx serverless offline --stage=local
 
-curl --location --request POST 'https://localhost:3000/local/admin/login' \
+curl --location --request POST 'http://localhost:3000/local/admin/auth/login' \
 --header 'Content-Type: application/json' \
---data-raw '{
+-d '{
     "loginId": "test",
     "pawssword": "xxxx"
 }'

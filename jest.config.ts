@@ -1,8 +1,7 @@
 const esModules = ['@middy'].join('|')
 
 /** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
-  preset: 'ts-jest/presets/default-esm',
+const config = {
   clearMocks: true,
   testEnvironment: 'node',
   globalSetup: '<rootDir>/src/libs/jest/setup-env.ts',
@@ -24,3 +23,5 @@ module.exports = {
   },
   transformIgnorePatterns: [`node_modules/(?!${esModules})`],
 }
+
+export default config
