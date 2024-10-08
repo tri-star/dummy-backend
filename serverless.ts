@@ -12,10 +12,9 @@ import { userAdminLambdaHandlerDefinition } from '@functions/admin/users'
 
 const serverlessConfiguration: AWS = {
   service: 'dummy-backend',
-  frameworkVersion: '3',
+  frameworkVersion: '4',
   configValidationMode: 'error',
-  plugins: ['serverless-esbuild', 'serverless-better-credentials', 'serverless-offline'],
-  useDotenv: true,
+  plugins: ['serverless-offline'],
   provider: {
     name: 'aws',
     region: '${env:AWS_REGION}' as AWS['provider']['region'],
