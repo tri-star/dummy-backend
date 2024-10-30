@@ -29,7 +29,7 @@
     "@supabase/supabase-js": "^2.45.6",
     "aws-xray-sdk-core": "^3.10.1",
     "dayjs": "^1.11.13",
-    "hono": "^4.6.7",
+    "hono": "^4.6.8",
     "ulid": "^2.3.0",
     "zod": "^3.23.8"
   },
