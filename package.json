@@ -26,10 +26,10 @@
   "dependencies": {
     "@hono/swagger-ui": "^0.5.1",
     "@hono/zod-openapi": "^0.19.5",
-    "@supabase/supabase-js": "^2.49.4",
+    "@supabase/supabase-js": "^2.50.0",
     "aws-xray-sdk-core": "^3.10.3",
     "dayjs": "^1.11.13",
-    "hono": "^4.7.7",
+    "hono": "^4.8.2",
     "ulid": "^3.0.0",
     "zod": "^3.24.3"
   },
