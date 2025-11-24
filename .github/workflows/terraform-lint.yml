@@ -16,7 +16,7 @@ jobs:
     steps:
       # リポジトリをチェックアウト
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # Terraform CLIをセットアップ
       - name: Set up Terraform
